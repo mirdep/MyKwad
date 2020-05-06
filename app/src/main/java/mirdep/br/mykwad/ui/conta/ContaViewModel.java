@@ -1,16 +1,16 @@
-package mirdep.br.mykwad.ui.home;
+package mirdep.br.mykwad.ui.conta;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class ContaViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public ContaViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is notifications fragment");
     }
 
     public LiveData<String> getText() {
