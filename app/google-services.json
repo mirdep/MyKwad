@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "514543333848",
+    "firebase_url": "https://mykwad-72d96.firebaseio.com",
+    "project_id": "mykwad-72d96",
+    "storage_bucket": "mykwad-72d96.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514543333848:android:2015dd33705c08ac7082ad",
+        "android_client_info": {
+          "package_name": "mirdep.br.mykwad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514543333848-6jo2d49e5falk09t2dklhqv15pf9hn4h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDESQK0FVKgBrHwWYTPz1eJrixcoGkaq8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514543333848-6jo2d49e5falk09t2dklhqv15pf9hn4h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
