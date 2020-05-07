@@ -1,6 +1,6 @@
 package mirdep.br.mykwad.pecas;
 
-import mirdep.br.mykwad.Peca;
+import mirdep.br.mykwad.drones.Peca;
 
 public class Frame extends Peca {
 

@@ -17,7 +17,7 @@ public class ContaFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         contaViewModel = ViewModelProviders.of(this).get(ContaViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_pesquisar, container, false);
+        View root = inflater.inflate(R.layout.fragment_conta, container, false);
         return root;
     }
 }

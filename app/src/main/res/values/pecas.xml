@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="peca_1">Antena</string>
+    <string name="peca_2">Bateria</string>
+    <string name="peca_3">Camera</string>
+    <string name="peca_4">Controladora</string>
+    <string name="peca_5">Esc</string>
+    <string name="peca_6">Frame</string>
+    <string name="peca_7">Helice</string>
+    <string name="peca_8">Motor</string>
+    <string name="peca_9">VideoTransmissor</string>
+</resources>

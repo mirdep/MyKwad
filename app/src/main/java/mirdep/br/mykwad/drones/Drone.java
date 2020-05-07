@@ -1,4 +1,4 @@
-package mirdep.br.mykwad;
+package mirdep.br.mykwad.drones;
 
 import mirdep.br.mykwad.pecas.*;
 

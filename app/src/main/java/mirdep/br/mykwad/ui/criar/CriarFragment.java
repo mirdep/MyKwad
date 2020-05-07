@@ -17,7 +17,7 @@ public class CriarFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         criarViewModel = ViewModelProviders.of(this).get(CriarViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
+        View root = inflater.inflate(R.layout.fragment_criar, container, false);
         return root;
     }
 }
