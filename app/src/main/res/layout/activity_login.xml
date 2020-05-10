@@ -102,4 +102,17 @@
         app:layout_constraintStart_toStartOf="@+id/editText_login_usuario"
         app:layout_constraintTop_toBottomOf="@+id/editText_login_senha" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="Criar conta"
+        android:textColor="#528BD1"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/button_login_continuar"
+        app:layout_constraintStart_toEndOf="@+id/button_login_continuar"
+        app:layout_constraintTop_toTopOf="@+id/button_login_continuar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
