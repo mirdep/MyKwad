@@ -24,12 +24,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/azul" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_email" />
 
     <View
         android:id="@+id/branco"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="450dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="20dp"
@@ -48,13 +48,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/azul" />
 
+    <View
+        android:id="@+id/button_registrar_senha_visualizar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_remove_red_eye_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_login_senha"
+        app:layout_constraintEnd_toEndOf="@+id/editText_login_senha"
+        app:layout_constraintTop_toTopOf="@+id/editText_login_senha" />
+
+    <EditText
+        android:id="@+id/editText_registrar_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="E-mail"
+        android:textColor="#7A7A7A"
+        app:layout_constraintEnd_toEndOf="@+id/branco"
+        app:layout_constraintStart_toStartOf="@+id/branco"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/editText_registrar_nome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Nome completo"
+        android:textColor="#7A7A7A"
+        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_email"
+        app:layout_constraintStart_toStartOf="@+id/editText_registrar_email"
+        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_email" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/catamaran"
-        android:text="Olá! Digite seu login e senha"
+        android:text="Complete os seus dados"
         android:textColor="#161616"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="@+id/branco"
@@ -65,16 +103,14 @@
         android:id="@+id/editText_registrar_usuario"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="E-mail ou usuário"
+        android:text="Usuário"
         android:textColor="#7A7A7A"
-        app:layout_constraintEnd_toEndOf="@+id/branco"
-        app:layout_constraintStart_toStartOf="@+id/branco"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nome"
+        app:layout_constraintStart_toStartOf="@+id/editText_registrar_nome"
+        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_nome" />
 
     <EditText
         android:id="@+id/editText_login_senha"
@@ -95,24 +131,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_borda_redonda"
-        android:text="Entrar"
+        android:text="Criar conta"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_usuario"
+        app:layout_constraintStart_toStartOf="@+id/editText_login_senha"
         app:layout_constraintTop_toBottomOf="@+id/editText_login_senha" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:text="Criar conta"
-        android:textColor="#528BD1"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/button_registrar_criar"
-        app:layout_constraintStart_toEndOf="@+id/button_registrar_criar"
-        app:layout_constraintTop_toTopOf="@+id/button_registrar_criar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
