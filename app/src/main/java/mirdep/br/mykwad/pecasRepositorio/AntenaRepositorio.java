@@ -36,44 +36,44 @@ public class AntenaRepositorio extends AppCompatActivity {
         });
     }
 
-    public Antena buscarAntena(final String idAntena){
-        referenciaBancoDeDados.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Antena antena = new Antena();
-
-                boolean antenaCadastrado = dataSnapshot.hasChild(idAntena);
-
-                if (antenaCadastrado) {
-                    antena.setNome(dataSnapshot.child(idAntena).child("nome").getValue().toString());
-                    antena.setEmail(dataSnapshot.child(idAntena).child("email").getValue().toString());
-                    antena.setId(dataSnapshot.child(idAntena).child("id").getValue().toString());
-                    antena.setCep(dataSnapshot.child(idAntena).child("cep").getValue().toString());
-                    antena.setEndereco(dataSnapshot.child(idAntena).child("endereco").getValue().toString());
-                    antena.setTelefone(dataSnapshot.child(idAntena).child("telefone").getValue().toString());
-                    antena.setNascimento(dataSnapshot.child(idAntena).child("nascimento").getValue().toString());
-                } else {
-                    antena = null;
-                }
-
-                if (antena != null) {
-                    editTextNome.setText(antena.getNome());
-                    editTextEmail.setText(antena.getEmail());
-                    editTextCEP.setText(antena.getCep());
-                    editTextEnd.setText(antena.getEndereco());
-                    editTextTelefone.setText(antena.getTelefone());
-                    editTextNascimento.setText(antena.getNascimento());
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
+//    public Antena buscarAntena(final String idAntena){
+//        referenciaBancoDeDados.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                Antena antena = new Antena();
+//
+//                boolean antenaCadastrado = dataSnapshot.hasChild(idAntena);
+//
+//                if (antenaCadastrado) {
+//                    antena.setNome(dataSnapshot.child(idAntena).child("nome").getValue().toString());
+//                    antena.setEmail(dataSnapshot.child(idAntena).child("email").getValue().toString());
+//                    antena.setId(dataSnapshot.child(idAntena).child("id").getValue().toString());
+//                    antena.setCep(dataSnapshot.child(idAntena).child("cep").getValue().toString());
+//                    antena.setEndereco(dataSnapshot.child(idAntena).child("endereco").getValue().toString());
+//                    antena.setTelefone(dataSnapshot.child(idAntena).child("telefone").getValue().toString());
+//                    antena.setNascimento(dataSnapshot.child(idAntena).child("nascimento").getValue().toString());
+//                } else {
+//                    antena = null;
+//                }
+//
+//                if (antena != null) {
+//                    editTextNome.setText(antena.getNome());
+//                    editTextEmail.setText(antena.getEmail());
+//                    editTextCEP.setText(antena.getCep());
+//                    editTextEnd.setText(antena.getEndereco());
+//                    editTextTelefone.setText(antena.getTelefone());
+//                    editTextNascimento.setText(antena.getNascimento());
+//                } else {
+//                    Toast.makeText(getApplicationContext(),
+//                            "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 }
