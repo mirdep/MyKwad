@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_tab1"
-        android:name="mirdep.br.mykwad.ui.criar.CriarFragment"
+        android:name="mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment"
         android:label="@string/title_tab1"
-        tools:layout="@layout/fragment_conta" />
+        tools:layout="@layout/fragment_minhaconta" />
 
     <fragment
         android:id="@+id/navigation_tab2"
-        android:name="mirdep.br.mykwad.ui.comunidade.ComunidadeFragment"
+        android:name="mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment"
         android:label="@string/title_tab2"
         tools:layout="@layout/fragment_comunidade" />
 
     <fragment
         android:id="@+id/navigation_tab3"
-        android:name="mirdep.br.mykwad.ui.conta.ContaFragment"
+        android:name="mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_criar" />
+        tools:layout="@layout/fragment_criardrone" />
 </navigation>

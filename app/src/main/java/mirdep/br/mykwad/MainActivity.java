@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import mirdep.br.mykwad.comum.MetodosGerais;
 import mirdep.br.mykwad.pecas.Antena;
 import mirdep.br.mykwad.pecasRepositorio.AntenaRepositorio;
 
@@ -29,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize(){
-        Antena antena = new Antena("TBS","Triumph",35.25,"SMA");
-        antena.setId("1");
-        new AntenaRepositorio().salvarAntena(antena);
+        Antena antena = new Antena("TBS","ha",35.25,"SMA");
+        antena.setId(MetodosGerais.encodeId("abcde"));
+        new AntenaRepositorio().salvarAntena(antena, false);
     }
 
 }
