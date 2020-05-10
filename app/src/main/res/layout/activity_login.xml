@@ -7,10 +7,10 @@
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/amarelo"
+        android:id="@+id/azul"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/retangulo_amarelo"
+        android:background="@drawable/retangulo_azul"
         app:layout_constraintBottom_toTopOf="@+id/editText_login_usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amarelo" />
+        app:layout_constraintTop_toBottomOf="@+id/azul" />
 
     <View
         android:id="@+id/branco"
@@ -46,7 +46,7 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/ic_close_black_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/amarelo" />
+        app:layout_constraintTop_toTopOf="@+id/azul" />
 
     <TextView
         android:id="@+id/textView3"
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_borda_redonda"
-        android:text="Continuar"
+        android:text="Entrar"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
