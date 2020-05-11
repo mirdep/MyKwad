@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/retangulo_azul"
-        app:layout_constraintBottom_toTopOf="@+id/editText_registrar_usuario"
+        app:layout_constraintBottom_toTopOf="@+id/editText_login_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,23 +30,23 @@
         android:id="@+id/branco"
         android:layout_width="0dp"
         android:layout_height="300dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/retangulo_branco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/button_login_sair"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
+        android:id="@+id/button_login_senha_visualizar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_close_black_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/azul" />
+        android:background="@drawable/ic_remove_red_eye_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_login_senha"
+        app:layout_constraintEnd_toEndOf="@+id/editText_login_senha"
+        app:layout_constraintTop_toTopOf="@+id/editText_login_senha" />
 
     <TextView
         android:id="@+id/textView3"
@@ -54,15 +54,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/catamaran"
-        android:text="Olá! Digite seu login e senha"
+        android:text="Olá! Digite seu e-mail e senha"
         android:textColor="#161616"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/branco"
         app:layout_constraintStart_toStartOf="@+id/branco"
         app:layout_constraintTop_toTopOf="@+id/branco" />
 
     <EditText
-        android:id="@+id/editText_registrar_usuario"
+        android:id="@+id/editText_login_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -70,7 +70,7 @@
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="E-mail ou usuário"
+        android:text="E-mail"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/branco"
         app:layout_constraintStart_toStartOf="@+id/branco"
@@ -82,15 +82,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="Senha"
+        android:inputType="textPassword"
         android:textColor="#7A7A7A"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_usuario"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_usuario"
-        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_usuario" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_login_email"
+        app:layout_constraintStart_toStartOf="@+id/editText_login_email"
+        app:layout_constraintTop_toBottomOf="@+id/editText_login_email" />
 
     <Button
-        android:id="@+id/button_registrar_criar"
+        android:id="@+id/button_login_entrar"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -99,11 +99,11 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_usuario"
+        app:layout_constraintStart_toStartOf="@+id/editText_login_email"
         app:layout_constraintTop_toBottomOf="@+id/editText_login_senha" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/button_login_criarconta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -111,8 +111,8 @@
         android:textColor="#528BD1"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/button_registrar_criar"
-        app:layout_constraintStart_toEndOf="@+id/button_registrar_criar"
-        app:layout_constraintTop_toTopOf="@+id/button_registrar_criar" />
+        app:layout_constraintBottom_toBottomOf="@+id/button_login_entrar"
+        app:layout_constraintStart_toEndOf="@+id/button_login_entrar"
+        app:layout_constraintTop_toTopOf="@+id/button_login_entrar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
