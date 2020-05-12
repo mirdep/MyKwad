@@ -1,7 +1,9 @@
 package mirdep.br.mykwad.usuario;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.FormatarEditText;
 
 public class LoginFragment extends Fragment {
     private FirebaseAuth mAuth;
@@ -74,6 +77,26 @@ public class LoginFragment extends Fragment {
                     System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
+            }
+        });
+
+        editText_login_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editText_login_email.removeTextChangedListener(this);
+                int selection = editText_login_email.getSelectionEnd();
+                editText_login_email.setText(FormatarEditText.formatarEmail(editText_login_email.getText().toString()));
+                editText_login_email.setSelection(selection);
+                editText_login_email.addTextChangedListener(this);
             }
         });
     }

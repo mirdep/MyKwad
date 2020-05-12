@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/button_login_sair"
+        android:id="@+id/button_registrar_sair"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"

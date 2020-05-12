@@ -22,7 +22,8 @@ public class RegistrarFragment extends Fragment {
     private EditText editText_registrar_nome;
     private EditText editText_registrar_usuario;
     private EditText editText_registrar_senha;
-    private TextView button_registrar_criarconta;
+    private Button button_registrar_criarconta;
+    private View button_registrar_sair;
     private View button_registrar_senha_visualizar;
 
     private View root;
@@ -46,6 +47,7 @@ public class RegistrarFragment extends Fragment {
         editText_registrar_usuario = root.findViewById(R.id.editText_registrar_usuario);
         editText_registrar_senha = root.findViewById(R.id.editText_registrar_senha);
         button_registrar_criarconta = root.findViewById(R.id.button_registrar_criarconta);
+        button_registrar_sair = root.findViewById(R.id.button_registrar_sair);
         button_registrar_senha_visualizar = root.findViewById(R.id.button_registrar_senha_visualizar);
     }
 
@@ -54,6 +56,13 @@ public class RegistrarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 criarConta();
+            }
+        });
+
+        button_registrar_sair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((BaseApp) getActivity()).abrirMinhaConta();
             }
         });
     }
