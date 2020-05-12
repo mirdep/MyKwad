@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui;
+package mirdep.br.mykwad.ui.tabMinhaConta;
 
 import android.os.Bundle;
 import android.text.Editable;

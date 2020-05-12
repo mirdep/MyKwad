@@ -17,8 +17,8 @@ import mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
-import mirdep.br.mykwad.ui.LoginFragment;
-import mirdep.br.mykwad.ui.RegistrarFragment;
+import mirdep.br.mykwad.ui.tabMinhaConta.LoginFragment;
+import mirdep.br.mykwad.ui.tabMinhaConta.RegistrarFragment;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView navView;
