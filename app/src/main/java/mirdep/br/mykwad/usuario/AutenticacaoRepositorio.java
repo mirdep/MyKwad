@@ -60,7 +60,11 @@ public class AutenticacaoRepositorio {
         });
     }
 
-    public void logoutConta(){
-        mAuth.signOut();
+    public static boolean usuarioLogado(){
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    public static void logoutConta(){
+        FirebaseAuth.getInstance().signOut();
     }
 }

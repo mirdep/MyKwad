@@ -1,15 +1,12 @@
 package mirdep.br.mykwad.comum;
 
+import android.text.method.DigitsKeyListener;
+import android.widget.EditText;
+
 public class FormatarEditText {
 
-    public static String formatarEmail(String email){
-        System.out.println(">>>>>>>>>>>>>>>> entrada: "+email);
-        email = email.toLowerCase();
-        System.out.println(">>>>>>>>>>>>>>>> lower: "+email);
-        email = email.replaceAll(" ","");
-        System.out.println(">>>>>>>>>>>>>>>> teste1: "+email);
-        //email = email.replaceAll(".",".");
-        System.out.println(">>>>>>>>>>>>>>>> teste2: "+email);
-        return email;
+    public static EditText editTextEmail(final EditText editText){
+        editText.setKeyListener(DigitsKeyListener.getInstance("0123456789@!#$%&'*+-/=?^_`{|}~.abcdefghijklmnopqrstuvwxyz"));
+        return editText;
     }
 }

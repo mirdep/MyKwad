@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.usuario;
+package mirdep.br.mykwad.ui;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.FormatarEditText;
+import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
 
 public class LoginFragment extends Fragment {
     private FirebaseAuth mAuth;
@@ -38,10 +39,11 @@ public class LoginFragment extends Fragment {
         inicializarInterface();
         inicializarVariaveis();
         adicionarListeners();
+        autoFormatarEditText();
         return root;
     }
 
-    private void inicializarInterface(){
+    private void inicializarInterface() {
         editText_login_email = root.findViewById(R.id.editText_login_email);
         editText_login_senha = root.findViewById(R.id.editText_login_senha);
         button_login_entrar = root.findViewById(R.id.button_login_entrar);
@@ -49,11 +51,11 @@ public class LoginFragment extends Fragment {
         button_login_senha_visualizar = root.findViewById(R.id.button_login_senha_visualizar);
     }
 
-    private void inicializarVariaveis(){
+    private void inicializarVariaveis() {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    private void adicionarListeners(){
+    private void adicionarListeners() {
         button_login_entrar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,37 +73,20 @@ public class LoginFragment extends Fragment {
         button_login_senha_visualizar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                if (editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
                     editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 } else {
-                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                     editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
             }
         });
-
-        editText_login_email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                editText_login_email.removeTextChangedListener(this);
-                int selection = editText_login_email.getSelectionEnd();
-                editText_login_email.setText(FormatarEditText.formatarEmail(editText_login_email.getText().toString()));
-                editText_login_email.setSelection(selection);
-                editText_login_email.addTextChangedListener(this);
-            }
-        });
     }
 
-    private void efetuarLogin(){
+    private void autoFormatarEditText() {
+        editText_login_email = FormatarEditText.editTextEmail(editText_login_email);
+    }
+
+    private void efetuarLogin() {
         AutenticacaoRepositorio authRepository = new AutenticacaoRepositorio();
         String email = editText_login_email.getText().toString();
         String senha = editText_login_senha.getText().toString();

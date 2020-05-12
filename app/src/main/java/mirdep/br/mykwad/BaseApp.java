@@ -1,22 +1,14 @@
 package mirdep.br.mykwad;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavGraph;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import mirdep.br.mykwad.comum.MetodosGerais;
 import mirdep.br.mykwad.pecas.Antena;
@@ -25,8 +17,8 @@ import mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
-import mirdep.br.mykwad.usuario.LoginFragment;
-import mirdep.br.mykwad.usuario.RegistrarFragment;
+import mirdep.br.mykwad.ui.LoginFragment;
+import mirdep.br.mykwad.ui.RegistrarFragment;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView navView;
@@ -36,25 +28,25 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_app);
 
-        navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(this);
+        configurarNavView();
 
-        //initialize();
+    }
+
+    private void configurarNavView(){
+        navView = findViewById(R.id.nav_view);
+        abrirComunidade();
+        navView.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_criar: {
-                getSupportActionBar().setTitle("Criar drone");
-                Fragment fragment = new CriarDroneFragment();
-                openFragment(fragment);
+                abrirCriarDrone();
                 break;
             }
             case R.id.navigation_comunidade: {
-                getSupportActionBar().setTitle("Comunidade");
-                Fragment fragment = new ComunidadeFragment();
-                openFragment(fragment);
+                abrirComunidade();
                 break;
             }
             case R.id.navigation_minhaconta: {
@@ -66,9 +58,8 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     }
 
     public void abrirMinhaConta(){
-        FirebaseUser user = AutenticacaoRepositorio.getUsuario();
         Fragment fragment;
-        if(user != null){
+        if(AutenticacaoRepositorio.usuarioLogado()){
             getSupportActionBar().setTitle("Minha conta");
             fragment = new MinhaContaFragment();
         } else {
@@ -78,9 +69,25 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         openFragment(fragment);
     }
 
+    public void abrirComunidade(){
+        getSupportActionBar().setTitle("Comunidade");
+        Fragment fragment = new ComunidadeFragment();
+        openFragment(fragment);
+    }
+
     public void abrirRegistrarConta(){
         getSupportActionBar().setTitle("Criar conta");
         openFragment(new RegistrarFragment());
+    }
+
+    public void abrirCriarDrone(){
+        if(AutenticacaoRepositorio.usuarioLogado()){
+            getSupportActionBar().setTitle("Criar drone");
+            Fragment fragment = new CriarDroneFragment();
+            openFragment(fragment);
+        } else {
+            abrirMinhaConta();
+        }
     }
 
     private void openFragment(Fragment fragment) {

@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.usuario;
+package mirdep.br.mykwad.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.FormatarEditText;
+import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
 
 public class RegistrarFragment extends Fragment {
 
@@ -34,6 +36,7 @@ public class RegistrarFragment extends Fragment {
         inicializarInterface();
         inicializarVariaveis();
         adicionarListeners();
+        autoFormatarEditText();
         return root;
     }
 
@@ -65,6 +68,10 @@ public class RegistrarFragment extends Fragment {
                 ((BaseApp) getActivity()).abrirMinhaConta();
             }
         });
+    }
+
+    private void autoFormatarEditText(){
+        editText_registrar_email = FormatarEditText.editTextEmail(editText_registrar_email);
     }
 
     private void criarConta(){
