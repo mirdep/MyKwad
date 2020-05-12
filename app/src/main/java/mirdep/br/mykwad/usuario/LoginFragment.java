@@ -1,8 +1,10 @@
 package mirdep.br.mykwad.usuario;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 
 public class LoginFragment extends Fragment {
@@ -45,27 +48,41 @@ public class LoginFragment extends Fragment {
 
     private void inicializarVariaveis(){
         mAuth = FirebaseAuth.getInstance();
-
     }
 
     private void adicionarListeners(){
         button_login_entrar.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("CRIAR CONTAR", "Conta criada");
-                AutenticacaoRepositorio auth = new AutenticacaoRepositorio();
-                String email = editText_login_email.getText().toString();
-                String senha = editText_login_senha.getText().toString();
-                auth.loginConta(email, senha);
+                efetuarLogin();
             }
         });
 
         button_login_criarconta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ((BaseApp) getActivity()).abrirRegistrarConta();
             }
         });
+
+        button_login_senha_visualizar.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                    editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+    }
+
+    private void efetuarLogin(){
+        AutenticacaoRepositorio authRepository = new AutenticacaoRepositorio();
+        String email = editText_login_email.getText().toString();
+        String senha = editText_login_senha.getText().toString();
+        authRepository.loginConta(email, senha);
     }
 
 

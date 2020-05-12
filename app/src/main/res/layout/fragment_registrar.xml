@@ -29,9 +29,9 @@
     <View
         android:id="@+id/branco"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="420dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/retangulo_branco"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,16 +48,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/azul" />
 
-    <View
-        android:id="@+id/button_registrar_senha_visualizar"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_remove_red_eye_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_login_senha"
-        app:layout_constraintEnd_toEndOf="@+id/editText_login_senha"
-        app:layout_constraintTop_toTopOf="@+id/editText_login_senha" />
-
     <EditText
         android:id="@+id/editText_registrar_email"
         android:layout_width="0dp"
@@ -67,7 +57,7 @@
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="E-mail"
+        android:hint="E-mail"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/branco"
         app:layout_constraintStart_toStartOf="@+id/branco"
@@ -80,7 +70,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Nome completo"
+        android:hint="Nome completo"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_email"
         app:layout_constraintStart_toStartOf="@+id/editText_registrar_email"
@@ -106,27 +96,27 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Usuário"
+        android:hint="Usuário"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nome"
         app:layout_constraintStart_toStartOf="@+id/editText_registrar_nome"
         app:layout_constraintTop_toBottomOf="@+id/editText_registrar_nome" />
 
     <EditText
-        android:id="@+id/editText_login_senha"
+        android:id="@+id/editText_registrar_senha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Senha"
+        android:hint="Senha"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_usuario"
         app:layout_constraintStart_toStartOf="@+id/editText_registrar_usuario"
         app:layout_constraintTop_toBottomOf="@+id/editText_registrar_usuario" />
 
     <Button
-        android:id="@+id/button_registrar_criar"
+        android:id="@+id/button_registrar_criarconta"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -135,7 +125,17 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editText_login_senha"
-        app:layout_constraintTop_toBottomOf="@+id/editText_login_senha" />
+        app:layout_constraintStart_toStartOf="@+id/editText_registrar_senha"
+        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_senha" />
+
+    <View
+        android:id="@+id/button_registrar_senha_visualizar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_remove_red_eye_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_registrar_senha"
+        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_senha"
+        app:layout_constraintTop_toTopOf="@+id/editText_registrar_senha" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

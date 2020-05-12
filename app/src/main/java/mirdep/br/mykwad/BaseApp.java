@@ -26,6 +26,7 @@ import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
 import mirdep.br.mykwad.usuario.LoginFragment;
+import mirdep.br.mykwad.usuario.RegistrarFragment;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     BottomNavigationView navView;
@@ -37,13 +38,6 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
         navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(this);
-
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_criar, R.id.navigation_comunidade, R.id.navigation_minhaconta).build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//
-//
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-//        NavigationUI.setupWithNavController(navView, navController);
 
         //initialize();
     }
@@ -71,7 +65,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         return true;
     }
 
-    private void abrirMinhaConta(){
+    public void abrirMinhaConta(){
         FirebaseUser user = AutenticacaoRepositorio.getUsuario();
         Fragment fragment;
         if(user != null){
@@ -82,6 +76,11 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
             fragment = new LoginFragment();
         }
         openFragment(fragment);
+    }
+
+    public void abrirRegistrarConta(){
+        getSupportActionBar().setTitle("Criar conta");
+        openFragment(new RegistrarFragment());
     }
 
     private void openFragment(Fragment fragment) {
