@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.viewPagerCards;
+package mirdep.br.mykwad.slideCardView;
 
 import androidx.cardview.widget.CardView;
 

@@ -1,16 +1,12 @@
-package mirdep.br.mykwad.viewPagerCards;
+package mirdep.br.mykwad.slideCardView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.PagerAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import mirdep.br.mykwad.R;
 
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
@@ -51,10 +47,10 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext())
-                .inflate(R.layout.adapter, container, false);
+                .inflate(R.layout.cardview_peca, container, false);
         container.addView(view);
         bind(mData.get(position), view);
-        CardView cardView = (CardView) view.findViewById(R.id.cardView);
+        CardView cardView = view.findViewById(R.id.cardView);
 
         if (mBaseElevation == 0) {
             mBaseElevation = cardView.getCardElevation();
@@ -72,10 +68,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
     }
 
     private void bind(CardItem item, View view) {
-        TextView titleTextView = (TextView) view.findViewById(R.id.titleTextView);
-        TextView contentTextView = (TextView) view.findViewById(R.id.contentTextView);
-        titleTextView.setText(item.getTitle());
-        contentTextView.setText(item.getText());
+        //inicializar itens do cardview
     }
 
 }
