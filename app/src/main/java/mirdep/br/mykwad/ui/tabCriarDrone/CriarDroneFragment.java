@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.slideCardView.SlideViewPager;
+import mirdep.br.mykwad.slideCardView.SlideCardViewPager;
 
 public class CriarDroneFragment extends Fragment {
 
-    private SlideViewPager slideViewPager_pecas;
+    private SlideCardViewPager slideCardViewPager_pecas;
 
     private View root;
 
@@ -25,6 +22,6 @@ public class CriarDroneFragment extends Fragment {
     }
 
     private void inicializarInterface(){
-        slideViewPager_pecas = root.findViewById(R.id.slideViewPager_pecas);
+        slideCardViewPager_pecas = root.findViewById(R.id.slideViewPager_pecas);
     }
 }

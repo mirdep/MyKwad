@@ -12,17 +12,14 @@ import mirdep.br.mykwad.R;
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     private List<CardView> mViews;
-    private List<CardItem> mData;
     private float mBaseElevation;
 
     public CardPagerAdapter() {
-        mData = new ArrayList<>();
         mViews = new ArrayList<>();
     }
 
-    public void addCardItem(CardItem item) {
+    public void addCardItem() {
         mViews.add(null);
-        mData.add(item);
     }
 
     public float getBaseElevation() {
@@ -36,7 +33,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     @Override
     public int getCount() {
-        return mData.size();
+        return mViews.size();
     }
 
     @Override
@@ -46,10 +43,9 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(container.getContext())
-                .inflate(R.layout.cardview_peca, container, false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.cardview_peca, container, false);
         container.addView(view);
-        bind(mData.get(position), view);
+        bind(mViews.get(position), view);
         CardView cardView = view.findViewById(R.id.cardView);
 
         if (mBaseElevation == 0) {
@@ -67,7 +63,7 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         mViews.set(position, null);
     }
 
-    private void bind(CardItem item, View view) {
+    private void bind(CardView item, View view) {
         //inicializar itens do cardview
     }
 
