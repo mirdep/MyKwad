@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.tabs.tabCriarDrone.pecasCarrossel;
+package mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
