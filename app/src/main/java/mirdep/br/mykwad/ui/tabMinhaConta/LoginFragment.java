@@ -24,7 +24,6 @@ import mirdep.br.mykwad.comum.FormatarEditText;
 import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
 
 public class LoginFragment extends Fragment {
-    private FirebaseAuth mAuth;
 
     private EditText editText_login_email;
     private EditText editText_login_senha;
@@ -52,7 +51,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void inicializarVariaveis() {
-        mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void adicionarListeners() {

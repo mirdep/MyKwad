@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.slideCardView.CarrosselFragmentAdapter;
 import mirdep.br.mykwad.slideCardView.SlideCardViewPager;
-import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.EscFragmentCarrossel;
+import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.PecaFragmentCarrossel;
 
 public class CriarDroneFragment extends Fragment {
 
@@ -29,14 +29,17 @@ public class CriarDroneFragment extends Fragment {
     }
 
     private CarrosselFragmentAdapter getCarrosselPecasAdapter(){
-        CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getParentFragmentManager());
+        CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
 
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
-        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_1)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_2)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_3)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_4)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_5)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_6)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_7)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_8)));
+        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_9)));
 
         return adapter;
     }

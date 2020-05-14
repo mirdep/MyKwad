@@ -13,7 +13,7 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/esc" />
 
     <Button
         android:id="@+id/button_alterar_foto_usuario"
@@ -29,14 +29,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
         android:text="Usuário"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_nickname_usuario"
+        android:id="@+id/editText_minhaconta_usuario"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -56,10 +55,10 @@
         android:text="E-mail"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_nickname_usuario" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_usuario" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editText_minhaconta_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -80,7 +79,7 @@
         android:typeface="sans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_email" />
 
     <TextView
         android:id="@+id/textView6"
@@ -94,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/editText_nome_usuario"
+        android:id="@+id/editText_minhaconta_nome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -114,10 +113,10 @@
         android:text="Nascimento"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_nome_usuario" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_nome" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/editText_minhaconta_nascimento"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -134,5 +133,15 @@
         android:layout_height="wrap_content"
         android:text="logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText5" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_nascimento" />
+
+    <Button
+        android:id="@+id/button_minhaconta_editar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="editar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_nascimento" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,11 @@
 <resources>
     <string name="peca_1">Antena</string>
     <string name="peca_2">Bateria</string>
-    <string name="peca_3">Camera</string>
-    <string name="peca_4">Controladora</string>
+    <string name="peca_3">Câmera</string>
+    <string name="peca_4">Controladora FC</string>
     <string name="peca_5">Esc</string>
     <string name="peca_6">Frame</string>
-    <string name="peca_7">Helice</string>
+    <string name="peca_7">Hélice</string>
     <string name="peca_8">Motor</string>
-    <string name="peca_9">VideoTransmissor</string>
+    <string name="peca_9">Video Transmissor VTX</string>
 </resources>

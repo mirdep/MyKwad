@@ -1,12 +1,12 @@
 package mirdep.br.mykwad.drones;
 
-import mirdep.br.mykwad.comum.MetodosGerais;
-
 public abstract class Peca {
 
     private String id;
     private String marca, modelo;
     private double preco;
+
+    private String storage_caminho_imagem;
 
     public Peca(String marca, String modelo, double preco) {
         this.marca = marca;
@@ -20,6 +20,14 @@ public abstract class Peca {
 
     //============== GETTERS and SETTERS ====================
 
+
+    public String getStorage_caminho_imagem() {
+        return storage_caminho_imagem;
+    }
+
+    public void setStorage_caminho_imagem(String storage_caminho_imagem) {
+        this.storage_caminho_imagem = storage_caminho_imagem;
+    }
 
     public String getId() {
         return id;

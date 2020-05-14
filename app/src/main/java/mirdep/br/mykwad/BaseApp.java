@@ -41,18 +41,21 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.navigation_criar: {
-                abrirCriarDrone();
-                break;
-            }
-            case R.id.navigation_comunidade: {
-                abrirComunidade();
-                break;
-            }
-            case R.id.navigation_minhaconta: {
-                abrirMinhaConta();
-                break;
+        int tabId = item.getItemId();
+        if(tabId != navView.getSelectedItemId()){
+            switch (tabId) {
+                case R.id.navigation_criar: {
+                    abrirCriarDrone();
+                    break;
+                }
+                case R.id.navigation_comunidade: {
+                    abrirComunidade();
+                    break;
+                }
+                case R.id.navigation_minhaconta: {
+                    abrirMinhaConta();
+                    break;
+                }
             }
         }
         return true;
