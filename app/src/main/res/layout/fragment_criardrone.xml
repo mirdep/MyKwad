@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <mirdep.br.mykwad.slideCardView.SlideCardViewPager
-        android:id="@+id/slideViewPager_pecas"
+        android:id="@+id/viewPager_carrossel_pecas"
         android:layout_width="match_parent"
         android:layout_height="330dp"
         android:layout_gravity="bottom"

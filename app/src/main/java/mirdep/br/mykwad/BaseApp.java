@@ -21,7 +21,8 @@ import mirdep.br.mykwad.ui.tabMinhaConta.LoginFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.RegistrarFragment;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-    BottomNavigationView navView;
+
+    private BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

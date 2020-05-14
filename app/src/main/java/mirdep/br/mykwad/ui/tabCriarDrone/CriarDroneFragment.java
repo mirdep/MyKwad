@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.slideCardView.CarrosselFragmentAdapter;
 import mirdep.br.mykwad.slideCardView.SlideCardViewPager;
+import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.EscFragmentCarrossel;
 
 public class CriarDroneFragment extends Fragment {
 
-    private SlideCardViewPager slideCardViewPager_pecas;
+    private SlideCardViewPager viewPager_carrossel_pecas;
 
     private View root;
 
@@ -22,6 +24,20 @@ public class CriarDroneFragment extends Fragment {
     }
 
     private void inicializarInterface(){
-        slideCardViewPager_pecas = root.findViewById(R.id.slideViewPager_pecas);
+        viewPager_carrossel_pecas = root.findViewById(R.id.viewPager_carrossel_pecas);
+        viewPager_carrossel_pecas.adicionarCarrosselAdapter(getCarrosselPecasAdapter());
+    }
+
+    private CarrosselFragmentAdapter getCarrosselPecasAdapter(){
+        CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getParentFragmentManager());
+
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+        adapter.adicionarFragmento(new EscFragmentCarrossel());
+
+        return adapter;
     }
 }
