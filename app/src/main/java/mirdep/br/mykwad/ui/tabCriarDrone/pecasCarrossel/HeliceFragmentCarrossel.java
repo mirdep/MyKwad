@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import mirdep.br.mykwad.R;
 
-public class EscFragmentCarrossel extends Fragment {
+public class HeliceFragmentCarrossel extends Fragment {
 
     private Button carrossel_esc_button_escolher;
     private ImageView carrossel_esc_imagem;
