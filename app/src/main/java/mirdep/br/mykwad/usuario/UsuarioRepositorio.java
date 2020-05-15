@@ -1,7 +1,7 @@
 package mirdep.br.mykwad.usuario;
 
+import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -12,13 +12,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import mirdep.br.mykwad.BaseApp;
-import mirdep.br.mykwad.bancoDeDados.Firebase;
+import mirdep.br.mykwad.bancoDeDados.FirebaseRepositorio;
 
-public class AutenticacaoRepositorio {
+public class UsuarioRepositorio {
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
 
-    public AutenticacaoRepositorio() {
+    public UsuarioRepositorio() {
         inicializarVariaveis();
     }
 
@@ -26,23 +26,10 @@ public class AutenticacaoRepositorio {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public static FirebaseUser getUsuario() {
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
-
-    public void criarConta(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success");
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                }
-            }
-        });
+    public void atualizarNoBanco(Usuario usuario){
+        FirebaseRepositorio repositorio = new FirebaseRepositorio();
+        String usuarioID = getUsuario().getUid();
+        repositorio.getBancoDeDados().child("usuarios").child(usuarioID).setValue(usuario);
     }
 
     public void loginConta(String email, String password) {
@@ -58,6 +45,13 @@ public class AutenticacaoRepositorio {
                 }
             }
         });
+
+    }
+
+    //============================ MÉTODOS ESTÁTICOS =================================
+
+    public static FirebaseUser getUsuario() {
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public static boolean usuarioLogado(){

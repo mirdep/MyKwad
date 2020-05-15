@@ -1,12 +1,8 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,12 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.FormatarEditText;
-import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
+import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 
 public class LoginFragment extends Fragment {
 
@@ -86,7 +80,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void efetuarLogin() {
-        AutenticacaoRepositorio authRepository = new AutenticacaoRepositorio();
+        UsuarioRepositorio authRepository = new UsuarioRepositorio();
         String email = editText_login_email.getText().toString();
         String senha = editText_login_senha.getText().toString();
         authRepository.loginConta(email, senha);

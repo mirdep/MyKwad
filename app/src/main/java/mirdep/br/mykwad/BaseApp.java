@@ -12,11 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import mirdep.br.mykwad.comum.MetodosGerais;
 import mirdep.br.mykwad.pecas.Antena;
-import mirdep.br.mykwad.pecasRepositorio.AntenaRepositorio;
 import mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
-import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
+import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 import mirdep.br.mykwad.ui.tabMinhaConta.LoginFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.RegistrarFragment;
 
@@ -63,7 +62,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     public void abrirMinhaConta(){
         Fragment fragment;
-        if(AutenticacaoRepositorio.usuarioLogado()){
+        if(UsuarioRepositorio.usuarioLogado()){
             getSupportActionBar().setTitle("Minha conta");
             fragment = new MinhaContaFragment();
         } else {
@@ -85,7 +84,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     }
 
     public void abrirCriarDrone(){
-        if(AutenticacaoRepositorio.usuarioLogado()){
+        if(UsuarioRepositorio.usuarioLogado()){
             getSupportActionBar().setTitle("Criar drone");
             Fragment fragment = new CriarDroneFragment();
             openFragment(fragment);
@@ -100,12 +99,4 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-    private void initialize() {
-        Antena antena = new Antena("TBS", "ha", 35.25, "SMA");
-        antena.setId(MetodosGerais.encodeId("abcde"));
-        new AntenaRepositorio().salvarAntena(antena, false);
-    }
-
-
 }

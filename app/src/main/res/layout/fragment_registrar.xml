@@ -90,7 +90,7 @@
         app:layout_constraintTop_toTopOf="@+id/branco" />
 
     <EditText
-        android:id="@+id/editText_registrar_usuario"
+        android:id="@+id/editText_registrar_nickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -111,9 +111,9 @@
         android:inputType="textPersonName"
         android:hint="Senha"
         android:textColor="#7A7A7A"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_usuario"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_usuario"
-        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_usuario" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nickname"
+        app:layout_constraintStart_toStartOf="@+id/editText_registrar_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/editText_registrar_nickname" />
 
     <Button
         android:id="@+id/button_registrar_criarconta"
@@ -132,7 +132,7 @@
         android:id="@+id/button_registrar_senha_visualizar"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/ic_remove_red_eye_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/editText_registrar_senha"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_senha"

@@ -10,11 +10,10 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.usuario.AutenticacaoRepositorio;
+import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 import mirdep.br.mykwad.usuario.Usuario;
 
 public class MinhaContaFragment extends Fragment {
@@ -73,7 +72,7 @@ public class MinhaContaFragment extends Fragment {
     }
 
     private void atualizarTela(){
-        String nome = AutenticacaoRepositorio.getUsuario().getDisplayName();
+        String nome = UsuarioRepositorio.getUsuario().getDisplayName();
         editText_minhaconta_nome.setText(nome);
     }
 
@@ -100,10 +99,10 @@ public class MinhaContaFragment extends Fragment {
         String nascimento = editText_minhaconta_nascimento.getText().toString();
         UserProfileChangeRequest novosDadosUsuario = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nome).build();
-        AutenticacaoRepositorio.getUsuario().updateProfile(novosDadosUsuario);
+        UsuarioRepositorio.getUsuario().updateProfile(novosDadosUsuario);
     }
 
     private void logout(){
-        AutenticacaoRepositorio.logoutConta();
+        UsuarioRepositorio.logoutConta();
     }
 }

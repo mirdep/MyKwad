@@ -1,23 +1,57 @@
 package mirdep.br.mykwad.usuario;
 
-import android.util.Base64;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import java.time.LocalDate;
-
-
 public class Usuario {
 
-    private String id;
-    private String nickname;
-    private String nome_completo;
     private String email;
-    private LocalDate data_nascimento;
+    private String nickname;
+    private String nome;
+    private String imagem_url;
 
+    public Usuario() {
+    }
 
+    public Usuario(String email, String nickname, String nome, String imagem_url) {
+        this.email = email;
+        this.nickname = nickname;
+        this.nome = nome;
+        this.imagem_url = imagem_url;
+    }
+
+    public Usuario(String email, String nickname, String nome) {
+        this.email = email;
+        this.nickname = nickname;
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getImagem_url() {
+        return imagem_url;
+    }
+
+    public void setImagem_url(String imagem_url) {
+        this.imagem_url = imagem_url;
+    }
 }
