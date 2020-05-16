@@ -58,6 +58,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="E-mail"
+        android:text="ped@pedss.com"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/branco"
         app:layout_constraintStart_toStartOf="@+id/branco"
@@ -65,6 +66,7 @@
 
     <EditText
         android:id="@+id/editText_registrar_nome"
+        android:text="pedro predo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -97,7 +99,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Usuário"
+        android:text="ped ped"
         android:textColor="#7A7A7A"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-"
+        android:maxLength="12"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nome"
         app:layout_constraintStart_toStartOf="@+id/editText_registrar_nome"
         app:layout_constraintTop_toBottomOf="@+id/editText_registrar_nome" />
@@ -110,6 +115,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Senha"
+        android:text="ped ped"
         android:textColor="#7A7A7A"
         app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nickname"
         app:layout_constraintStart_toStartOf="@+id/editText_registrar_nickname"

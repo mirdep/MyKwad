@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import mirdep.br.mykwad.comum.MetodosGerais;
-import mirdep.br.mykwad.pecas.Antena;
 import mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
@@ -34,7 +32,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     private void configurarNavView(){
         navView = findViewById(R.id.nav_view);
-        abrirComunidade();
+        abrirTabComunidade();
         navView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -44,15 +42,15 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         if(tabId != navView.getSelectedItemId()){
             switch (tabId) {
                 case R.id.navigation_criar: {
-                    abrirCriarDrone();
+                    abrirTabCriarDrone();
                     break;
                 }
                 case R.id.navigation_comunidade: {
-                    abrirComunidade();
+                    abrirTabComunidade();
                     break;
                 }
                 case R.id.navigation_minhaconta: {
-                    abrirMinhaConta();
+                    abrirTabMinhaConta();
                     break;
                 }
             }
@@ -60,9 +58,9 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         return true;
     }
 
-    public void abrirMinhaConta(){
+    public void abrirTabMinhaConta(){
         Fragment fragment;
-        if(UsuarioRepositorio.usuarioLogado()){
+        if(UsuarioRepositorio.usuarioEstaLogado()){
             getSupportActionBar().setTitle("Minha conta");
             fragment = new MinhaContaFragment();
         } else {
@@ -72,24 +70,24 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         openFragment(fragment);
     }
 
-    public void abrirComunidade(){
+    public void abrirTabComunidade(){
         getSupportActionBar().setTitle("Comunidade");
         Fragment fragment = new ComunidadeFragment();
         openFragment(fragment);
     }
 
-    public void abrirRegistrarConta(){
+    public void abrirTabRegistrarConta(){
         getSupportActionBar().setTitle("Criar conta");
         openFragment(new RegistrarFragment());
     }
 
-    public void abrirCriarDrone(){
-        if(UsuarioRepositorio.usuarioLogado()){
+    public void abrirTabCriarDrone(){
+        if(UsuarioRepositorio.usuarioEstaLogado()){
             getSupportActionBar().setTitle("Criar drone");
             Fragment fragment = new CriarDroneFragment();
             openFragment(fragment);
         } else {
-            abrirMinhaConta();
+            abrirTabMinhaConta();
         }
     }
 

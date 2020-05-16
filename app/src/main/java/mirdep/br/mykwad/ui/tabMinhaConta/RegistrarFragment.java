@@ -1,6 +1,7 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.comum.FormatarEditText;
 import mirdep.br.mykwad.usuario.Usuario;
 import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 
@@ -34,19 +36,14 @@ public class RegistrarFragment extends Fragment {
     private View button_registrar_senha_visualizar;
 
     private View root;
-    private FirebaseAuth mAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         root = inflater.inflate(R.layout.fragment_registrar, container, false);
         inicializarInterface();
-        inicializarVariaveis();
         adicionarListeners();
-        autoFormatarEditText();
-        return root;
-    }
 
-    private void inicializarVariaveis(){
-        mAuth = FirebaseAuth.getInstance();
+        return root;
     }
 
     private void inicializarInterface(){
@@ -63,36 +60,46 @@ public class RegistrarFragment extends Fragment {
         button_registrar_criarconta.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                criarConta();
+                registrarConta();
             }
         });
 
         button_registrar_sair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((BaseApp) getActivity()).abrirMinhaConta();
+                ((BaseApp) getActivity()).abrirTabMinhaConta();
             }
         });
+
     }
 
-    private void autoFormatarEditText(){
-        editText_registrar_email = FormatarEditText.editTextEmail(editText_registrar_email);
-    }
-
-    private void criarConta(){
-        if(verificarCampos()){
+    private void registrarConta(){
+        if(verificarCamposVazios() && campoNicknameOk()){
             String email = editText_registrar_email.getText().toString();
             String senha = editText_registrar_senha.getText().toString();
             String nome = editText_registrar_nome.getText().toString();
             String nickname = editText_registrar_nickname.getText().toString();
             final Usuario usuario = new Usuario(email, nickname, nome);
-            final UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-            mAuth.createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        ((BaseApp) getActivity()).abrirMinhaConta();
-                        usuarioRepositorio.atualizarNoBanco(usuario);
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(usuario.getNickname()).build();
+                        user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("SALVAR USUARIO DB", "User profile updated.");
+                                        } else {
+                                            Log.d("DEU RUIM", "User profile updated.");
+                                        }
+                                    }
+                                });
+
+                        UsuarioRepositorio.salvarNoBanco(usuario);
+                        ((BaseApp) getActivity()).abrirTabMinhaConta();
                     } else {
                         mostrarErrosTela(task);
                     }
@@ -101,7 +108,22 @@ public class RegistrarFragment extends Fragment {
         }
     }
 
-    private boolean verificarCampos(){
+    private boolean campoNicknameOk(){
+        boolean campoNicknameOk = false;
+        String nickname = editText_registrar_nickname.getText().toString();
+        if(nickname.length() < 6){
+            editText_registrar_nickname.setError("Seu usuário deve conter pelo menos 6 caractéres");
+        } else {
+            if(UsuarioRepositorio.nicknameJaExiste(nickname)){
+                editText_registrar_nickname.setError("Esse usuário já foi utilizado");
+            } else {
+                campoNicknameOk = true;
+            }
+        }
+        return campoNicknameOk;
+    }
+
+    private boolean verificarCamposVazios(){
         boolean camposOk = true;
         if(!stringValida(editText_registrar_email.getText().toString())){
             editText_registrar_email.setError("Complete este campo!");

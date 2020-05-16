@@ -10,45 +10,38 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.usuario.UsuarioRepositorio;
-import mirdep.br.mykwad.usuario.Usuario;
 
 public class MinhaContaFragment extends Fragment {
 
     private View root;
 
-    private Usuario usuario;
-
-    private EditText editText_minhaconta_usuario;
+    private EditText editText_minhaconta_nickname;
     private EditText editText_minhaconta_email;
     private EditText editText_minhaconta_nome;
-    private EditText editText_minhaconta_nascimento;
-
     private Button button_minhaconta_logout;
     private Button button_minhaconta_editar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
-
         inicializarInterface();
+        inicializarVariaveis();
         adicionarListeners();
-        root.findViewById(R.id.button_minhaconta_logout).setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        atualizarTela();
+        bloquearCamposDeEdicao(true);
         return root;
     }
 
     private void inicializarInterface(){
-        editText_minhaconta_usuario = root.findViewById(R.id.editText_minhaconta_usuario);
+        editText_minhaconta_nickname = root.findViewById(R.id.editText_minhaconta_nickname);
         editText_minhaconta_email = root.findViewById(R.id.editText_minhaconta_email);
         editText_minhaconta_nome = root.findViewById(R.id.editText_minhaconta_nome);
-        editText_minhaconta_nascimento = root.findViewById(R.id.editText_minhaconta_nascimento);
 
         button_minhaconta_logout = root.findViewById(R.id.button_minhaconta_logout);
         button_minhaconta_editar = root.findViewById(R.id.button_minhaconta_editar);
@@ -58,7 +51,8 @@ public class MinhaContaFragment extends Fragment {
         button_minhaconta_logout.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                UsuarioRepositorio.logoutConta();
+                ((BaseApp) getActivity()).abrirTabMinhaConta();
             }
         });
 
@@ -68,12 +62,30 @@ public class MinhaContaFragment extends Fragment {
                 editarConta();
             }
         });
+    }
+
+    private void inicializarVariaveis(){
 
     }
 
     private void atualizarTela(){
-        String nome = UsuarioRepositorio.getUsuario().getDisplayName();
-        editText_minhaconta_nome.setText(nome);
+        String nickname;
+        while((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null){
+
+        }
+        UsuarioRepositorio.getUsuariosDatabaseReference().child(nickname).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                editText_minhaconta_email.setText(dataSnapshot.child("email").getValue().toString());
+                editText_minhaconta_nome.setText(dataSnapshot.child("nome").getValue().toString());
+                editText_minhaconta_nickname.setText(dataSnapshot.child("nickname").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void editarConta(){
@@ -81,28 +93,15 @@ public class MinhaContaFragment extends Fragment {
             button_minhaconta_editar.setText("salvar");
             bloquearCamposDeEdicao(true);
         } else {
-            salvarUsuario();
+
             button_minhaconta_editar.setText("editar");
             bloquearCamposDeEdicao(false);
         }
     }
 
     private void bloquearCamposDeEdicao(boolean bloquear){
-        editText_minhaconta_usuario.setFocusable(bloquear);
+        //editText_minhaconta_nickname.setFocusable(bloquear);
         editText_minhaconta_email.setFocusable(bloquear);
         editText_minhaconta_nome.setFocusable(bloquear);
-        editText_minhaconta_nascimento.setFocusable(bloquear);
-    }
-
-    private void salvarUsuario(){
-        String nome = editText_minhaconta_nome.getText().toString();
-        String nascimento = editText_minhaconta_nascimento.getText().toString();
-        UserProfileChangeRequest novosDadosUsuario = new UserProfileChangeRequest.Builder()
-                .setDisplayName(nome).build();
-        UsuarioRepositorio.getUsuario().updateProfile(novosDadosUsuario);
-    }
-
-    private void logout(){
-        UsuarioRepositorio.logoutConta();
     }
 }
