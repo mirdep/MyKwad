@@ -1,13 +1,17 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
 import android.os.Bundle;
+import android.text.method.KeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,10 +35,10 @@ public class MinhaContaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
         inicializarInterface();
+        bloquearCamposDeEdicao(true);
         inicializarVariaveis();
         adicionarListeners();
         atualizarTela();
-        bloquearCamposDeEdicao(true);
         return root;
     }
 
@@ -91,17 +95,24 @@ public class MinhaContaFragment extends Fragment {
     private void editarConta(){
         if(button_minhaconta_editar.getText().toString().toLowerCase().equals("editar")){
             button_minhaconta_editar.setText("salvar");
-            bloquearCamposDeEdicao(true);
-        } else {
-
-            button_minhaconta_editar.setText("editar");
             bloquearCamposDeEdicao(false);
+        } else {
+            Toast.makeText(root.getContext(), "AINDA NAO TEM FUNCIONALIDADE", Toast.LENGTH_LONG).show();
+            button_minhaconta_editar.setText("editar");
+            bloquearCamposDeEdicao(true);
         }
     }
 
     private void bloquearCamposDeEdicao(boolean bloquear){
-        //editText_minhaconta_nickname.setFocusable(bloquear);
-        editText_minhaconta_email.setFocusable(bloquear);
-        editText_minhaconta_nome.setFocusable(bloquear);
+        if(bloquear){
+            editText_minhaconta_nickname.setKeyListener(null);
+            editText_minhaconta_email.setKeyListener(null);
+            editText_minhaconta_nome.setKeyListener(null);
+        } else {
+            KeyListener keyListener = new EditText(root.getContext().getApplicationContext()).getKeyListener();
+            editText_minhaconta_nickname.setKeyListener(keyListener);
+            editText_minhaconta_email.setKeyListener(keyListener);
+            editText_minhaconta_nome.setKeyListener(keyListener);
+        }
     }
 }

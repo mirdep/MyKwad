@@ -1,7 +1,9 @@
 package mirdep.br.mykwad;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -24,8 +26,8 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.base_app);
-
         configurarNavView();
 
     }
@@ -61,29 +63,24 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     public void abrirTabMinhaConta(){
         Fragment fragment;
         if(UsuarioRepositorio.usuarioEstaLogado()){
-            getSupportActionBar().setTitle("Minha conta");
             fragment = new MinhaContaFragment();
         } else {
-            getSupportActionBar().setTitle("Login");
             fragment = new LoginFragment();
         }
         openFragment(fragment);
     }
 
     public void abrirTabComunidade(){
-        getSupportActionBar().setTitle("Comunidade");
         Fragment fragment = new ComunidadeFragment();
         openFragment(fragment);
     }
 
     public void abrirTabRegistrarConta(){
-        getSupportActionBar().setTitle("Criar conta");
         openFragment(new RegistrarFragment());
     }
 
     public void abrirTabCriarDrone(){
         if(UsuarioRepositorio.usuarioEstaLogado()){
-            getSupportActionBar().setTitle("Criar drone");
             Fragment fragment = new CriarDroneFragment();
             openFragment(fragment);
         } else {

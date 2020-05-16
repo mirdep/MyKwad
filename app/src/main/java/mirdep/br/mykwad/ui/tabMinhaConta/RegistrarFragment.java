@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
@@ -60,7 +63,7 @@ public class RegistrarFragment extends Fragment {
         button_registrar_criarconta.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registrarConta();
+                criarConta();
             }
         });
 
@@ -73,7 +76,25 @@ public class RegistrarFragment extends Fragment {
 
     }
 
-    private void registrarConta(){
+    private void criarConta(){
+        UsuarioRepositorio.getUsuariosDatabaseReference().child(editText_registrar_nickname.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    editText_registrar_nickname.setError("Nome de usuário não disponível");
+                } else {
+                    registrarContaFirebase();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void registrarContaFirebase(){
         if(verificarCamposVazios() && campoNicknameOk()){
             String email = editText_registrar_email.getText().toString();
             String senha = editText_registrar_senha.getText().toString();
