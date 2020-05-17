@@ -25,12 +25,11 @@ public class CriarDroneFragment extends Fragment {
 
     private void inicializarInterface(){
         viewPager_carrossel_pecas = root.findViewById(R.id.viewPager_carrossel_pecas);
-        viewPager_carrossel_pecas.adicionarCarrosselAdapter(getCarrosselPecasAdapter());
+        viewPager_carrossel_pecas.setAdapter(carrosselPecasAdapter());
     }
 
-    private CarrosselFragmentAdapter getCarrosselPecasAdapter(){
+    private CarrosselFragmentAdapter carrosselPecasAdapter(){
         CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
-
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_1)));
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_2)));
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_3)));
@@ -40,7 +39,6 @@ public class CriarDroneFragment extends Fragment {
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_7)));
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_8)));
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_9)));
-
         return adapter;
     }
 }

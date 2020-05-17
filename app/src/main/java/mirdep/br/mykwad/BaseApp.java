@@ -1,9 +1,8 @@
 package mirdep.br.mykwad;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,19 +22,36 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     private BottomNavigationView navView;
 
+    private final String TAG_TAB = "Mudança de tab: ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.base_app);
         configurarNavView();
-
+        abrirTab(2);
     }
 
     private void configurarNavView(){
         navView = findViewById(R.id.nav_view);
-        abrirTabComunidade();
         navView.setOnNavigationItemSelectedListener(this);
+    }
+
+    public void abrirTab(int tabPos){
+        switch(tabPos){
+            case 1:
+                navView.setSelectedItemId(R.id.navigation_criardrone);
+                break;
+            case 2:
+                navView.setSelectedItemId(R.id.navigation_comunidade);
+                break;
+            case 3:
+                navView.setSelectedItemId(R.id.navigation_minhaconta);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -43,15 +59,18 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         int tabId = item.getItemId();
         if(tabId != navView.getSelectedItemId()){
             switch (tabId) {
-                case R.id.navigation_criar: {
+                case R.id.navigation_criardrone: {
+                    Log.d(TAG_TAB, "Mudou para CriarDrone");
                     abrirTabCriarDrone();
                     break;
                 }
                 case R.id.navigation_comunidade: {
+                    Log.d(TAG_TAB, "Mudou para Comunidade");
                     abrirTabComunidade();
                     break;
                 }
                 case R.id.navigation_minhaconta: {
+                    Log.d(TAG_TAB, "Mudou para MinhaConta");
                     abrirTabMinhaConta();
                     break;
                 }
@@ -70,13 +89,13 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         openFragment(fragment);
     }
 
+    public void abrirTabRegistrarConta(){
+        openFragment(new RegistrarFragment());
+    }
+
     public void abrirTabComunidade(){
         Fragment fragment = new ComunidadeFragment();
         openFragment(fragment);
-    }
-
-    public void abrirTabRegistrarConta(){
-        openFragment(new RegistrarFragment());
     }
 
     public void abrirTabCriarDrone(){
@@ -84,7 +103,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
             Fragment fragment = new CriarDroneFragment();
             openFragment(fragment);
         } else {
-            abrirTabMinhaConta();
+            abrirTab(3);
         }
     }
 

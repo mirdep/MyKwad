@@ -5,123 +5,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView_foto_usuario"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:foreground="@drawable/retangulo_degrade_minhaconta"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/esc" />
-
-    <Button
-        android:id="@+id/button_alterar_foto_usuario"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@drawable/ic_edit_black_24dp"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView_foto_usuario"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_foto_usuario" />
-
-    <TextView
-        android:id="@+id/textView_nome_usuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Usuário"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText_minhaconta_nickname"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="25dp"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-"
-        android:maxLength="12"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_foto_usuario"
+    <View
+        android:id="@+id/viewButton_usuario_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="15dp"
+        android:foreground="@drawable/ic_more_horiz_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_usuario_foto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ic_person_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_nome_usuario" />
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
     <TextView
-        android:id="@+id/textView_email_usuario"
+        android:id="@+id/textView_usuario_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="E-mail"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_nickname" />
-
-    <EditText
-        android:id="@+id/editText_minhaconta_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_foto_usuario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_email_usuario" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Dados Pessoais"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/catamaran"
+        android:text="Nome do usuario"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_email" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView_usuario_foto"
+        app:layout_constraintStart_toStartOf="@+id/imageView_usuario_foto"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView_usuario_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:text="Nome completo"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/catamaran"
+        android:text="E-mail do usuario"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView_usuario_nome"
+        app:layout_constraintStart_toStartOf="@+id/textView_usuario_nome"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
-    <EditText
-        android:id="@+id/editText_minhaconta_nome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <Button
-        android:id="@+id/button_minhaconta_logout"
+    <TextView
+        android:id="@+id/textView_usuario_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:text="logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_minhaconta_nome" />
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/catamaran"
+        android:text="nickname"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView_usuario_nome"
+        app:layout_constraintStart_toStartOf="@+id/textView_usuario_nome"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
-    <Button
-        android:id="@+id/button_minhaconta_editar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="editar"
-        app:layout_constraintBottom_toBottomOf="@+id/button_minhaconta_logout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_minhaconta_logout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

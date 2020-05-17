@@ -13,7 +13,6 @@ public class CarrosselFragmentAdapter extends FragmentPagerAdapter {
 
     public CarrosselFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
         inicializarListaFragmentos();
     }
 
