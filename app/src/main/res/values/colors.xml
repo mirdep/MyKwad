@@ -3,6 +3,8 @@
     <color name="colorPrimary">#4A9BC9</color>
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorPrimarySoftDark">#434343</color>
+    <color name="colorBackground">#303030</color>
+    <color name="colorCardBackground">#424242</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="bottomTabColor">#5A5A5A</color>
     <color name="bottomTabColorSelected">#474747</color>
