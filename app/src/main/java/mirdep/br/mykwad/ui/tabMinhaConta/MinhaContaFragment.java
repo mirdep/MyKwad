@@ -1,5 +1,6 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,9 +44,9 @@ public class MinhaContaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
         inicializarInterface();
-        inicializarVariaveis();
-        adicionarListeners();
-        atualizarTela();
+//        inicializarVariaveis();
+//        adicionarListeners();
+        carregarUsuario();
         return root;
     }
 
@@ -64,7 +65,6 @@ public class MinhaContaFragment extends Fragment {
     }
 
     private void atualizarTela() {
-        carregarUsuario();
         textView_usuario_nickname.setText(usuario.getNickname());
         textView_usuario_nome.setText(usuario.getNome());
         textView_usuario_email.setText(usuario.getEmail());
@@ -74,15 +74,14 @@ public class MinhaContaFragment extends Fragment {
     private void carregarUsuario() {
         usuario = new Usuario();
         String nickname;
-        while ((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null) {
-
-        }
+        while ((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null);
         UsuarioRepositorio.getUsuariosDatabaseReference().child(nickname).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usuario.setEmail(dataSnapshot.child("email").getValue().toString());
                 usuario.setNome(dataSnapshot.child("nome").getValue().toString());
                 usuario.setNickname(UsuarioRepositorio.getUsuarioAuth().getDisplayName());
+                atualizarTela();
             }
 
             @Override
@@ -104,28 +103,4 @@ public class MinhaContaFragment extends Fragment {
                     .into(imageView_usuario_foto);
         }
     }
-
-//    private void editarConta(){
-//        if(button_minhaconta_editar.getText().toString().toLowerCase().equals("editar")){
-//            button_minhaconta_editar.setText("salvar");
-//            bloquearCamposDeEdicao(false);
-//        } else {
-//            Toast.makeText(root.getContext(), "AINDA NAO TEM FUNCIONALIDADE", Toast.LENGTH_LONG).show();
-//            button_minhaconta_editar.setText("editar");
-//            bloquearCamposDeEdicao(true);
-//        }
-//    }
-//
-//    private void bloquearCamposDeEdicao(boolean bloquear){
-//        if(bloquear){
-//            editText_minhaconta_nickname.setKeyListener(null);
-//            editText_minhaconta_email.setKeyListener(null);
-//            editText_minhaconta_nome.setKeyListener(null);
-//        } else {
-//            KeyListener keyListener = new EditText(root.getContext().getApplicationContext()).getKeyListener();
-//            editText_minhaconta_nickname.setKeyListener(keyListener);
-//            editText_minhaconta_email.setKeyListener(keyListener);
-//            editText_minhaconta_nome.setKeyListener(keyListener);
-//        }
-//    }
 }

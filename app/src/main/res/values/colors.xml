@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#4A9BC9</color>
+    <color name="colorPrimaryDark">#121212</color>
+    <color name="colorPrimarySoftDark">#434343</color>
+    <color name="colorAccent">#FFFFFF</color>
     <color name="bottomTabColor">#5A5A5A</color>
     <color name="bottomTabColorSelected">#474747</color>
     <color name="bottomTabIconColor">#FFFFFF</color>
