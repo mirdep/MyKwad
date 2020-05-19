@@ -75,4 +75,18 @@
         app:layout_constraintStart_toStartOf="@+id/textView_usuario_nome"
         app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <com.google.android.material.tabs.TabItem
+            android:text="Meus drones" />
+
+        <com.google.android.material.tabs.TabItem
+            android:text="Favoritos" />
+
+    </com.google.android.material.tabs.TabLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

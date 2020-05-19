@@ -13,10 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import com.viewpagerindicator.LinePageIndicator;
 
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.slideCardView.CarrosselFragmentAdapter;
@@ -30,13 +30,12 @@ public class CriarDroneFragment extends Fragment {
     private static int SELECIONAR_GALERIA = 1;
 
     private SlideCardViewPager viewPager_carrossel_pecas;
+    private LinePageIndicator indicador;
 
     private ImageView imageView_escolher_fotos;
     private LinearLayout linearLayout_drone_galeria;
 
     private View root;
-
-    private Image[] fotosDrone = new Image[7];
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_criardrone, container, false);
@@ -50,6 +49,7 @@ public class CriarDroneFragment extends Fragment {
         viewPager_carrossel_pecas = root.findViewById(R.id.viewPager_carrossel_pecas);
         imageView_escolher_fotos = root.findViewById(R.id.imageView_escolher_fotos);
         linearLayout_drone_galeria = root.findViewById(R.id.linearLayout_drone_galeria);
+        indicador = root.findViewById(R.id.indicator);
     }
 
     private void addListeners() {
@@ -90,7 +90,7 @@ public class CriarDroneFragment extends Fragment {
     private void adicionarFotoDrone(Bitmap foto){
         ImageView iv = new ImageView(root.getContext());
         iv.setImageBitmap(foto);
-        iv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        iv.setLayoutParams(new ViewGroup.LayoutParams(150,ViewGroup.LayoutParams.MATCH_PARENT));
         linearLayout_drone_galeria.addView(iv);
     }
 
@@ -106,5 +106,6 @@ public class CriarDroneFragment extends Fragment {
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_8)));
         adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_9)));
         viewPager_carrossel_pecas.setAdapter(adapter);
+        indicador.setViewPager(viewPager_carrossel_pecas);
     }
 }

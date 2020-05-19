@@ -16,6 +16,4 @@ public class SlideCardViewPager extends ViewPager{
     private void addPageTransformer(){
 
     }
-
-
 }

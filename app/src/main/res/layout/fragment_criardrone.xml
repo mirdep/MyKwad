@@ -34,12 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Escolha um título"
-            android:text="aaaaaaaaa"
             android:inputType="textPersonName"
             android:scrollbars="horizontal"
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.viewpagerindicator.LinePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager_carrossel_pecas" />
 
     <View
         android:id="@+id/card_drone_fotos"
@@ -57,19 +66,21 @@
     <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
         app:layout_constraintEnd_toEndOf="@+id/card_drone_fotos"
         app:layout_constraintStart_toEndOf="@+id/imageView_escolher_fotos"
-        app:layout_constraintTop_toTopOf="@+id/card_drone_fotos" >
+        app:layout_constraintTop_toTopOf="@+id/card_drone_fotos">
 
         <LinearLayout
             android:id="@+id/linearLayout_drone_galeria"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" />
+            android:gravity="start|center_horizontal"
+            android:orientation="horizontal"/>
 
     </HorizontalScrollView>
 
@@ -115,13 +126,15 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPager_carrossel_pecas">
+        app:layout_constraintTop_toBottomOf="@+id/indicator">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -133,7 +146,7 @@
             android:maxLines="10"
             android:minLines="1"
             android:scrollbars="vertical"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
