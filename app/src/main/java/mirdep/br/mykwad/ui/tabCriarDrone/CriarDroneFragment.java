@@ -68,6 +68,7 @@ public class CriarDroneFragment extends Fragment {
 
 
     private void abrirGaleria() {
+        //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, SELECIONAR_GALERIA);
     }
@@ -89,8 +90,10 @@ public class CriarDroneFragment extends Fragment {
 
     private void adicionarFotoDrone(Bitmap foto){
         ImageView iv = new ImageView(root.getContext());
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setImageBitmap(foto);
-        iv.setLayoutParams(new ViewGroup.LayoutParams(150,ViewGroup.LayoutParams.MATCH_PARENT));
+        int dimensao = linearLayout_drone_galeria.getHeight();
+        iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
         linearLayout_drone_galeria.addView(iv);
     }
 

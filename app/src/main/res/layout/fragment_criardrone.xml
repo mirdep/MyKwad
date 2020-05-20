@@ -77,10 +77,12 @@
 
         <LinearLayout
             android:id="@+id/linearLayout_drone_galeria"
+            android:showDividers="middle"
+            android:divider="@drawable/espacador_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="start|center_horizontal"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal" />
 
     </HorizontalScrollView>
 
@@ -115,10 +117,10 @@
 
     <ImageView
         android:id="@+id/imageView_escolher_fotos"
-        android:layout_width="80dp"
+        android:layout_width="40dp"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/ic_add_a_photo_white_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
         app:layout_constraintStart_toStartOf="@+id/textView"

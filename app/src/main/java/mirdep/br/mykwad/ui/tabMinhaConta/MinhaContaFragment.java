@@ -1,13 +1,14 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
 import android.app.ProgressDialog;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.storage.GlideApp;
 import mirdep.br.mykwad.usuario.Usuario;
@@ -39,26 +41,40 @@ public class MinhaContaFragment extends Fragment {
     private TextView textView_usuario_email;
     private TextView textView_usuario_nickname;
 
+    private View viewButton_minhaconta_menu;
+
     private ImageView imageView_usuario_foto;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
         inicializarInterface();
 //        inicializarVariaveis();
-//        adicionarListeners();
+        adicionarListeners();
         carregarUsuario();
         return root;
     }
 
     private void inicializarInterface() {
         textView_usuario_email = root.findViewById(R.id.textView_usuario_email);
+        textView_usuario_email.setText("");
         textView_usuario_nome = root.findViewById(R.id.textView_usuario_nome);
+        textView_usuario_nome.setText("");
         textView_usuario_nickname = root.findViewById(R.id.textView_usuario_nickname);
+        textView_usuario_nickname.setText("");
 
         imageView_usuario_foto = root.findViewById(R.id.imageView_usuario_foto);
+
+        viewButton_minhaconta_menu = root.findViewById(R.id.viewButton_minahconta_menu);
     }
 
     private void adicionarListeners() {
+        viewButton_minhaconta_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UsuarioRepositorio.logoutConta();
+                ((BaseApp) getActivity()).abrirTabMinhaConta();
+            }
+        });
     }
 
     private void inicializarVariaveis() {
@@ -74,13 +90,17 @@ public class MinhaContaFragment extends Fragment {
     private void carregarUsuario() {
         usuario = new Usuario();
         String nickname;
-        while ((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null);
+        while ((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null) ;
         UsuarioRepositorio.getUsuariosDatabaseReference().child(nickname).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usuario.setEmail(dataSnapshot.child("email").getValue().toString());
-                usuario.setNome(dataSnapshot.child("nome").getValue().toString());
-                usuario.setNickname(UsuarioRepositorio.getUsuarioAuth().getDisplayName());
+                if (dataSnapshot.child("email").getValue() != null) {
+                    usuario.setEmail(dataSnapshot.child("email").getValue().toString());
+                }
+                if (dataSnapshot.child("nome").getValue() != null) {
+                    usuario.setNome(dataSnapshot.child("nome").getValue().toString());
+                }
+                usuario.setNickname("@" + UsuarioRepositorio.getUsuarioAuth().getDisplayName());
                 atualizarTela();
             }
 

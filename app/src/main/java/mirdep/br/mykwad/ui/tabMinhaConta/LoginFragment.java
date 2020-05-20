@@ -38,7 +38,6 @@ public class LoginFragment extends Fragment {
         inicializarInterface();
         inicializarVariaveis();
         adicionarListeners();
-        autoFormatarEditText();
         return root;
     }
 
@@ -79,10 +78,6 @@ public class LoginFragment extends Fragment {
                 }
             }
         });
-    }
-
-    private void autoFormatarEditText() {
-        editText_login_email = FormatarEditText.editTextEmail(editText_login_email);
     }
 
     public void efetuarLogin() {

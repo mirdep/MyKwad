@@ -7,6 +7,9 @@ public class Usuario {
     private String nome;
 
     public Usuario() {
+        email = "";
+        nickname = "";
+        nome = "";
     }
 
     public Usuario(String email, String nickname, String nome) {
