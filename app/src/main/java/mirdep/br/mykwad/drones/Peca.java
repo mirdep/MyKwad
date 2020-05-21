@@ -1,12 +1,14 @@
 package mirdep.br.mykwad.drones;
 
+import android.net.Uri;
+
 public abstract class Peca {
 
     private String id;
     private String marca, modelo;
     private double preco;
 
-    private String storage_caminho_imagem;
+    private Uri storage_imagem_uri;
 
     public Peca(String marca, String modelo, double preco) {
         this.marca = marca;
@@ -21,12 +23,12 @@ public abstract class Peca {
     //============== GETTERS and SETTERS ====================
 
 
-    public String getStorage_caminho_imagem() {
-        return storage_caminho_imagem;
+    public Uri getStorage_imagem_uri() {
+        return storage_imagem_uri;
     }
 
-    public void setStorage_caminho_imagem(String storage_caminho_imagem) {
-        this.storage_caminho_imagem = storage_caminho_imagem;
+    public void setStorage_imagem_uri(Uri storage_imagem_uri) {
+        this.storage_imagem_uri = storage_imagem_uri;
     }
 
     public String getId() {

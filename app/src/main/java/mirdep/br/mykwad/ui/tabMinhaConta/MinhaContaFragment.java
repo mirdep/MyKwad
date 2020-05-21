@@ -1,24 +1,16 @@
 package mirdep.br.mykwad.ui.tabMinhaConta;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -64,7 +56,7 @@ public class MinhaContaFragment extends Fragment {
 
         imageView_usuario_foto = root.findViewById(R.id.imageView_usuario_foto);
 
-        viewButton_minhaconta_menu = root.findViewById(R.id.viewButton_minahconta_menu);
+        viewButton_minhaconta_menu = root.findViewById(R.id.viewButton_minhaconta_menu);
     }
 
     private void adicionarListeners() {

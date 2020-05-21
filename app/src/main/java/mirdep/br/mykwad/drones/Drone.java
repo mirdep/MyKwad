@@ -6,9 +6,10 @@ public class Drone {
 
     private int id;
     private String titulo;
+    private String descricao;
     private double precoTotal;
 
-    //========= PARTS ============
+    //========= PECAS ============
     private Bateria bateria;
     private Camera camera;
     private Esc esc;
@@ -19,7 +20,7 @@ public class Drone {
     private VideoTransmissor videoTransmissor;
 
     public Drone() {
-        this.titulo = null;
+        this.titulo = "";
         this.precoTotal = 0.0;
         this.bateria = null;
         this.camera = null;
@@ -41,38 +42,9 @@ public class Drone {
         this.motor = motor;
         this.helice = helice;
         this.videoTransmissor = videoTransmissor;
-        calculatePrice();
     }
 
     //==============================================
-
-    private void calculatePrice(){
-        precoTotal = 0;
-        if(bateria != null){
-            precoTotal += bateria.getPreco();
-        }
-        if(camera != null){
-            precoTotal += camera.getPreco();
-        }
-        if(esc != null){
-            precoTotal += esc.getPreco();
-        }
-        if(controladora != null){
-            precoTotal += controladora.getPreco();
-        }
-        if(frame != null){
-            precoTotal += frame.getPreco();
-        }
-        if(motor != null){
-            precoTotal += motor.getPreco();
-        }
-        if(helice != null){
-            precoTotal += helice.getPreco();
-        }
-        if(videoTransmissor != null){
-            precoTotal += videoTransmissor.getPreco();
-        }
-    }
 
     //======= GETTERS AND SETTERS ==================
 
@@ -94,7 +66,6 @@ public class Drone {
 
     public void setBateria(Bateria bateria) {
         this.bateria = bateria;
-        calculatePrice();
     }
 
     public Camera getCamera() {
@@ -103,7 +74,6 @@ public class Drone {
 
     public void setCamera(Camera camera) {
         this.camera = camera;
-        calculatePrice();
     }
 
     public Esc getEsc() {
@@ -112,7 +82,6 @@ public class Drone {
 
     public void setEsc(Esc esc) {
         this.esc = esc;
-        calculatePrice();
     }
 
     public Controladora getControladora() {
@@ -121,7 +90,6 @@ public class Drone {
 
     public void setControladora(Controladora controladora) {
         this.controladora = controladora;
-        calculatePrice();
     }
 
     public Frame getFrame() {
@@ -130,7 +98,6 @@ public class Drone {
 
     public void setFrame(Frame frame) {
         this.frame = frame;
-        calculatePrice();
     }
 
     public Motor getMotor() {
@@ -139,7 +106,6 @@ public class Drone {
 
     public void setMotor(Motor motor) {
         this.motor = motor;
-        calculatePrice();
     }
 
     public Helice getHelice() {
@@ -148,7 +114,6 @@ public class Drone {
 
     public void setHelice(Helice helice) {
         this.helice = helice;
-        calculatePrice();
     }
 
     public VideoTransmissor getVideoTransmissor() {
@@ -157,6 +122,5 @@ public class Drone {
 
     public void setVideoTransmissor(VideoTransmissor videoTransmissor) {
         this.videoTransmissor = videoTransmissor;
-        calculatePrice();
     }
 }

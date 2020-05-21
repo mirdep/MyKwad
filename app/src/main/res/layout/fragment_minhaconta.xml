@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/viewButton_minahconta_menu"
+        android:id="@+id/viewButton_minhaconta_menu"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -53,7 +53,6 @@
         android:id="@+id/textView_usuario_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/catamaran"
         android:text="E-mail do usuario"
@@ -81,9 +80,12 @@
         app:layout_constraintTop_toBottomOf="@+id/view">
 
         <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Meus drones" />
 
         <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
             android:text="Favoritos" />
 
     </com.google.android.material.tabs.TabLayout>

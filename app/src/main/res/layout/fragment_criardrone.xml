@@ -55,20 +55,20 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/retangulo_cardbackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
         app:layout_constraintEnd_toEndOf="@+id/card_drone_fotos"
@@ -77,12 +77,12 @@
 
         <LinearLayout
             android:id="@+id/linearLayout_drone_galeria"
-            android:showDividers="middle"
-            android:divider="@drawable/espacador_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:divider="@drawable/espacador_horizontal"
             android:gravity="start|center_horizontal"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:showDividers="middle" />
 
     </HorizontalScrollView>
 
@@ -131,8 +131,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="7dp"
         android:layout_marginEnd="7dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_criardrone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -150,5 +149,17 @@
             android:scrollbars="vertical"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button_criardrone"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_borda_redonda"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Criar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

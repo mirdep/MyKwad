@@ -17,7 +17,7 @@ import com.google.firebase.storage.StorageReference;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.storage.GlideApp;
 
-public class PecaFragmentCarrossel extends Fragment {
+public class CarrosselPecaFragment extends Fragment {
 
     private Button button_peca_escolher;
     private ImageView imageView_peca_imagem;
@@ -27,12 +27,12 @@ public class PecaFragmentCarrossel extends Fragment {
 
     private View root;
 
-    public PecaFragmentCarrossel(String pecaNome) {
+    public CarrosselPecaFragment(String pecaNome) {
         this.pecaNome = pecaNome;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.carrossel_fragment_peca, container, false);
+        root = inflater.inflate(R.layout.fragment_carrossel_peca, container, false);
         inicializarInterface();
         adicionarListeners();
         downloadImagem();

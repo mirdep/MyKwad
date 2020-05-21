@@ -4,13 +4,13 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
@@ -21,7 +21,7 @@ import com.viewpagerindicator.LinePageIndicator;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.slideCardView.CarrosselFragmentAdapter;
 import mirdep.br.mykwad.slideCardView.SlideCardViewPager;
-import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.PecaFragmentCarrossel;
+import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.CarrosselPecaFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -34,6 +34,7 @@ public class CriarDroneFragment extends Fragment {
 
     private ImageView imageView_escolher_fotos;
     private LinearLayout linearLayout_drone_galeria;
+    private Button button_criardrone;
 
     private View root;
 
@@ -49,6 +50,7 @@ public class CriarDroneFragment extends Fragment {
         viewPager_carrossel_pecas = root.findViewById(R.id.viewPager_carrossel_pecas);
         imageView_escolher_fotos = root.findViewById(R.id.imageView_escolher_fotos);
         linearLayout_drone_galeria = root.findViewById(R.id.linearLayout_drone_galeria);
+        button_criardrone = root.findViewById(R.id.button_criardrone);
         indicador = root.findViewById(R.id.indicator);
     }
 
@@ -64,6 +66,17 @@ public class CriarDroneFragment extends Fragment {
                 }
             }
         });
+
+        button_criardrone.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                criarDrone();
+            }
+        });
+    }
+
+    private void criarDrone(){
+
     }
 
 
@@ -99,15 +112,15 @@ public class CriarDroneFragment extends Fragment {
 
     private void setCarrosselPecasAdapter() {
         CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_1)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_2)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_3)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_4)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_5)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_6)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_7)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_8)));
-        adapter.adicionarFragmento(new PecaFragmentCarrossel(getString(R.string.peca_9)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_1)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_2)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_3)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_4)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_5)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_6)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_7)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_8)));
+        adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_9)));
         viewPager_carrossel_pecas.setAdapter(adapter);
         indicador.setViewPager(viewPager_carrossel_pecas);
     }
