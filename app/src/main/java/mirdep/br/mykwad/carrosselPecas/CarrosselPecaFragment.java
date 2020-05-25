@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel;
+package mirdep.br.mykwad.carrosselPecas;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.recyclerViewEscolherPeca.EscolherPecaDialogFragment;
 import mirdep.br.mykwad.storage.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
@@ -50,7 +51,8 @@ public class CarrosselPecaFragment extends Fragment {
         button_peca_escolher.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment("Antena");
+                dialog.show(getFragmentManager(), "dialog");
             }
         });
     }

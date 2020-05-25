@@ -5,6 +5,7 @@
     <color name="colorPrimarySoftDark">#434343</color>
     <color name="colorBackground">#303030</color>
     <color name="colorCardBackground">#424242</color>
+    <color name="colorSoftWhite">#EDEDED</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorTitulo">#EEEEEE</color>
     <color name="bottomTabColor">#5A5A5A</color>

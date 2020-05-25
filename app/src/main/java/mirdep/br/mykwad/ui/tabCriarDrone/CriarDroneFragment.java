@@ -19,9 +19,9 @@ import androidx.fragment.app.Fragment;
 import com.viewpagerindicator.LinePageIndicator;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.slideCardView.CarrosselFragmentAdapter;
-import mirdep.br.mykwad.slideCardView.SlideCardViewPager;
-import mirdep.br.mykwad.ui.tabCriarDrone.pecasCarrossel.CarrosselPecaFragment;
+import mirdep.br.mykwad.carrosselPecas.CarrosselFragmentAdapter;
+import mirdep.br.mykwad.carrosselPecas.CarrosselViewPager;
+import mirdep.br.mykwad.carrosselPecas.CarrosselPecaFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -29,7 +29,7 @@ public class CriarDroneFragment extends Fragment {
 
     private static int SELECIONAR_GALERIA = 1;
 
-    private SlideCardViewPager viewPager_carrossel_pecas;
+    private CarrosselViewPager viewPager_carrossel_pecas;
     private LinePageIndicator indicador;
 
     private ImageView imageView_escolher_fotos;

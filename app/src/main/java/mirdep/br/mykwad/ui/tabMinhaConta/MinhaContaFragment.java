@@ -40,7 +40,6 @@ public class MinhaContaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
         inicializarInterface();
-//        inicializarVariaveis();
         adicionarListeners();
         carregarUsuario();
         return root;
@@ -67,9 +66,6 @@ public class MinhaContaFragment extends Fragment {
                 ((BaseApp) getActivity()).abrirTabMinhaConta();
             }
         });
-    }
-
-    private void inicializarVariaveis() {
     }
 
     private void atualizarTela() {

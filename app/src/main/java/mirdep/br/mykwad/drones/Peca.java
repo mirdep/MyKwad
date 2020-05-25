@@ -2,19 +2,21 @@ package mirdep.br.mykwad.drones;
 
 import android.net.Uri;
 
-public abstract class Peca {
+import androidx.annotation.NonNull;
+
+public class Peca {
 
     private String id;
     private String marca, modelo;
-    private double preco;
 
     private Uri storage_imagem_uri;
 
-    public Peca(String marca, String modelo, double preco) {
+    public Peca(String marca, String modelo) {
         this.marca = marca;
         this.modelo = modelo;
-        this.preco = preco;
     }
+
+
 
     //============== METHODS ================================
 
@@ -22,6 +24,12 @@ public abstract class Peca {
 
     //============== GETTERS and SETTERS ====================
 
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getMarca()+" "+getModelo();
+    }
 
     public Uri getStorage_imagem_uri() {
         return storage_imagem_uri;
@@ -53,13 +61,5 @@ public abstract class Peca {
 
     public void setMarca(String marca) {
         this.marca = marca;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
     }
 }

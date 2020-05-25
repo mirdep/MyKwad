@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.slideCardView;
+package mirdep.br.mykwad.carrosselPecas;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
