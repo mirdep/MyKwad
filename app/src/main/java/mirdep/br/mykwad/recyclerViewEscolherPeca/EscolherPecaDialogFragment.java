@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.drones.Peca;
@@ -55,31 +55,20 @@ public class EscolherPecaDialogFragment extends DialogFragment {
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Get map of users in datasnapshot
-                        coletarPecas((Map<String, Object>) dataSnapshot.getValue());
+                        // Result will be holded Here
+                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            listaPecas.add(dsp.getValue(Peca.class)); //add result into array list
+                        }
+
                         inicializarRecyclerView();
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
+                        Toast.makeText(root.getContext(), "Não foi possível carregar a lista de peças", Toast.LENGTH_LONG);
                     }
                 });
 
-    }
-
-    private void coletarPecas(Map<String,Object> pecas) {
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : pecas.entrySet()){
-            //Get user map
-            Map pecaInfo = (Map) entry.getValue();
-
-            //Get phone field and append to list
-            String marca = (String) pecaInfo.get("marca");
-            String modelo = (String) pecaInfo.get("modelo");
-            Peca peca = new Peca(marca, modelo);
-            listaPecas.add(peca);
-        }
     }
 
     @Override

@@ -24,12 +24,12 @@ public class CarrosselPecaFragment extends Fragment {
     private ImageView imageView_peca_imagem;
     private TextView textView_peca_nome;
 
-    private String pecaNome;
+    private String tipoPeca;
 
     private View root;
 
-    public CarrosselPecaFragment(String pecaNome) {
-        this.pecaNome = pecaNome;
+    public CarrosselPecaFragment(String tipoPeca) {
+        this.tipoPeca = tipoPeca;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,14 +44,14 @@ public class CarrosselPecaFragment extends Fragment {
         button_peca_escolher = root.findViewById(R.id.button_peca_escolher);
         imageView_peca_imagem = root.findViewById(R.id.imageView_peca_imagem);
         textView_peca_nome = root.findViewById(R.id.textView_peca_nome);
-        textView_peca_nome.setText(pecaNome);
+        textView_peca_nome.setText(tipoPeca);
     }
 
     private void adicionarListeners(){
         button_peca_escolher.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment("Antena");
+                EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment(tipoPeca);
                 dialog.show(getFragmentManager(), "dialog");
             }
         });
@@ -59,7 +59,7 @@ public class CarrosselPecaFragment extends Fragment {
 
     private void downloadImagem() {
         // Reference to an image file in Cloud Storage
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://mykwad-72d96.appspot.com/midia/imagens/pecas/"+pecaNome+".jpg");
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://mykwad-72d96.appspot.com/midia/imagens/pecas/"+ tipoPeca +".jpg");
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)
         GlideApp.with(this /* context */)

@@ -5,12 +5,12 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import mirdep.br.mykwad.drones.PecaRepositorio;
 import mirdep.br.mykwad.ui.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.ui.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.ui.tabMinhaConta.MinhaContaFragment;
@@ -31,6 +31,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         setContentView(R.layout.base_app);
         configurarNavView();
         abrirTab(2);
+        PecaRepositorio.povoarBD();
     }
 
     private void configurarNavView(){
