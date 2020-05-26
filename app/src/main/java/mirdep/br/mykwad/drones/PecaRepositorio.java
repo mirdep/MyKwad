@@ -8,16 +8,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Map;
-
 public abstract class PecaRepositorio {
 
     public static DatabaseReference getPecaDatabaseReference(String peca){
         return FirebaseDatabase.getInstance().getReference("pecas").child(peca);
-    }
-
-    public static DatabaseReference getPecaDatabaseReference(){
-        return FirebaseDatabase.getInstance().getReference("pecas");
     }
 
     public static void povoarBD(){
@@ -33,6 +27,7 @@ public abstract class PecaRepositorio {
         salvarNoBanco(new Peca("1","Câmera","Foxeer","Monster mini pro"));
     }
 
+    //Adiciona uma nova peça no BancoDeDados
     public static void salvarNoBanco(final Peca peca){
         getPecaDatabaseReference(peca.getTipo()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

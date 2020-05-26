@@ -15,10 +15,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.drones.Peca;
 import mirdep.br.mykwad.recyclerViewEscolherPeca.EscolherPecaDialogFragment;
 import mirdep.br.mykwad.storage.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
+
+    private static int REQUEST_CODE_DIALOG = 111;
 
     private Button button_peca_escolher;
     private ImageView imageView_peca_imagem;
@@ -47,16 +50,24 @@ public class CarrosselPecaFragment extends Fragment {
         textView_peca_nome.setText(tipoPeca);
     }
 
+    //Adiciona o listener para abrir o DialogFragment ao clicar no botão
     private void adicionarListeners(){
         button_peca_escolher.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment(tipoPeca);
-                dialog.show(getFragmentManager(), "dialog");
+                abrirDialogEscolherPecas();
             }
         });
     }
 
+    //Abre o DialogFragment que irá exibir as peças do BancoDeDados pro usuário escolher
+    private void abrirDialogEscolherPecas(){
+        EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment(tipoPeca);
+        dialog.setTargetFragment(this, REQUEST_CODE_DIALOG);
+        dialog.show(getFragmentManager(), "dialog");
+    }
+
+    //Baixa a foto default do Card do Carrossel de acordo o tipoPeca e exibe no Card
     private void downloadImagem() {
         // Reference to an image file in Cloud Storage
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://mykwad-72d96.appspot.com/midia/imagens/pecas/"+ tipoPeca +".jpg");

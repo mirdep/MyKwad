@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui.tabCriarDrone;
+package mirdep.br.mykwad.tabs.tabCriarDrone;
 
 import android.Manifest;
 import android.content.Intent;
@@ -55,6 +55,7 @@ public class CriarDroneFragment extends Fragment {
     }
 
     private void addListeners() {
+        //Abre a galeria para escolher as fotos do Drone, e pede permissão caso não tenha
         imageView_escolher_fotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,12 +81,14 @@ public class CriarDroneFragment extends Fragment {
     }
 
 
+    //Exibe a galeria do celular, e permite o usuário escolher 1 foto
     private void abrirGaleria() {
         //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, SELECIONAR_GALERIA);
     }
 
+    //Recebe a foto escolhida pelo usuário da galera e envia para o método de adicionar na tela
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -101,6 +104,7 @@ public class CriarDroneFragment extends Fragment {
         }
     }
 
+    //Adiciona a foto escolhida na galeria no LinearLayout de fotos
     private void adicionarFotoDrone(Bitmap foto){
         ImageView iv = new ImageView(root.getContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -110,6 +114,9 @@ public class CriarDroneFragment extends Fragment {
         linearLayout_drone_galeria.addView(iv);
     }
 
+    //====================== CARROSSEL DE PEÇAS =============================
+
+    //Cria um carrossel de peças na tela, sendo 1 Card para cada peça que o usuário deve escolher
     private void setCarrosselPecasAdapter() {
         CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
         adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_1)));

@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui.tabComunidade;
+package mirdep.br.mykwad.tabs.tabComunidade;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

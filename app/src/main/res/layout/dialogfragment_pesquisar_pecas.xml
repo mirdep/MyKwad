@@ -7,27 +7,28 @@
     android:background="@color/colorBackground">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editText_filtra_pecas"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
+        android:hint="Filtrar por nome..."
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/button_pesquisar_drones"
+        app:layout_constraintEnd_toStartOf="@+id/button_fechar_dialogfragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_pesquisar_drones"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/button_fechar_dialogfragment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_search_white_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText"
+        android:background="@drawable/ic_close_white_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_filtra_pecas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText" />
+        app:layout_constraintTop_toTopOf="@+id/editText_filtra_pecas" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPecas"
@@ -37,5 +38,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_filtra_pecas" />
 </androidx.constraintlayout.widget.ConstraintLayout>

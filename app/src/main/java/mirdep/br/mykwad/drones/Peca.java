@@ -44,7 +44,7 @@ public class Peca {
     @NonNull
     @Override
     public String toString() {
-        return getMarca()+" "+getModelo();
+        return getTipo()+" "+getMarca()+" "+getModelo();
     }
 
     public String getId() {

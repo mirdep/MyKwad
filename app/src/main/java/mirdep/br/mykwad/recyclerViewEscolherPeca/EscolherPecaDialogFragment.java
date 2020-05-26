@@ -28,8 +28,9 @@ public class EscolherPecaDialogFragment extends DialogFragment {
     private View root;
 
     private RecyclerView recyclerViewPecas;
-    private final ArrayList<Peca> listaPecas = new ArrayList<>();
+    private View button_fechar_dialogfragment;
 
+    private final ArrayList<Peca> listaPecas = new ArrayList<>();
     private String tipoPeca;
 
     public EscolherPecaDialogFragment(String tipoPeca) {
@@ -39,10 +40,23 @@ public class EscolherPecaDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.dialogfragment_pesquisar_pecas, container, false);
         carregarListaPecas();
-
+        inicializarInterface();
         return root;
     }
 
+    //Inicializar os objetos da interface e adiciona o comando de fechar o dialogo no botão X
+    private void inicializarInterface(){
+        button_fechar_dialogfragment = root.findViewById(R.id.button_fechar_dialogfragment);
+        button_fechar_dialogfragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+    }
+
+
+    //Iniciailiza o recyclerView e adicionar o Adapter para exibir as peças
     private void inicializarRecyclerView() {
         recyclerViewPecas = root.findViewById(R.id.recyclerViewPecas);
         recyclerViewPecas.setHasFixedSize(true);
@@ -50,19 +64,20 @@ public class EscolherPecaDialogFragment extends DialogFragment {
         recyclerViewPecas.setAdapter(new ExibirPecasAdapter(listaPecas));
     }
 
+    //Carrega as peças do BancoDeDados na listaPecas e depois inicializa o RecyclerView com essa lista
     private void carregarListaPecas() {
         PecaRepositorio.getPecaDatabaseReference(tipoPeca).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Result will be holded Here
+                        // Puxa cada peça do BancoDeDados para a lista
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             listaPecas.add(dsp.getValue(Peca.class)); //add result into array list
                         }
-
                         inicializarRecyclerView();
                     }
 
+                    //Se der errado ao ler do BancoDeDados ele exibe mensagem de erro na tela
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Toast.makeText(root.getContext(), "Não foi possível carregar a lista de peças", Toast.LENGTH_LONG);
@@ -71,6 +86,7 @@ public class EscolherPecaDialogFragment extends DialogFragment {
 
     }
 
+    //Define o tamanho do DialogFragment na tela
     @Override
     public void onResume() {
         super.onResume();

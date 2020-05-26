@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui.tabMinhaConta;
+package mirdep.br.mykwad.tabs.tabMinhaConta;
 
 import android.os.Bundle;
 import android.util.Log;
