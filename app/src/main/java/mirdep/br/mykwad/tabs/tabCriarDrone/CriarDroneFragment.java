@@ -111,7 +111,15 @@ public class CriarDroneFragment extends Fragment {
         iv.setImageBitmap(foto);
         int dimensao = linearLayout_drone_galeria.getHeight();
         iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
+        // ARRUMAR ESSA PORRA AQUI EM BAIXO
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linearLayout_drone_galeria.removeView(v);
+            }
+        });
         linearLayout_drone_galeria.addView(iv);
+
     }
 
     //====================== CARROSSEL DE PEÇAS =============================

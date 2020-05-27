@@ -118,9 +118,10 @@
     <ImageView
         android:id="@+id/imageView_escolher_fotos"
         android:layout_width="40dp"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
+        android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_add_a_photo_white_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
         app:layout_constraintStart_toStartOf="@+id/textView"
