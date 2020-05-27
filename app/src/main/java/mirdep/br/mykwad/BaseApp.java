@@ -114,4 +114,6 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    //oi seu boxta
 }
