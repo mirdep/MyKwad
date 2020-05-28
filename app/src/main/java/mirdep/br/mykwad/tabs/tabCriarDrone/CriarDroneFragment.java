@@ -14,14 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import com.viewpagerindicator.LinePageIndicator;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.carrosselPecas.CarrosselFragmentAdapter;
-import mirdep.br.mykwad.carrosselPecas.CarrosselViewPager;
-import mirdep.br.mykwad.carrosselPecas.CarrosselPecaFragment;
+import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselFragmentAdapter;
+import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselViewPager;
+import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -40,10 +41,15 @@ public class CriarDroneFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_criardrone, container, false);
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         inicializarInterface();
         addListeners();
         setCarrosselPecasAdapter();
-        return root;
     }
 
     private void inicializarInterface() {

@@ -1,6 +1,6 @@
-package mirdep.br.mykwad.recyclerViewEscolherPeca;
+package mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment;
 
-import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.drones.Peca;
+import mirdep.br.mykwad.Pecas.Peca;
 
 public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.PecaViewHolder> {
 
     private List<Peca> pecas;
 
-    private int selected_position = RecyclerView.NO_POSITION;
-
-    public ExibirPecasAdapter(ArrayList pecas){
-        this.pecas = pecas;
+    public ExibirPecasAdapter(){
+        pecas = new ArrayList<>();
     }
 
     @NonNull
@@ -50,9 +48,9 @@ public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.
         return pecas != null ? pecas.size() : 0;
     }
 
-    public void inserirPeca(Peca peca){
-        pecas.add(peca);
-        notifyItemInserted(getItemCount());
+    public void definirPecas(List<Peca> pecas){
+        this.pecas = pecas;
+        notifyDataSetChanged();
     }
 
     private void removerPeca(int position){
@@ -73,23 +71,13 @@ public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.
 
         private PecaViewHolder(View itemView){
             super(itemView);
-            itemView.setOnClickListener(this);
             imageView_viewholder_peca_foto = itemView.findViewById(R.id.imageView_viewholder_peca_foto);
             textView_viewholder_peca_nome = itemView.findViewById(R.id.textView_viewholder_peca_nome);
         }
 
         @Override
         public void onClick(View v) {
-            // Below line is just like a safety check, because sometimes holder could be null,
-            // in that case, getAdapterPosition() will return RecyclerView.NO_POSITION
-            if (getAdapterPosition() == RecyclerView.NO_POSITION) return;
 
-            // Updating old as well as new positions
-            notifyItemChanged(selected_position);
-            selected_position = getAdapterPosition();
-            notifyItemChanged(selected_position);
-
-            // Do your another stuff for your onClick
             fecharDialog();
         }
     }

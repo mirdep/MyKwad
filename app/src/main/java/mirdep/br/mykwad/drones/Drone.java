@@ -1,5 +1,7 @@
 package mirdep.br.mykwad.drones;
 
+import mirdep.br.mykwad.Pecas.Peca;
+
 public class Drone {
 
     private int id;

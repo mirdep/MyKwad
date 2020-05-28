@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.carrosselPecas;
+package mirdep.br.mykwad.Pecas.carrosselPecas_viewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.drones.Peca;
-import mirdep.br.mykwad.recyclerViewEscolherPeca.EscolherPecaDialogFragment;
+import mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment.View_EscolherPeca;
 import mirdep.br.mykwad.storage.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
@@ -62,7 +61,7 @@ public class CarrosselPecaFragment extends Fragment {
 
     //Abre o DialogFragment que irá exibir as peças do BancoDeDados pro usuário escolher
     private void abrirDialogEscolherPecas(){
-        EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment(tipoPeca);
+        View_EscolherPeca dialog = new View_EscolherPeca(tipoPeca);
         dialog.setTargetFragment(this, REQUEST_CODE_DIALOG);
         dialog.show(getFragmentManager(), "dialog");
     }

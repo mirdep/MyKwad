@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.drones;
+package mirdep.br.mykwad.Pecas;
 
 import android.net.Uri;
 

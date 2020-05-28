@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import mirdep.br.mykwad.drones.PecaRepositorio;
+import mirdep.br.mykwad.Pecas.PecaRepositorio;
 import mirdep.br.mykwad.tabs.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.tabs.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.tabs.tabMinhaConta.MinhaContaFragment;
@@ -22,7 +22,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     private BottomNavigationView navView;
 
-    private final String TAG_TAB = "Mudança de tab: ";
+    private final String TAG_TAB = "[BASE_APP]";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
