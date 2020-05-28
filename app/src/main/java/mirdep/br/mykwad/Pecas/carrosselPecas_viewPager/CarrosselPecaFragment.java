@@ -20,7 +20,7 @@ import mirdep.br.mykwad.storage.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
 
-    private static int REQUEST_CODE_DIALOG = 111;
+    private static final int REQUEST_CODE_DIALOG = 111;
 
     private Button button_peca_escolher;
     private ImageView imageView_peca_imagem;
@@ -51,19 +51,14 @@ public class CarrosselPecaFragment extends Fragment {
 
     //Adiciona o listener para abrir o DialogFragment ao clicar no botão
     private void adicionarListeners(){
-        button_peca_escolher.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirDialogEscolherPecas();
-            }
-        });
+        button_peca_escolher.setOnClickListener(v -> abrirDialogEscolherPecas());
     }
 
     //Abre o DialogFragment que irá exibir as peças do BancoDeDados pro usuário escolher
     private void abrirDialogEscolherPecas(){
         View_EscolherPeca dialog = new View_EscolherPeca(tipoPeca);
         dialog.setTargetFragment(this, REQUEST_CODE_DIALOG);
-        dialog.show(getFragmentManager(), "dialog");
+        dialog.show(getFragmentManager(), "");
     }
 
     //Baixa a foto default do Card do Carrossel de acordo o tipoPeca e exibe no Card

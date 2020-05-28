@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="300dp"
     android:layout_gravity="center"
-    app:cardUseCompatPadding="true"
-    android:elevation="30sp">
+    android:elevation="30sp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,13 +18,12 @@
             android:id="@+id/imageView_peca_imagem"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="50dp"
             android:layout_marginTop="35dp"
-            android:layout_marginEnd="50dp"
             android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -34,26 +33,28 @@
             android:id="@+id/button_peca_escolher"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:background="@drawable/button_borda_redonda"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="Escolher"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_peca_imagem"
+            app:layout_constraintEnd_toEndOf="@+id/imageView_peca_imagem"
+            app:layout_constraintStart_toStartOf="@+id/imageView_peca_imagem" />
 
         <TextView
             android:id="@+id/textView_peca_nome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:text="nome_peca"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_peca_imagem"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

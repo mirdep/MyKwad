@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import mirdep.br.mykwad.Pecas.Peca;
 import mirdep.br.mykwad.R;
 
 public class View_EscolherPeca extends DialogFragment {
@@ -49,14 +50,23 @@ public class View_EscolherPeca extends DialogFragment {
     //Inicializar os objetos da interface e adiciona o comando de fechar o dialogo no botão X
     private void inicializarInterface(){
         button_fechar_dialogfragment = root.findViewById(R.id.button_fechar_dialogfragment);
-        button_fechar_dialogfragment.setOnClickListener(v -> getDialog().dismiss());
+        button_fechar_dialogfragment.setOnClickListener(v -> fecharDialog());
         inicializarRecyclerView();
     }
 
+    public void fecharDialog(Peca peca){
+        fecharDialog();
+        controller.setPecaEscolhida(peca);
+    }
+
+    public void fecharDialog(){
+        getDialog().dismiss();
+        Log.d(NOME_LOG,"Dialog fechado!");
+    }
 
     //Iniciailiza o recyclerView
     private void inicializarRecyclerView() {
-        adapter = new ExibirPecasAdapter();
+        adapter = new ExibirPecasAdapter(this);
         recyclerView = root.findViewById(R.id.recyclerViewPecas);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));

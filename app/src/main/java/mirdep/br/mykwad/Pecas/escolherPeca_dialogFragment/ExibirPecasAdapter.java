@@ -1,6 +1,6 @@
 package mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment;
 
-import android.util.TypedValue;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -19,15 +20,17 @@ import mirdep.br.mykwad.Pecas.Peca;
 public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.PecaViewHolder> {
 
     private List<Peca> pecas;
+    private View_EscolherPeca parent;
 
-    public ExibirPecasAdapter(){
+    public ExibirPecasAdapter(View_EscolherPeca parent){
+        this.parent = parent;
         pecas = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public ExibirPecasAdapter.PecaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_peca_recyclerview, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recyclerview_peca, viewGroup, false);
         PecaViewHolder pvh = new PecaViewHolder(v);
         return pvh;
     }
@@ -36,6 +39,9 @@ public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.
     public void onBindViewHolder(@NonNull PecaViewHolder holder, int position) {
         holder.textView_viewholder_peca_nome.setText(pecas.get(position).toString());
         holder.imageView_viewholder_peca_foto.setImageURI(pecas.get(position).getStorage_imagem_uri());
+        holder.itemView.setOnClickListener(v -> {
+            parent.fecharDialog(pecas.get(position));
+        });
     }
 
     @Override
@@ -64,7 +70,7 @@ public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.
     }
 
     //======================================== VIEW HOLDER ===================================================
-    class PecaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class PecaViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView imageView_viewholder_peca_foto;
         private TextView textView_viewholder_peca_nome;
@@ -73,12 +79,6 @@ public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.
             super(itemView);
             imageView_viewholder_peca_foto = itemView.findViewById(R.id.imageView_viewholder_peca_foto);
             textView_viewholder_peca_nome = itemView.findViewById(R.id.textView_viewholder_peca_nome);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            fecharDialog();
         }
     }
 }
