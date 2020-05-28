@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +34,7 @@ public class View_EscolherPeca extends DialogFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.dialogfragment_pesquisar_pecas, container, false);
+        root = inflater.inflate(R.layout.dialogfragment_escolherpeca, container, false);
         return root;
     }
 
@@ -68,6 +67,7 @@ public class View_EscolherPeca extends DialogFragment {
     private void exibirListaPecas(){
         controller.getPecas().observe(this, users -> {
             adapter.definirPecas(controller.getPecas().getValue());
+            root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
 
