@@ -11,8 +11,12 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import mirdep.br.mykwad.Pecas.Peca;
 import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
@@ -79,8 +83,9 @@ public class View_EscolherPeca extends DialogFragment {
 
     //Coloca a lista de peças no adapter do recyclewView
     private void exibirListaPecas(){
-        controller.getPecas().observe(this, users -> {
-            adapter.definirPecas(controller.getPecas().getValue());
+        LiveData<List<Peca>> pecas = controller.getPecas();
+        pecas.observe(this, exec -> {
+            adapter.definirPecas(pecas.getValue());
             root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
