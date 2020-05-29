@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import mirdep.br.mykwad.Pecas.Peca;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment.View_EscolherPeca;
 import mirdep.br.mykwad.storage.GlideApp;
@@ -29,6 +30,8 @@ public class CarrosselPecaFragment extends Fragment {
     private String tipoPeca;
 
     private View root;
+
+    private Peca peca;
 
     public CarrosselPecaFragment(String tipoPeca) {
         this.tipoPeca = tipoPeca;
@@ -49,6 +52,16 @@ public class CarrosselPecaFragment extends Fragment {
         textView_peca_nome.setText(tipoPeca);
     }
 
+    public void setPecaEscolhida(Peca peca){
+        this.peca = peca;
+        atualizarUI();
+    }
+
+    private void atualizarUI(){
+        textView_peca_nome.setText(peca.toString());
+        imageView_peca_imagem.setImageURI(peca.getStorage_imagem_uri());
+    }
+
     //Adiciona o listener para abrir o DialogFragment ao clicar no botão
     private void adicionarListeners(){
         button_peca_escolher.setOnClickListener(v -> abrirDialogEscolherPecas());
@@ -56,7 +69,7 @@ public class CarrosselPecaFragment extends Fragment {
 
     //Abre o DialogFragment que irá exibir as peças do BancoDeDados pro usuário escolher
     private void abrirDialogEscolherPecas(){
-        View_EscolherPeca dialog = new View_EscolherPeca(tipoPeca);
+        View_EscolherPeca dialog = new View_EscolherPeca(tipoPeca, this);
         dialog.setTargetFragment(this, REQUEST_CODE_DIALOG);
         dialog.show(getFragmentManager(), "");
     }

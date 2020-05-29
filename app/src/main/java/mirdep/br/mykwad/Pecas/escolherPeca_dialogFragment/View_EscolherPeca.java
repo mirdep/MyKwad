@@ -1,5 +1,6 @@
 package mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import mirdep.br.mykwad.Pecas.Peca;
+import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
 import mirdep.br.mykwad.R;
 
 public class View_EscolherPeca extends DialogFragment {
@@ -27,9 +29,11 @@ public class View_EscolherPeca extends DialogFragment {
 
     private String tipoPeca;
     private Controller_EscolherPeca controller;
+    private CarrosselPecaFragment parent;
 
-    public View_EscolherPeca(String tipoPeca) {
+    public View_EscolherPeca(String tipoPeca, CarrosselPecaFragment parent) {
         Log.d(NOME_LOG, "View criado!");
+        this.parent = parent;
         this.tipoPeca = tipoPeca;
     }
 
@@ -56,7 +60,7 @@ public class View_EscolherPeca extends DialogFragment {
 
     public void fecharDialog(Peca peca){
         fecharDialog();
-        controller.setPecaEscolhida(peca);
+        parent.setPecaEscolhida(peca);
     }
 
     public void fecharDialog(){

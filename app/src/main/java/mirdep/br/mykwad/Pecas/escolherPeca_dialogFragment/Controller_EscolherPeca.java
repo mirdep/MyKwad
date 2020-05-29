@@ -24,7 +24,6 @@ public class Controller_EscolherPeca extends ViewModel {
 
     private String tipoPeca;
 
-    private Peca pecaEscolhida;
 
     public Controller_EscolherPeca(String tipoPeca){
         Log.d(NOME_LOG, "Controller criado!");
@@ -42,7 +41,7 @@ public class Controller_EscolherPeca extends ViewModel {
     //Carrega as peças do BancoDeDados e retorna em um ArrayList
     private void loadPecas(){
         listaPecas = new ArrayList<>();
-        PecaRepositorio.getPecaDatabaseReference(tipoPeca).addListenerForSingleValueEvent(
+        PecaRepositorio.getInstance().getPecaReference(tipoPeca).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -62,13 +61,5 @@ public class Controller_EscolherPeca extends ViewModel {
 
                     }
                 });
-    }
-
-    public Peca getPecaEscolhida() {
-        return pecaEscolhida;
-    }
-
-    public void setPecaEscolhida(Peca pecaEscolhida) {
-        this.pecaEscolhida = pecaEscolhida;
     }
 }

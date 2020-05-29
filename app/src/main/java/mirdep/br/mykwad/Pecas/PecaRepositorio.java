@@ -8,15 +8,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import mirdep.br.mykwad.Pecas.Peca;
+public class PecaRepositorio {
 
-public abstract class PecaRepositorio {
+    private static PecaRepositorio INSTANCE;
+    private static final String LOG_TAG = "[PecaRepositorio]";
 
-    public static DatabaseReference getPecaDatabaseReference(String peca){
-        return FirebaseDatabase.getInstance().getReference("pecas").child(peca);
+    public static PecaRepositorio getInstance(){
+        if(INSTANCE == null)
+            INSTANCE = new PecaRepositorio();
+        return INSTANCE;
     }
 
-    public static void povoarBD(){
+    public DatabaseReference getPecaReference(String pecaTipo){
+        return FirebaseDatabase.getInstance().getReference("pecas").child(pecaTipo);
+    }
+
+    public void povoarBD(){
         //-----------ANTENA------------
         salvarNoBanco(new Peca("1","Antena","Foxeer","Lollipop 3"));
         salvarNoBanco(new Peca("2","Antena","Emax","Pagoda V3"));
@@ -46,12 +53,11 @@ public abstract class PecaRepositorio {
     }
 
     //Adiciona uma nova peça no BancoDeDados
-    public static void salvarNoBanco(final Peca peca){
-        getPecaDatabaseReference(peca.getTipo()).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void salvarNoBanco(final Peca peca){
+        getPecaReference(peca.getTipo()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //String id = Long.toString(dataSnapshot.getChildrenCount()+1);
-                getPecaDatabaseReference(peca.getTipo()).child(peca.getId()).setValue(peca);
+                getPecaReference(peca.getTipo()).child(peca.getId()).setValue(peca);
             }
 
             @Override
@@ -61,7 +67,6 @@ public abstract class PecaRepositorio {
         });
     }
 
-    public static void limparBD(){
 
-    }
+
 }

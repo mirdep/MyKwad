@@ -31,7 +31,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         setContentView(R.layout.base_app);
         configurarNavView();
         abrirTab(2);
-        PecaRepositorio.povoarBD();
+        PecaRepositorio.getInstance().povoarBD();
     }
 
     private void configurarNavView(){
