@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.Pecas.carrosselPecas_viewPager;
+package mirdep.br.mykwad.carrosselFragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,7 +7,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import mirdep.br.mykwad.Pecas.Peca;
+import mirdep.br.mykwad.PECAS.Peca;
+import mirdep.br.mykwad.PECAS.carrosselPecas_viewPager.CarrosselPecaFragment;
 
 
 public class CarrosselFragmentAdapter extends FragmentPagerAdapter {

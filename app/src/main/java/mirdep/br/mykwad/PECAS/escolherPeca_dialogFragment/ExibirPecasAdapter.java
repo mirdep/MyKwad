@@ -1,6 +1,5 @@
-package mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment;
+package mirdep.br.mykwad.PECAS.escolherPeca_dialogFragment;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,14 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.Pecas.Peca;
+import mirdep.br.mykwad.PECAS.Peca;
 
 public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.PecaViewHolder> {
 

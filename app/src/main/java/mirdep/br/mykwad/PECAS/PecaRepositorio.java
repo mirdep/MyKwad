@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.Pecas;
+package mirdep.br.mykwad.PECAS;
 
 import android.util.Log;
 
@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PecaRepositorio {
+public final class PecaRepositorio {
 
     private static PecaRepositorio INSTANCE;
     private static final String LOG_TAG = "[PecaRepositorio]";

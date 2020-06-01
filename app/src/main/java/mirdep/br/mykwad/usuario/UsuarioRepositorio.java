@@ -2,6 +2,7 @@ package mirdep.br.mykwad.usuario;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -32,7 +33,6 @@ public class UsuarioRepositorio {
         if(usuario.getId() == null){
             usuario.setId(getUsuariosReference().push().getKey());
         }
-        UsuarioAuthentication.getInstance().atualizarAuth(usuario);
         getUsuariosReference().child(usuario.getId()).setValue(usuario);
     }
 
@@ -66,11 +66,20 @@ public class UsuarioRepositorio {
         }
     }
 
-    public boolean usuarioEstaLogado() {
-        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    public String getNicknameById(String id){
+        final StringBuilder nickname = new StringBuilder();
+        getUsuariosReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nickname.append((String) dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return nickname.toString();
     }
 
-    public void logoutConta() {
-        FirebaseAuth.getInstance().signOut();
-    }
 }

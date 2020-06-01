@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.Pecas.carrosselPecas_viewPager;
+package mirdep.br.mykwad.carrosselFragment;
 
 import android.content.Context;
 import android.content.res.Resources;

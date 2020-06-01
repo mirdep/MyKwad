@@ -86,7 +86,7 @@
 
     </HorizontalScrollView>
 
-    <mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselViewPager
+    <mirdep.br.mykwad.carrosselFragment.CarrosselViewPager
         android:id="@+id/viewPager_carrossel_pecas"
         android:layout_width="0dp"
         android:layout_height="200dp"

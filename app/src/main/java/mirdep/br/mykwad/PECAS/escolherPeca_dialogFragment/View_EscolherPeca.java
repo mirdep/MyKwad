@@ -1,6 +1,5 @@
-package mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment;
+package mirdep.br.mykwad.PECAS.escolherPeca_dialogFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import mirdep.br.mykwad.Pecas.Peca;
-import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
+import mirdep.br.mykwad.PECAS.Peca;
+import mirdep.br.mykwad.PECAS.carrosselPecas_viewPager.CarrosselPecaFragment;
 import mirdep.br.mykwad.R;
 
 public class View_EscolherPeca extends DialogFragment {

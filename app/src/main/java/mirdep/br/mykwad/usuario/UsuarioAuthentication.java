@@ -36,4 +36,12 @@ public class UsuarioAuthentication {
                     }
                 });
     }
+
+    public boolean usuarioEstaLogado() {
+        return getUsuarioAuth() != null;
+    }
+
+    public void logoutConta() {
+        FirebaseAuth.getInstance().signOut();
+    }
 }

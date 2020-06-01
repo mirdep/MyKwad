@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.Pecas.carrosselPecas_viewPager;
+package mirdep.br.mykwad.PECAS.carrosselPecas_viewPager;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import mirdep.br.mykwad.Pecas.Peca;
+import mirdep.br.mykwad.PECAS.Peca;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.Pecas.escolherPeca_dialogFragment.View_EscolherPeca;
+import mirdep.br.mykwad.PECAS.escolherPeca_dialogFragment.View_EscolherPeca;
+import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.storage.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
@@ -81,7 +82,7 @@ public class CarrosselPecaFragment extends Fragment {
     //Baixa a foto default do Card do Carrossel de acordo o tipoPeca e exibe no Card
     private void downloadImagem() {
         // Reference to an image file in Cloud Storage
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://mykwad-72d96.appspot.com/midia/imagens/pecas/"+ tipoPeca +".jpg");
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://mykwad-72d96.appspot.com/midia/imagens/pecas/"+ tipoPeca + Configs.EXTENSAO_IMAGEM);
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)
         GlideApp.with(this /* context */)

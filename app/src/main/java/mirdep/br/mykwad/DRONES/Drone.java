@@ -1,27 +1,21 @@
-package mirdep.br.mykwad.drones;
+package mirdep.br.mykwad.DRONES;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.View;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import mirdep.br.mykwad.Pecas.Peca;
-import mirdep.br.mykwad.usuario.Usuario;
+import mirdep.br.mykwad.PECAS.Peca;
 import mirdep.br.mykwad.usuario.UsuarioAuthentication;
-import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 
 public class Drone {
     
     private static String PECA_NAO_SELECIONADA = "0";
+    public static final int QTD_MAX_FOTOS = 4;
 
     private String id;
     private String titulo;
     private String descricao;
-    private List<Bitmap> fotos;
+    private Bitmap[] fotos;
     private String usuarioDonoId;
 
     //========= PECAS ============
@@ -53,6 +47,9 @@ public class Drone {
     //==============================================
 
     //======= GETTERS ==================
+    public Bitmap[] retrieveImagens(){
+        return fotos;
+    }
 
     public String getTitulo() {
         return titulo;
@@ -64,6 +61,10 @@ public class Drone {
 
     public String getUsuarioDonoId() {
         return usuarioDonoId != null ? usuarioDonoId : PECA_NAO_SELECIONADA;
+    }
+
+    public String getId() {
+        return id;
     }
 
 
@@ -106,11 +107,6 @@ public class Drone {
 
 
     //==================== SETTERS ===============
-
-
-    public void setUsuarioDonoId(Fragment fragment) {
-
-    }
 
     public void setPecas(List<Peca> pecas){
         for(int i = 0; i < pecas.size(); i++){
@@ -158,9 +154,14 @@ public class Drone {
         this.descricao = descricao;
     }
 
-    public void setFotos(List<Bitmap> fotos) {
-        this.fotos = fotos;
+    public void setFotos(List<Bitmap> listFotos) {
+        fotos = new Bitmap[listFotos.size()];
+        for(int i = 0; i < this.fotos.length && i < listFotos.size(); i++){
+            this.fotos[i] = listFotos.get(i);
+        }
     }
+
+
 
     public void setAntena(Peca antena) {
         this.antena = antena;

@@ -74,7 +74,7 @@ public class MinhaContaFragment extends Fragment {
 
     private void adicionarListeners() {
         viewButton_minhaconta_menu.setOnClickListener(v -> {
-            UsuarioRepositorio.getInstance().logoutConta();
+            UsuarioAuthentication.getInstance().logoutConta();
             ((BaseApp) getActivity()).abrirTabMinhaConta();
         });
     }

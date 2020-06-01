@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -27,12 +29,12 @@ import java.util.List;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselFragmentAdapter;
-import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselViewPager;
-import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
+import mirdep.br.mykwad.carrosselFragment.CarrosselFragmentAdapter;
+import mirdep.br.mykwad.carrosselFragment.CarrosselViewPager;
+import mirdep.br.mykwad.PECAS.carrosselPecas_viewPager.CarrosselPecaFragment;
 import mirdep.br.mykwad.comum.MyDialog;
-import mirdep.br.mykwad.drones.Drone;
-import mirdep.br.mykwad.drones.DroneRepositorio;
+import mirdep.br.mykwad.DRONES.Drone;
+import mirdep.br.mykwad.DRONES.DroneRepositorio;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -81,11 +83,15 @@ public class CriarDroneFragment extends Fragment {
     private void addListeners() {
         //Abre a galeria para escolher as fotos do Drone, e pede permissão caso não tenha
         imageView_escolher_fotos.setOnClickListener(view -> {
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+            if(fotos.size() >= Drone.QTD_MAX_FOTOS){
+                Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_LONG).show();
             } else {
-                abrirGaleria();
+                if (ActivityCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+                } else {
+                    abrirGaleria();
+                }
             }
         });
 

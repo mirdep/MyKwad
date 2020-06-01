@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.Pecas;
+package mirdep.br.mykwad.PECAS;
 
 import android.net.Uri;
 
