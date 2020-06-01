@@ -74,7 +74,7 @@ public class DroneRepositorio {
                         //Lê todas as peças do BD e adiciona 1 por 1 na lista
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             Drone drone = dsp.getValue(Drone.class);
-                            listaDrones.add(drone); //add result into array list
+                            listaDrones.add(0,drone); //add result into array list
                             Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
                             drones.postValue(listaDrones);
                         }

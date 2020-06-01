@@ -63,10 +63,6 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
         notifyItemRangeChanged(position, drones.size());
     }
 
-    private void fecharDialog(){
-
-    }
-
     //======================================== VIEW HOLDER ===================================================
     class DroneViewHolder extends RecyclerView.ViewHolder{
 

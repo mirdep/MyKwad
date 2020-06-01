@@ -30,7 +30,7 @@ public class Drone {
     private Peca videoTransmissor;
 
     public Drone() {
-        this.usuarioDonoId = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+        this.usuarioDonoId = null;
         this.titulo = "";
         this.descricao = "";
         this.antena = null;
@@ -161,7 +161,9 @@ public class Drone {
         }
     }
 
-
+    public void setUsuarioDonoId(String usuarioDonoId) {
+        this.usuarioDonoId = usuarioDonoId;
+    }
 
     public void setAntena(Peca antena) {
         this.antena = antena;

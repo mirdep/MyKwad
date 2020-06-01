@@ -35,6 +35,7 @@ import mirdep.br.mykwad.PECAS.carrosselPecas_viewPager.CarrosselPecaFragment;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.DRONES.Drone;
 import mirdep.br.mykwad.DRONES.DroneRepositorio;
+import mirdep.br.mykwad.usuario.UsuarioAuthentication;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -115,6 +116,7 @@ public class CriarDroneFragment extends Fragment {
         drone.setTitulo(editText_titulo.getEditText().getText().toString());
         drone.setPecas(adapter.getPecas());
         drone.setFotos(fotos);
+        drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
         return drone;
     }
 
