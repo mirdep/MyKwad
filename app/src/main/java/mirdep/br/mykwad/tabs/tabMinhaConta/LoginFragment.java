@@ -53,28 +53,15 @@ public class LoginFragment extends Fragment {
     }
 
     private void adicionarListeners() {
-        button_login_entrar.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                efetuarLogin();
-            }
-        });
+        button_login_entrar.setOnClickListener(v -> efetuarLogin());
 
-        button_login_criarconta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((BaseApp) getActivity()).abrirTabRegistrarConta();
-            }
-        });
+        button_login_criarconta.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabRegistrarConta());
 
-        button_login_senha_visualizar.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                    editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                } else {
-                    editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
+        button_login_senha_visualizar.setOnClickListener(v -> {
+            if (editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            } else {
+                editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             }
         });
     }

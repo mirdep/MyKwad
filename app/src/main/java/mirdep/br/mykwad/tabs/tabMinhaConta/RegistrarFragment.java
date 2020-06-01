@@ -1,7 +1,7 @@
 package mirdep.br.mykwad.tabs.tabMinhaConta;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.usuario.Usuario;
+import mirdep.br.mykwad.usuario.UsuarioAuthentication;
 import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 
 public class RegistrarFragment extends Fragment {
@@ -60,24 +59,14 @@ public class RegistrarFragment extends Fragment {
     }
 
     private void adicionarListeners(){
-        button_registrar_criarconta.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                criarConta();
-            }
-        });
+        button_registrar_criarconta.setOnClickListener(v -> criarConta());
 
-        button_registrar_sair.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((BaseApp) getActivity()).abrirTabMinhaConta();
-            }
-        });
+        button_registrar_sair.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabMinhaConta());
 
     }
 
     private void criarConta(){
-        UsuarioRepositorio.getUsuariosDatabaseReference().child(editText_registrar_nickname.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        UsuarioRepositorio.getInstance().getUsuariosReference().child(editText_registrar_nickname.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -96,34 +85,20 @@ public class RegistrarFragment extends Fragment {
 
     private void registrarContaFirebase(){
         if(verificarCamposVazios() && campoNicknameOk()){
-            String email = editText_registrar_email.getText().toString();
+            final ProgressDialog dialog = MyDialog.criarProgressDialog(root.getContext(), "Criando nova conta...");
+            dialog.show();
+            final Usuario usuario = new Usuario();
+            usuario.setEmail(editText_registrar_email.getText().toString());
+            usuario.setNome(editText_registrar_nome.getText().toString());
+            usuario.setNickname(editText_registrar_nickname.getText().toString());
             String senha = editText_registrar_senha.getText().toString();
-            String nome = editText_registrar_nome.getText().toString();
-            String nickname = editText_registrar_nickname.getText().toString();
-            final Usuario usuario = new Usuario(email, nickname, nome);
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(usuario.getNickname()).build();
-                        user.updateProfile(profileUpdates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d("SALVAR USUARIO DB", "User profile updated.");
-                                        } else {
-                                            Log.d("DEU RUIM", "User profile updated.");
-                                        }
-                                    }
-                                });
-
-                        UsuarioRepositorio.salvarNoBanco(usuario);
-                        ((BaseApp) getActivity()).abrirTabMinhaConta();
-                    } else {
-                        mostrarErrosTela(task);
-                    }
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    UsuarioAuthentication.getInstance().atualizarAuth(usuario);
+                    dialog.dismiss();
+                    ((BaseApp) getActivity()).abrirTabMinhaConta();
+                } else {
+                    mostrarErrosTela(task);
                 }
             });
         }
@@ -135,7 +110,7 @@ public class RegistrarFragment extends Fragment {
         if(nickname.length() < 6){
             editText_registrar_nickname.setError("Seu usuário deve conter pelo menos 6 caractéres");
         } else {
-            if(UsuarioRepositorio.nicknameJaExiste(nickname)){
+            if(1 == 0){ //UsuarioRepositorio.nicknameJaExiste(nickname)
                 editText_registrar_nickname.setError("Esse usuário já foi utilizado");
             } else {
                 campoNicknameOk = true;

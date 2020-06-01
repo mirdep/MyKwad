@@ -69,7 +69,7 @@ public class View_EscolherPeca extends DialogFragment {
 
     public void fecharDialog(){
         getDialog().dismiss();
-        Log.d(NOME_LOG,"Dialog fechado!");
+        Log.d(NOME_LOG,"MyDialog fechado!");
     }
 
     //Iniciailiza o recyclerView

@@ -1,6 +1,7 @@
 package mirdep.br.mykwad.tabs.tabCriarDrone;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -17,12 +18,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.viewpagerindicator.LinePageIndicator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselFragmentAdapter;
 import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselViewPager;
 import mirdep.br.mykwad.Pecas.carrosselPecas_viewPager.CarrosselPecaFragment;
+import mirdep.br.mykwad.comum.MyDialog;
+import mirdep.br.mykwad.drones.Drone;
+import mirdep.br.mykwad.drones.DroneRepositorio;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,13 +41,18 @@ public class CriarDroneFragment extends Fragment {
     private static int SELECIONAR_GALERIA = 1;
 
     private CarrosselViewPager viewPager_carrossel_pecas;
+    private CarrosselFragmentAdapter adapter;
     private LinePageIndicator indicador;
 
     private ImageView imageView_escolher_fotos;
     private LinearLayout linearLayout_drone_galeria;
     private Button button_criardrone;
+    private TextInputLayout editText_descricao;
+    private TextInputLayout editText_titulo;
 
     private View root;
+
+    private List<Bitmap> fotos;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_criardrone, container, false);
@@ -50,6 +65,7 @@ public class CriarDroneFragment extends Fragment {
         inicializarInterface();
         addListeners();
         setCarrosselPecasAdapter();
+        fotos = new ArrayList<>();
     }
 
     private void inicializarInterface() {
@@ -58,38 +74,48 @@ public class CriarDroneFragment extends Fragment {
         linearLayout_drone_galeria = root.findViewById(R.id.linearLayout_drone_galeria);
         button_criardrone = root.findViewById(R.id.button_criardrone);
         indicador = root.findViewById(R.id.indicator);
+        editText_descricao = root.findViewById(R.id.editText_descricao);
+        editText_titulo = root.findViewById(R.id.editText_titulo);
     }
 
     private void addListeners() {
         //Abre a galeria para escolher as fotos do Drone, e pede permissão caso não tenha
-        imageView_escolher_fotos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
-                } else {
-                    abrirGaleria();
-                }
+        imageView_escolher_fotos.setOnClickListener(view -> {
+            if (ActivityCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+            } else {
+                abrirGaleria();
             }
         });
 
-        button_criardrone.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                criarDrone();
-            }
-        });
+        button_criardrone.setOnClickListener(v -> criarDrone());
     }
 
     private void criarDrone(){
+        ProgressDialog progressDialog = MyDialog.criarProgressDialog(root.getContext(),"Cadastrando o drone...");
+        progressDialog.show();
 
+        DroneRepositorio.getInstance().salvarNoBanco(getDronePrevia());
+
+        progressDialog.dismiss();
+
+        ((BaseApp) getActivity()).abrirTabComunidade();
+    }
+
+    private Drone getDronePrevia(){
+        Drone drone = new Drone();
+        drone.setDescricao(editText_descricao.getEditText().getText().toString());
+        drone.setTitulo(editText_titulo.getEditText().getText().toString());
+        drone.setPecas(adapter.getPecas());
+        drone.setFotos(fotos);
+        return drone;
     }
 
 
     //Exibe a galeria do celular, e permite o usuário escolher 1 foto
+    //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
     private void abrirGaleria() {
-        //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, SELECIONAR_GALERIA);
     }
@@ -112,17 +138,16 @@ public class CriarDroneFragment extends Fragment {
 
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
     private void adicionarFotoDrone(Bitmap foto){
+        fotos.add(foto);
         ImageView iv = new ImageView(root.getContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setImageBitmap(foto);
         int dimensao = linearLayout_drone_galeria.getHeight();
         iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
         // ARRUMAR ESSA PORRA AQUI EM BAIXO
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linearLayout_drone_galeria.removeView(v);
-            }
+        iv.setOnClickListener(v -> {
+            linearLayout_drone_galeria.removeView(v);
+            fotos.remove(foto);
         });
         linearLayout_drone_galeria.addView(iv);
 
@@ -132,7 +157,7 @@ public class CriarDroneFragment extends Fragment {
 
     //Cria um carrossel de peças na tela, sendo 1 Card para cada peça que o usuário deve escolher
     private void setCarrosselPecasAdapter() {
-        CarrosselFragmentAdapter adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
+        adapter = new CarrosselFragmentAdapter(getChildFragmentManager());
         adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_1)));
         adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_2)));
         adapter.adicionarFragmento(new CarrosselPecaFragment(getString(R.string.peca_3)));

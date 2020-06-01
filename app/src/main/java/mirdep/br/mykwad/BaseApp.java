@@ -82,7 +82,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
 
     public void abrirTabMinhaConta(){
         Fragment fragment;
-        if(UsuarioRepositorio.usuarioEstaLogado()){
+        if(UsuarioRepositorio.getInstance().usuarioEstaLogado()){
             fragment = new MinhaContaFragment();
         } else {
             fragment = new LoginFragment();
@@ -100,7 +100,7 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     }
 
     public void abrirTabCriarDrone(){
-        if(UsuarioRepositorio.usuarioEstaLogado()){
+        if(UsuarioRepositorio.getInstance().usuarioEstaLogado()){
             Fragment fragment = new CriarDroneFragment();
             openFragment(fragment);
         } else {

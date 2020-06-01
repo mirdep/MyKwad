@@ -16,4 +16,11 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorSoftWhite</item>
+        <item name="android:textColorPrimary">@color/colorSoftWhite</item>
+        <item name="android:background">@color/softDark</item>
+        <item name="android:textColor">@color/colorSoftWhite</item>
+    </style>
+
 </resources>

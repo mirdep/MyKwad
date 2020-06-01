@@ -3,24 +3,27 @@ package mirdep.br.mykwad.Pecas.carrosselPecas_viewPager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import mirdep.br.mykwad.Pecas.Peca;
 
 
 public class CarrosselFragmentAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> fragmentos;
+    private List<CarrosselPecaFragment> fragmentos;
 
     public CarrosselFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         inicializarListaFragmentos();
     }
 
-    private void inicializarListaFragmentos(){
+    private void inicializarListaFragmentos() {
         fragmentos = new ArrayList<>();
     }
 
-    public void adicionarFragmento(Fragment fragmento){
+    public void adicionarFragmento(CarrosselPecaFragment fragmento) {
         fragmentos.add(fragmento);
     }
 
@@ -34,11 +37,19 @@ public class CarrosselFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragmento;
-        if(position < fragmentos.size()){
+        if (position < fragmentos.size()) {
             fragmento = fragmentos.get(position);
         } else {
             fragmento = null;
         }
         return fragmento;
+    }
+
+    public List<Peca> getPecas() {
+        List<Peca> pecas = new ArrayList<>();
+        for (int i = 0; i < fragmentos.size(); i++) {
+            pecas.add(fragmentos.get(i).getPecaEscolhida());
+        }
+        return pecas;
     }
 }

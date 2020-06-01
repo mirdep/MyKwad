@@ -1,5 +1,6 @@
 package mirdep.br.mykwad.tabs.tabMinhaConta;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,8 +22,10 @@ import com.google.firebase.storage.StorageReference;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.storage.GlideApp;
 import mirdep.br.mykwad.usuario.Usuario;
+import mirdep.br.mykwad.usuario.UsuarioAuthentication;
 import mirdep.br.mykwad.usuario.UsuarioRepositorio;
 
 public class MinhaContaFragment extends Fragment {
@@ -38,6 +42,8 @@ public class MinhaContaFragment extends Fragment {
 
     private ImageView imageView_usuario_foto;
 
+    private ProgressDialog loadingDialog;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
         return root;
@@ -46,6 +52,8 @@ public class MinhaContaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loadingDialog = MyDialog.criarProgressDialog(root.getContext(),"Carregando dados...");
+        loadingDialog.show();
         inicializarInterface();
         adicionarListeners();
         carregarUsuario();
@@ -65,12 +73,9 @@ public class MinhaContaFragment extends Fragment {
     }
 
     private void adicionarListeners() {
-        viewButton_minhaconta_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UsuarioRepositorio.logoutConta();
-                ((BaseApp) getActivity()).abrirTabMinhaConta();
-            }
+        viewButton_minhaconta_menu.setOnClickListener(v -> {
+            UsuarioRepositorio.getInstance().logoutConta();
+            ((BaseApp) getActivity()).abrirTabMinhaConta();
         });
     }
 
@@ -79,35 +84,20 @@ public class MinhaContaFragment extends Fragment {
         textView_usuario_nome.setText(usuario.getNome());
         textView_usuario_email.setText(usuario.getEmail());
         carregarFoto();
+        loadingDialog.dismiss();
     }
 
     private void carregarUsuario() {
-        usuario = new Usuario();
-        String nickname;
-        while ((nickname = UsuarioRepositorio.getUsuarioAuth().getDisplayName()) == null) ;
-        UsuarioRepositorio.getUsuariosDatabaseReference().child(nickname).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("email").getValue() != null) {
-                    usuario.setEmail(dataSnapshot.child("email").getValue().toString());
-                }
-                if (dataSnapshot.child("nome").getValue() != null) {
-                    usuario.setNome(dataSnapshot.child("nome").getValue().toString());
-                }
-                usuario.setNickname("@" + UsuarioRepositorio.getUsuarioAuth().getDisplayName());
-                atualizarTela();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+        final LiveData<Usuario> usuarioInfo = UsuarioRepositorio.getInstance().getUsuario();
+        usuarioInfo.observe(this.getViewLifecycleOwner(), exec -> {
+            usuario = usuarioInfo.getValue();
+            atualizarTela();
         });
     }
 
     private void carregarFoto() {
         Uri uri;
-        if ((uri = UsuarioRepositorio.getUsuarioAuth().getPhotoUrl()) != null) {
+        if ((uri = UsuarioAuthentication.getInstance().getUsuarioAuth().getPhotoUrl()) != null) {
             // Reference to an image file in Cloud Storage
             StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString());
             // Download directly from StorageReference using Glide

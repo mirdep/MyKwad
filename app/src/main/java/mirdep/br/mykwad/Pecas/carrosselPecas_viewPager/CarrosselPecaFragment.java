@@ -31,7 +31,7 @@ public class CarrosselPecaFragment extends Fragment {
 
     private View root;
 
-    private Peca peca;
+    private Peca pecaEscolhida;
 
     public CarrosselPecaFragment(String tipoPeca) {
         this.tipoPeca = tipoPeca;
@@ -53,13 +53,17 @@ public class CarrosselPecaFragment extends Fragment {
     }
 
     public void setPecaEscolhida(Peca peca){
-        this.peca = peca;
+        this.pecaEscolhida = peca;
         atualizarUI();
     }
 
+    public Peca getPecaEscolhida(){
+        return pecaEscolhida;
+    }
+
     private void atualizarUI(){
-        textView_peca_nome.setText(peca.toString());
-        imageView_peca_imagem.setImageURI(peca.getStorage_imagem_uri());
+        textView_peca_nome.setText(pecaEscolhida.toString());
+        imageView_peca_imagem.setImageURI(pecaEscolhida.getStorage_imagem_uri());
     }
 
     //Adiciona o listener para abrir o DialogFragment ao clicar no botão
