@@ -4,21 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import mirdep.br.mykwad.DRONES.Drone;
-import mirdep.br.mykwad.PECAS.Peca;
+import mirdep.br.mykwad.DRONES.DroneRepositorio;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.DRONES.escolherDrone_dialogFragment.Controller_EscolherDrone;
-import mirdep.br.mykwad.DRONES.escolherDrone_dialogFragment.ExibirDronesAdapter;
 
 public class ComunidadeFragment extends Fragment {
 
@@ -26,7 +27,8 @@ public class ComunidadeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ExibirDronesAdapter adapter;
-    private Controller_EscolherDrone controller;
+
+    public ComunidadeViewModel mViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_comunidade, container, false);
@@ -36,29 +38,25 @@ public class ComunidadeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.controller = new Controller_EscolherDrone();
-        inicializarInterface();
-        exibirListaDrones();
-    }
-
-    private void inicializarInterface(){
+        mViewModel = ViewModelProviders.of(this).get(ComunidadeViewModel.class);
         inicializarRecyclerView();
     }
 
     //Iniciailiza o recyclerView
     private void inicializarRecyclerView() {
         adapter = new ExibirDronesAdapter(this);
+        povoarAdapter();
         recyclerView = root.findViewById(R.id.recyclerViewDrones);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.setAdapter(adapter);
+
     }
 
     //Coloca a lista de peças no adapter do recyclewView
-    private void exibirListaDrones(){
-        LiveData<List<Drone>> drones = controller.getDrones();
-        drones.observe(this.getViewLifecycleOwner(), exec -> {
-            adapter.definirDrones(drones.getValue());
+    private void povoarAdapter() {
+        mViewModel.getTodosDrones().observe(this.getViewLifecycleOwner(), drones -> {
+            adapter.definirDrones(drones);
             root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
