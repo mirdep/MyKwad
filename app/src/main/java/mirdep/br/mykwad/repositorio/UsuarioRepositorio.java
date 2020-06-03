@@ -30,7 +30,7 @@ public class UsuarioRepositorio {
         return FirebaseDatabase.getInstance().getReference("usuarios");
     }
 
-    public void atualizarBanco(Usuario usuario) {
+    public void salvar(Usuario usuario) {
         if(usuario.getId() == null){
             usuario.setId(getUsuariosReference().push().getKey());
         }

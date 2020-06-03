@@ -1,13 +1,17 @@
 package mirdep.br.mykwad.objetos;
 
+import android.graphics.Bitmap;
+
 public class Usuario {
 
+    private Bitmap foto;
     private String id;
     private String email;
     private String nickname;
     private String nome;
 
     public Usuario() {
+        foto = null;
         id = null;
         email = "";
         nickname = "";
@@ -33,6 +37,10 @@ public class Usuario {
     }
 
     //============== SETTERS =============
+    public void setFoto(Bitmap foto){
+        this.foto = foto;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

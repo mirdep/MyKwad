@@ -1,16 +1,21 @@
 package mirdep.br.mykwad.main_tabs.tabMinhaConta;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.MyDialog;
 
 public class LoginFragment extends Fragment {
 
@@ -30,17 +36,25 @@ public class LoginFragment extends Fragment {
     private TextView button_login_criarconta;
     private View button_login_senha_visualizar;
 
+    private ProgressDialog loadingDialog;
+
     private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_login, container, false);
-        inicializarInterface();
-        inicializarVariaveis();
-        adicionarListeners();
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        inicializarInterface();
+        inicializarVariaveis();
+        adicionarListeners();
+    }
+
     private void inicializarInterface() {
+        loadingDialog = MyDialog.criarProgressDialog(root.getContext(),"Fazendo login...");
         editText_login_email = root.findViewById(R.id.editText_login_email);
         editText_login_senha = root.findViewById(R.id.editText_login_senha);
         button_login_entrar = root.findViewById(R.id.button_login_entrar);
@@ -55,7 +69,7 @@ public class LoginFragment extends Fragment {
     private void adicionarListeners() {
         button_login_entrar.setOnClickListener(v -> efetuarLogin());
 
-        button_login_criarconta.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabRegistrarConta());
+        button_login_criarconta.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabRegistrar());
 
         button_login_senha_visualizar.setOnClickListener(v -> {
             if (editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
@@ -67,18 +81,18 @@ public class LoginFragment extends Fragment {
     }
 
     public void efetuarLogin() {
+        fecharTeclado();
+        loadingDialog.show();
         if(verificarCampos()) {
             String email = editText_login_email.getText().toString();
             String senha = editText_login_senha.getText().toString();
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        ((BaseApp) getActivity()).abrirTabMinhaConta();
-                    } else {
-                        mostrarErrosTela(task);
-                    }
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    ((BaseApp) getActivity()).abrirTabMinhaConta();
+                } else {
+                    mostrarErrosTela(task);
                 }
+                loadingDialog.dismiss();
             });
         }
 
@@ -180,5 +194,10 @@ public class LoginFragment extends Fragment {
                 break;
 
         }
+    }
+
+    private void fecharTeclado(){
+        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
     }
 }

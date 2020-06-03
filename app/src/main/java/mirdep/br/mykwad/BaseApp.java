@@ -27,10 +27,9 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.base_app);
         configurarNavView();
-        abrirTab(2);
+        abrirTabComunidade();
         PecaRepositorio.getInstance().povoarBD();
     }
 
@@ -39,16 +38,19 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         navView.setOnNavigationItemSelectedListener(this);
     }
 
-    public void abrirTab(int tabPos){
+    public void selecionarTab(int tabPos){
         switch(tabPos){
             case 1:
                 navView.setSelectedItemId(R.id.navigation_criardrone);
+                abrirTabCriarDrone();
                 break;
             case 2:
                 navView.setSelectedItemId(R.id.navigation_comunidade);
+                abrirTabComunidade();
                 break;
             case 3:
                 navView.setSelectedItemId(R.id.navigation_minhaconta);
+                abrirTabMinhaConta();
                 break;
             default:
                 break;
@@ -80,38 +82,40 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         return true;
     }
 
-    public void abrirTabMinhaConta(){
-        Fragment fragment;
-        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
-            fragment = new MinhaContaFragment();
-        } else {
-            fragment = new LoginFragment();
-        }
-        openFragment(fragment);
-    }
-
-    public void abrirTabRegistrarConta(){
-        openFragment(new RegistrarFragment());
-    }
-
-    public void abrirTabComunidade(){
-        Fragment fragment = new ComunidadeFragment();
-        openFragment(fragment);
-    }
-
-    public void abrirTabCriarDrone(){
-        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
-            Fragment fragment = new CriarDroneFragment();
-            openFragment(fragment);
-        } else {
-            abrirTab(3);
-        }
-    }
-
     private void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+
+    //================= ABRIR FRAGMENT ===============
+    public void abrirTabCriarDrone(){
+        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
+            openFragment(new CriarDroneFragment());
+        } else {
+            selecionarTab(3);
+        }
+    }
+
+    public void abrirTabComunidade(){
+        openFragment(new ComunidadeFragment());
+    }
+
+    public void abrirTabMinhaConta(){
+        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
+            openFragment(new MinhaContaFragment());
+        } else {
+            abrirTabLogin();
+        }
+    }
+
+    public void abrirTabLogin(){
+        openFragment(new LoginFragment());
+    }
+
+    public void abrirTabRegistrar(){
+        openFragment(new RegistrarFragment());
     }
 }
