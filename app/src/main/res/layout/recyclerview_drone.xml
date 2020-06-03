@@ -5,14 +5,15 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:foreground="?android:selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/softDark">
+        android:background="@color/softDark"
+        android:foreground="?android:selectableItemBackground">
 
         <TextView
             android:id="@+id/textView_viewholder_drone_titulo"
