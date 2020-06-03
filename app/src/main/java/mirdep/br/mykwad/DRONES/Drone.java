@@ -10,7 +10,7 @@ import mirdep.br.mykwad.usuario.UsuarioAuthentication;
 public class Drone {
     
     private static String PECA_NAO_SELECIONADA = "0";
-    public static final int QTD_MAX_FOTOS = 4;
+    public static final int QTD_MAX_FOTOS = 6;
 
     private String id;
     private String titulo;

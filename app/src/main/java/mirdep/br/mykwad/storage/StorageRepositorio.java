@@ -17,13 +17,6 @@ public class StorageRepositorio {
         return INSTANCE;
     }
 
-    public interface OnGetDataListener {
-        //this is for callbacks
-        void onSuccess(DataSnapshot dataSnapshot);
-        void onStart();
-        void onFailure();
-    }
-
 //    public void readData(StorageReference ref, final OnGetDataListener listener) {
 //        listener.onStart();
 //        ref.addListenerForSingleValueEvent(new ValueEventListener() {

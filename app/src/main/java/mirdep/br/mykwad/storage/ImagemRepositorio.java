@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.DRONES.Drone;
+import mirdep.br.mykwad.DRONES.DroneRepositorio;
 import mirdep.br.mykwad.comum.Configs;
 
 public final class ImagemRepositorio{

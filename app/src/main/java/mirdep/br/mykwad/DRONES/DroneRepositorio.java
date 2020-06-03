@@ -70,6 +70,13 @@ public class DroneRepositorio {
         });
     }
 
+    public interface OnGetDataListener {
+        //this is for callbacks
+        void onSuccess(DataSnapshot dataSnapshot);
+        void onStart();
+        void onFailure();
+    }
+
     //Carrega as peças do BancoDeDados e retorna em um ArrayList
     public LiveData<List<Drone>> getTodosDrones() {
         todosDrones = new MutableLiveData<>();
@@ -78,11 +85,12 @@ public class DroneRepositorio {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d(LOG_TAG, "Carregando lista de Drones...");
-                        List<Drone> listaDrones = new ArrayList<>();
+                        final List<Drone> listaDrones = new ArrayList<>();
 
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             Drone drone = dsp.getValue(Drone.class);
                             listaDrones.add(0,drone);
+
                             Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
                             todosDrones.postValue(listaDrones);
                         }

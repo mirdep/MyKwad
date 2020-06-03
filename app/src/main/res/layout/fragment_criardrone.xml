@@ -64,15 +64,16 @@
         app:layout_constraintTop_toBottomOf="@+id/editText_titulo" />
 
     <HorizontalScrollView
+        android:id="@+id/scrollView_drone_fotos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
         app:layout_constraintEnd_toEndOf="@+id/card_drone_fotos"
-        app:layout_constraintStart_toEndOf="@+id/imageView_escolher_fotos"
+        app:layout_constraintStart_toEndOf="@+id/imageView_abrir_galeria"
         app:layout_constraintTop_toTopOf="@+id/card_drone_fotos">
 
         <LinearLayout
@@ -101,31 +102,30 @@
         android:paddingBottom="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_drone_fotos" />
+        app:layout_constraintTop_toBottomOf="@+id/card_drone_fotos" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:fontFamily="@font/catamaran"
-        android:text="Fotos"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/card_drone_fotos"
-        app:layout_constraintTop_toTopOf="@+id/card_drone_fotos" />
+    </mirdep.br.mykwad.carrosselFragment.CarrosselViewPager>
 
     <ImageView
-        android:id="@+id/imageView_escolher_fotos"
+        android:id="@+id/imageView_abrir_camera"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_add_a_photo_white_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/card_drone_fotos"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toStartOf="@+id/imageView_abrir_galeria" />
+
+    <ImageView
+        android:id="@+id/imageView_abrir_galeria"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_insert_photo_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView_abrir_camera"
+        app:layout_constraintStart_toStartOf="@+id/card_drone_fotos"
+        app:layout_constraintTop_toTopOf="@+id/card_drone_fotos" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editText_descricao"

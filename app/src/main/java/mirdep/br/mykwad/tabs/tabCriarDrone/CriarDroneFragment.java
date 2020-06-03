@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,14 +43,19 @@ import static android.app.Activity.RESULT_OK;
 
 public class CriarDroneFragment extends Fragment {
 
-    private static int SELECIONAR_GALERIA = 1;
+    private static int SELECIONAR_FOTO_CAMERA = 1;
+    private static int SELECIONAR_FOTO_GALERIA = 2;
+
+    private static int TAMANHO_MINIATURA = 200;
 
     private CarrosselViewPager viewPager_carrossel_pecas;
     private CarrosselFragmentAdapter adapter;
     private LinePageIndicator indicador;
 
-    private ImageView imageView_escolher_fotos;
+    private ImageView imageView_abrir_camera;
+    private ImageView imageView_abrir_galeria;
     private LinearLayout linearLayout_drone_galeria;
+    private HorizontalScrollView scrollView_drone_galeria;
     private Button button_criardrone;
     private TextInputLayout editText_descricao;
     private TextInputLayout editText_titulo;
@@ -73,8 +80,10 @@ public class CriarDroneFragment extends Fragment {
 
     private void inicializarInterface() {
         viewPager_carrossel_pecas = root.findViewById(R.id.viewPager_carrossel_pecas);
-        imageView_escolher_fotos = root.findViewById(R.id.imageView_escolher_fotos);
+        imageView_abrir_camera = root.findViewById(R.id.imageView_abrir_camera);
+        imageView_abrir_galeria = root.findViewById(R.id.imageView_abrir_galeria);
         linearLayout_drone_galeria = root.findViewById(R.id.linearLayout_drone_galeria);
+        scrollView_drone_galeria = root.findViewById(R.id.scrollView_drone_fotos);
         button_criardrone = root.findViewById(R.id.button_criardrone);
         indicador = root.findViewById(R.id.indicator);
         editText_descricao = root.findViewById(R.id.editText_descricao);
@@ -83,20 +92,45 @@ public class CriarDroneFragment extends Fragment {
 
     private void addListeners() {
         //Abre a galeria para escolher as fotos do Drone, e pede permissão caso não tenha
-        imageView_escolher_fotos.setOnClickListener(view -> {
+        imageView_abrir_camera.setOnClickListener(view -> {
             if(fotos.size() >= Drone.QTD_MAX_FOTOS){
-                Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_LONG).show();
+                Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_SHORT).show();
             } else {
-                if (ActivityCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
-                } else {
-                    abrirGaleria();
-                }
+                abrirCamera();
+            }
+        });
+
+        imageView_abrir_galeria.setOnClickListener(view -> {
+            if(fotos.size() >= Drone.QTD_MAX_FOTOS){
+                Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_SHORT).show();
+            } else {
+                abrirGaleria();
             }
         });
 
         button_criardrone.setOnClickListener(v -> criarDrone());
+    }
+
+    //Exibe a galeria do celular, e permite o usuário escolher 1 foto
+    //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
+    private void abrirGaleria() {
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, SELECIONAR_FOTO_GALERIA);
+        }
+    }
+
+    private void abrirCamera(){
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},2000);
+        } else {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, SELECIONAR_FOTO_CAMERA);
+        }
     }
 
     private void criarDrone(){
@@ -120,19 +154,15 @@ public class CriarDroneFragment extends Fragment {
         return drone;
     }
 
-
-    //Exibe a galeria do celular, e permite o usuário escolher 1 foto
-    //ALTERAR ESSE MÉTODO  E O onActivityResult PARA LIBERAR O USUARIO SELECIONAR MAIS DE 1 FOTO POR VEZ
-    private void abrirGaleria() {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, SELECIONAR_GALERIA);
-    }
-
     //Recebe a foto escolhida pelo usuário da galera e envia para o método de adicionar na tela
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == SELECIONAR_GALERIA) {
+        if (resultCode == RESULT_OK && requestCode == SELECIONAR_FOTO_CAMERA) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            adicionarFotoDrone(image);
+        }
+        if (resultCode == RESULT_OK && requestCode == SELECIONAR_FOTO_GALERIA) {
             Uri fotoSelecionadaUri = data.getData();
             Bitmap bitmapImage;
             try{
@@ -146,19 +176,38 @@ public class CriarDroneFragment extends Fragment {
 
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
     private void adicionarFotoDrone(Bitmap foto){
+        final Bitmap miniatura = criarMiniatura(foto, TAMANHO_MINIATURA);
         fotos.add(foto);
         ImageView iv = new ImageView(root.getContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv.setImageBitmap(foto);
+        iv.setImageBitmap(miniatura);
         int dimensao = linearLayout_drone_galeria.getHeight();
         iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
         // ARRUMAR ESSA PORRA AQUI EM BAIXO
         iv.setOnClickListener(v -> {
+            Toast.makeText(root.getContext(), "Mantenha a foto pressionada para deletar!", Toast.LENGTH_SHORT).show();
+        });
+        iv.setOnLongClickListener(v -> {
             linearLayout_drone_galeria.removeView(v);
             fotos.remove(foto);
+            return true;
         });
         linearLayout_drone_galeria.addView(iv);
+        scrollView_drone_galeria.postDelayed(() -> scrollView_drone_galeria.fullScroll(HorizontalScrollView.FOCUS_RIGHT), 100L);
+    }
 
+    private Bitmap criarMiniatura(Bitmap foto, int size){
+        double height = foto.getHeight();
+        double width = foto.getWidth();
+        double aspectRatio = width/height;
+        if(aspectRatio > 1){
+            height = size;
+            width = height*aspectRatio;
+        } else {
+            width = size;
+            height = width/aspectRatio;
+        }
+        return Bitmap.createScaledBitmap(foto, (int)width, (int)height, true);
     }
 
     //====================== CARROSSEL DE PEÇAS =============================
