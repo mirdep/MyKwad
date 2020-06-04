@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -30,11 +32,10 @@ import mirdep.br.mykwad.comum.MyDialog;
 
 public class LoginFragment extends Fragment {
 
-    private EditText editText_login_email;
-    private EditText editText_login_senha;
+    private TextInputLayout editText_login_email;
+    private TextInputLayout editText_login_senha;
     private Button button_login_entrar;
     private TextView button_login_criarconta;
-    private View button_login_senha_visualizar;
 
     private ProgressDialog loadingDialog;
 
@@ -59,7 +60,6 @@ public class LoginFragment extends Fragment {
         editText_login_senha = root.findViewById(R.id.editText_login_senha);
         button_login_entrar = root.findViewById(R.id.button_login_entrar);
         button_login_criarconta = root.findViewById(R.id.button_login_criarconta);
-        button_login_senha_visualizar = root.findViewById(R.id.button_login_senha_visualizar);
     }
 
     private void inicializarVariaveis() {
@@ -70,22 +70,14 @@ public class LoginFragment extends Fragment {
         button_login_entrar.setOnClickListener(v -> efetuarLogin());
 
         button_login_criarconta.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabRegistrar());
-
-        button_login_senha_visualizar.setOnClickListener(v -> {
-            if (editText_login_senha.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-                editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            } else {
-                editText_login_senha.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
     }
 
     public void efetuarLogin() {
         fecharTeclado();
-        loadingDialog.show();
         if(verificarCampos()) {
-            String email = editText_login_email.getText().toString();
-            String senha = editText_login_senha.getText().toString();
+            loadingDialog.show();
+            String email = editText_login_email.getEditText().getText().toString();
+            String senha = editText_login_senha.getEditText().getText().toString();
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     ((BaseApp) getActivity()).abrirTabMinhaConta();
@@ -100,11 +92,11 @@ public class LoginFragment extends Fragment {
 
     private boolean verificarCampos(){
         boolean camposOk = true;
-        if(!stringValida(editText_login_email.getText().toString())){
+        if(!stringValida(editText_login_email.getEditText().getText().toString())){
             editText_login_email.setError("Complete este campo!");
             camposOk = false;
         }
-        if(!stringValida(editText_login_senha.getText().toString())){
+        if(!stringValida(editText_login_senha.getEditText().getText().toString())){
             editText_login_senha.setError("Complete este campo!");
             camposOk = false;
         }
@@ -142,7 +134,7 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(root.getContext(), "The password is invalid or the user does not have a password.", Toast.LENGTH_LONG).show();
                 editText_login_senha.setError("password is incorrect ");
                 editText_login_senha.requestFocus();
-                editText_login_senha.setText("");
+                editText_login_senha.getEditText().setText("");
                 break;
 
             case "ERROR_USER_MISMATCH":

@@ -28,7 +28,6 @@ public class UsuarioAuthentication {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(LOG_TAG, "Atualizado no FirebaseAuth.");
-                        UsuarioRepositorio.getInstance().salvar(usuario);
                     } else {
                         Log.d(LOG_TAG, "Erro ao atualizar no FirebaseAuth.");
                     }

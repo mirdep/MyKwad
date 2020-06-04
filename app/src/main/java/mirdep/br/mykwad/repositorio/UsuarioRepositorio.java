@@ -35,6 +35,7 @@ public class UsuarioRepositorio {
             usuario.setId(getUsuariosReference().push().getKey());
         }
         getUsuariosReference().child(usuario.getId()).setValue(usuario);
+        UsuarioAuthentication.getInstance().atualizarAuth(usuario);
     }
 
     public LiveData<Usuario> getUsuario() {
@@ -64,6 +65,7 @@ public class UsuarioRepositorio {
                     });
         } else{
             Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
+            carregarDoBanco();
         }
     }
 

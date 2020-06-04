@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -29,13 +30,12 @@ import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class RegistrarFragment extends Fragment {
 
-    private EditText editText_registrar_email;
-    private EditText editText_registrar_nome;
-    private EditText editText_registrar_nickname;
-    private EditText editText_registrar_senha;
+    private TextInputLayout editText_registrar_email;
+    private TextInputLayout editText_registrar_nome;
+    private TextInputLayout editText_registrar_nickname;
+    private TextInputLayout editText_registrar_senha;
     private Button button_registrar_criarconta;
     private View button_registrar_sair;
-    private View button_registrar_senha_visualizar;
 
     private View root;
 
@@ -48,69 +48,70 @@ public class RegistrarFragment extends Fragment {
         return root;
     }
 
-    private void inicializarInterface(){
+    private void inicializarInterface() {
         editText_registrar_email = root.findViewById(R.id.editText_registrar_email);
         editText_registrar_nome = root.findViewById(R.id.editText_registrar_nome);
         editText_registrar_nickname = root.findViewById(R.id.editText_registrar_nickname);
         editText_registrar_senha = root.findViewById(R.id.editText_registrar_senha);
         button_registrar_criarconta = root.findViewById(R.id.button_registrar_criarconta);
         button_registrar_sair = root.findViewById(R.id.button_registrar_sair);
-        button_registrar_senha_visualizar = root.findViewById(R.id.button_registrar_senha_visualizar);
     }
 
-    private void adicionarListeners(){
+    private void adicionarListeners() {
         button_registrar_criarconta.setOnClickListener(v -> criarConta());
 
         button_registrar_sair.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabMinhaConta());
 
     }
 
-    private void criarConta(){
-        UsuarioRepositorio.getInstance().getUsuariosReference().child(editText_registrar_nickname.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    editText_registrar_nickname.setError("Nome de usuário não disponível");
-                } else {
-                    registrarContaFirebase();
+    private void criarConta() {
+        if (verificarCamposVazios() && campoNicknameOk()) {
+            UsuarioRepositorio.getInstance().getUsuariosReference().child(editText_registrar_nickname.getEditText().getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        editText_registrar_nickname.setError("Nome de usuário não disponível");
+                    } else {
+                        registrarContaFirebase();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-    }
-
-    private void registrarContaFirebase(){
-        if(verificarCamposVazios() && campoNicknameOk()){
-            final ProgressDialog dialog = MyDialog.criarProgressDialog(root.getContext(), "Criando nova conta...");
-            dialog.show();
-            final Usuario usuario = new Usuario();
-            usuario.setEmail(editText_registrar_email.getText().toString());
-            usuario.setNome(editText_registrar_nome.getText().toString());
-            usuario.setNickname(editText_registrar_nickname.getText().toString());
-            String senha = editText_registrar_senha.getText().toString();
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    UsuarioAuthentication.getInstance().atualizarAuth(usuario);
-                    dialog.dismiss();
-                    ((BaseApp) getActivity()).abrirTabMinhaConta();
-                } else {
-                    mostrarErrosTela(task);
                 }
             });
         }
     }
 
-    private boolean campoNicknameOk(){
+    private void registrarContaFirebase() {
+        final ProgressDialog dialog = MyDialog.criarProgressDialog(root.getContext(), "Criando nova conta...");
+        dialog.show();
+        final Usuario usuario = new Usuario();
+        usuario.setEmail(editText_registrar_email.getEditText().getText().toString());
+        usuario.setNome(editText_registrar_nome.getEditText().getText().toString());
+        usuario.setNickname(editText_registrar_nickname.getEditText().getText().toString());
+        String senha = editText_registrar_senha.getEditText().getText().toString();
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                UsuarioRepositorio.getInstance().salvar(usuario);
+                dialog.dismiss();
+                ((BaseApp) getActivity()).abrirTabMinhaConta();
+            } else {
+                dialog.dismiss();
+                mostrarErrosTela(task);
+            }
+        });
+
+    }
+
+    private boolean campoNicknameOk() {
         boolean campoNicknameOk = false;
-        String nickname = editText_registrar_nickname.getText().toString();
-        if(nickname.length() < 6){
+        String nickname = editText_registrar_nickname.getEditText().getText().toString();
+        if (nickname.length() < 6) {
             editText_registrar_nickname.setError("Seu usuário deve conter pelo menos 6 caractéres");
         } else {
-            if(1 == 0){ //UsuarioRepositorio.nicknameJaExiste(nickname)
+            if (1 == 0) { //UsuarioRepositorio.nicknameJaExiste(nickname)
                 editText_registrar_nickname.setError("Esse usuário já foi utilizado");
             } else {
                 campoNicknameOk = true;
@@ -119,32 +120,32 @@ public class RegistrarFragment extends Fragment {
         return campoNicknameOk;
     }
 
-    private boolean verificarCamposVazios(){
+    private boolean verificarCamposVazios() {
         boolean camposOk = true;
-        if(!stringValida(editText_registrar_email.getText().toString())){
+        if (!stringValida(editText_registrar_email.getEditText().getText().toString())) {
             editText_registrar_email.setError("Complete este campo!");
             camposOk = false;
         }
-        if(!stringValida(editText_registrar_nome.getText().toString())){
+        if (!stringValida(editText_registrar_nome.getEditText().getText().toString())) {
             editText_registrar_nome.setError("Complete este campo!");
             camposOk = false;
         }
-        if(!stringValida(editText_registrar_nickname.getText().toString())){
+        if (!stringValida(editText_registrar_nickname.getEditText().getText().toString())) {
             editText_registrar_nickname.setError("Complete este campo!");
             camposOk = false;
         }
-        if(!stringValida(editText_registrar_senha.getText().toString())){
+        if (!stringValida(editText_registrar_senha.getEditText().getText().toString())) {
             editText_registrar_senha.setError("Complete este campo!");
             camposOk = false;
         }
         return camposOk;
     }
 
-    private boolean stringValida(String string){
+    private boolean stringValida(String string) {
         return !(string.equals("") || string == null);
     }
-    
-    private void mostrarErrosTela(@NonNull Task<AuthResult> task){
+
+    private void mostrarErrosTela(@NonNull Task<AuthResult> task) {
         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
 
         switch (errorCode) {
@@ -171,7 +172,7 @@ public class RegistrarFragment extends Fragment {
                 Toast.makeText(root.getContext(), "The password is invalid or the user does not have a password.", Toast.LENGTH_LONG).show();
                 editText_registrar_senha.setError("password is incorrect ");
                 editText_registrar_senha.requestFocus();
-                editText_registrar_senha.setText("");
+                editText_registrar_senha.getEditText().setText("");
                 break;
 
             case "ERROR_USER_MISMATCH":

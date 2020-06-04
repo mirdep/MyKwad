@@ -182,7 +182,6 @@ public class CriarDroneFragment extends Fragment {
         iv.setImageBitmap(miniatura);
         int dimensao = linearLayout_drone_galeria.getHeight();
         iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
-        // ARRUMAR ESSA PORRA AQUI EM BAIXO
         iv.setOnClickListener(v -> {
             Toast.makeText(root.getContext(), "Mantenha a foto pressionada para deletar!", Toast.LENGTH_SHORT).show();
         });

@@ -38,26 +38,33 @@
 
     <TextView
         android:id="@+id/textView_usuario_nome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:fontFamily="@font/catamaran"
         android:text="Nome do usuario"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/viewButton_minhaconta_menu"
         app:layout_constraintStart_toEndOf="@+id/imageView_usuario_foto"
         app:layout_constraintTop_toTopOf="@+id/imageView_usuario_foto" />
 
     <TextView
         android:id="@+id/textView_usuario_email"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/catamaran"
         android:text="E-mail do usuario"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView_usuario_nome"
         app:layout_constraintStart_toStartOf="@+id/textView_usuario_nome"
         app:layout_constraintTop_toTopOf="@+id/imageView_usuario_foto" />
 
@@ -65,11 +72,22 @@
         android:id="@+id/textView_usuario_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:fontFamily="@font/catamaran"
-        android:text="@nickname"
+        android:text="nickname"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_usuario_foto"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/catamaran"
+        android:text="@"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView_usuario_foto"
         app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
@@ -86,6 +104,7 @@
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Favoritos" />
 
     </com.google.android.material.tabs.TabLayout>
