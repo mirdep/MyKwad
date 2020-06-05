@@ -41,4 +41,8 @@ public class UsuarioAuthentication {
     public void logoutConta() {
         FirebaseAuth.getInstance().signOut();
     }
+
+    public String getUsuarioId(){
+        return getUsuarioAuth().getDisplayName();
+    }
 }

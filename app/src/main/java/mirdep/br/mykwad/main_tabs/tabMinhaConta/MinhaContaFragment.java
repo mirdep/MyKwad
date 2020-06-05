@@ -8,25 +8,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.MyDialog;
-import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.objetos.Usuario;
+import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
-import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
+import mirdep.br.mykwad.ui.ExibirDronesAdapter;
+import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 
 public class MinhaContaFragment extends Fragment {
 
     private Usuario usuario;
 
     private View root;
+
+    public MinhaContaViewModel mViewModel;
+
+    private RecyclerView recyclerView;
+    private ExibirDronesAdapter adapter;
 
     private TextView textView_usuario_nome;
     private TextView textView_usuario_email;
@@ -46,11 +58,13 @@ public class MinhaContaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewModel = ViewModelProviders.of(this).get(MinhaContaViewModel.class);
         loadingDialog = MyDialog.criarProgressDialog(root.getContext(),"Carregando dados...");
         loadingDialog.show();
         inicializarInterface();
         adicionarListeners();
         carregarUsuario();
+        inicializarRecyclerView();
     }
 
     private void inicializarInterface() {
@@ -81,8 +95,28 @@ public class MinhaContaFragment extends Fragment {
         loadingDialog.dismiss();
     }
 
+    //Iniciailiza o recyclerView
+    private void inicializarRecyclerView() {
+        adapter = new ExibirDronesAdapter(this);
+        povoarAdapter();
+        recyclerView = root.findViewById(R.id.recyclerViewDrones);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(10));
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    //Coloca a lista de peças no adapter do recyclewView
+    private void povoarAdapter() {
+        mViewModel.getDronesDoUsuario().observe(this.getViewLifecycleOwner(), drones -> {
+            adapter.definirDrones(drones);
+            root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
+        });
+    }
+
     private void carregarUsuario() {
-        final LiveData<Usuario> usuarioInfo = UsuarioRepositorio.getInstance().getUsuario();
+        final LiveData<Usuario> usuarioInfo = mViewModel.getUsuario();
         usuarioInfo.observe(this.getViewLifecycleOwner(), exec -> {
             usuario = usuarioInfo.getValue();
             atualizarTela();

@@ -2,6 +2,7 @@ package mirdep.br.mykwad.repositorio;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,11 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.objetos.Drone;
 
 
 public class DroneRepositorio {
@@ -102,6 +104,40 @@ public class DroneRepositorio {
                     }
                 });
         return todosDrones;
+    }
+
+    public LiveData<List<Drone>> getDronesPorUsuario(final String idUsuario) {
+        todosDrones = new MutableLiveData<>();
+        getDatabaseReference().addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.d(LOG_TAG, "Carregando lista de Drones...");
+                        final List<Drone> listaDrones = new ArrayList<>();
+
+                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                            Drone drone = dsp.getValue(Drone.class);
+                            if(drone.getUsuarioDonoId().equals(idUsuario)){
+                                listaDrones.add(0,drone);
+
+                                Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
+                                todosDrones.postValue(listaDrones);
+                            }
+                        }
+                    }
+
+                    //Se der problema na leitura no BD
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d(LOG_TAG, "ERRO! Ao carregar todosDrones.");
+
+                    }
+                });
+        return todosDrones;
+    }
+
+    public StorageReference getFotoDroneReference(Drone drone){
+        return DroneRepositorio.getInstance().getStorageReference().child(drone.getId()).child(0+Configs.EXTENSAO_IMAGEM);
     }
 
 }

@@ -7,23 +7,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.main_tabs.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.objetos.Drone;
+import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapter.DroneViewHolder> {
 
     private List<Drone> drones;
-    private ComunidadeFragment parent;
+    private Fragment parent;
 
-    public ExibirDronesAdapter(ComunidadeFragment parent){
+    public ExibirDronesAdapter(Fragment parent){
         this.parent = parent;
         drones = new ArrayList<>();
     }
@@ -41,7 +42,7 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
         holder.textView_viewholder_drone_titulo.setText(drones.get(position).getTitulo());
         holder.textView_viewholder_drone_nicknameDono.setText(UsuarioRepositorio.getInstance().getNicknameById(drones.get(position).getUsuarioDonoId()));
         GlideApp.with(parent.getContext())
-                .load(parent.mViewModel.getFotoDroneReference(drones.get(position)))
+                .load(DroneRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .into(holder.imageView_viewholder_drone_foto);
     }
 

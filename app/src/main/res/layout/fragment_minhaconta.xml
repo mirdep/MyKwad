@@ -80,6 +80,22 @@
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/imageView_usuario_foto" />
 
+    <RelativeLayout
+        android:id="@+id/loadingIcone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewDrones">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -116,5 +132,15 @@
         android:foreground="@drawable/ic_edit_black_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_usuario_foto"
         app:layout_constraintEnd_toEndOf="@+id/imageView_usuario_foto" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDrones"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        tools:listitem="@layout/recyclerview_drone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
