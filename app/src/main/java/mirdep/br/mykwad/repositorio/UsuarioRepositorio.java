@@ -69,12 +69,12 @@ public class UsuarioRepositorio {
         }
     }
 
-    public String getNicknameById(String id){
-        final StringBuilder nickname = new StringBuilder();
+    public LiveData<String> getNicknameById(String id){
+        MutableLiveData<String> nickname = new MutableLiveData<>();
         getUsuariosReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nickname.append((String) dataSnapshot.getValue());
+                nickname.postValue(((String) dataSnapshot.getValue()));
             }
 
             @Override
@@ -82,7 +82,7 @@ public class UsuarioRepositorio {
 
             }
         });
-        return nickname.toString();
+        return nickname;
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -39,8 +40,13 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull DroneViewHolder holder, int position) {
-        holder.textView_viewholder_drone_titulo.setText(drones.get(position).getTitulo());
-        holder.textView_viewholder_drone_nicknameDono.setText(UsuarioRepositorio.getInstance().getNicknameById(drones.get(position).getUsuarioDonoId()));
+        Drone drone = drones.get(position);
+        holder.textView_viewholder_drone_titulo.setText(drone.getTitulo());
+
+        LiveData<String> nickname = UsuarioRepositorio.getInstance().getNicknameById(drone.getUsuarioDonoId());
+        nickname.observe(parent.getViewLifecycleOwner(), exec -> {
+            holder.textView_viewholder_drone_nicknameDono.setText(nickname.getValue());
+        });
         GlideApp.with(parent.getContext())
                 .load(DroneRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .into(holder.imageView_viewholder_drone_foto);
