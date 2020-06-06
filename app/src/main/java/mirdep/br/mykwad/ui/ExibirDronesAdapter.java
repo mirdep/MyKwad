@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
         });
         GlideApp.with(parent.getContext())
                 .load(DroneRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);
     }
 

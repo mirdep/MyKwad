@@ -11,18 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
-import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.objetos.Usuario;
@@ -31,7 +31,7 @@ import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EditarContaDialogFragment extends DialogFragment {
+public class EditarContaFragment extends Fragment {
     private static final String NOME_LOG = "[EditarConta]";
     private static int SELECIONAR_FOTO_GALERIA = 2;
 
@@ -54,7 +54,7 @@ public class EditarContaDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.dialogfragment_editarconta, container, false);
+        root = inflater.inflate(R.layout.fragment_editarconta, container, false);
         return root;
     }
 
@@ -92,6 +92,8 @@ public class EditarContaDialogFragment extends DialogFragment {
             editText_editar_nome.getEditText().setText(usuario.getNome());
             GlideApp.with(getContext())
                     .load(UsuarioRepositorio.getInstance().getStorageReference().child(usuario.getId()+ Configs.EXTENSAO_IMAGEM))
+                    .apply(RequestOptions.skipMemoryCacheOf(true))
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .into(imageView_editar_foto);
         });
     }
@@ -105,22 +107,11 @@ public class EditarContaDialogFragment extends DialogFragment {
             usuario.setFoto(this.foto);
             UsuarioRepositorio.getInstance().salvar(this.usuario);
             fecharDialog();
-            ((BaseApp) getActivity()).abrirTabMinhaConta();
         }
     }
 
-    //Define o tamanho do DialogFragment na tela
-    @Override
-    public void onResume() {
-        super.onResume();
-        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes(params);
-    }
-
     public void fecharDialog(){
-        getDialog().dismiss();
+        getFragmentManager().popBackStackImmediate();
         Log.d(NOME_LOG,"MyDialog fechado!");
     }
 
@@ -145,7 +136,7 @@ public class EditarContaDialogFragment extends DialogFragment {
                 bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fotoSelecionadaUri);
                 adicionarFotoUsuario(bitmapImage);
             } catch (Exception e){
-
+                e.printStackTrace();
             }
         }
     }
@@ -153,7 +144,8 @@ public class EditarContaDialogFragment extends DialogFragment {
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
     private void adicionarFotoUsuario(Bitmap foto){
         this.foto = foto;
-        imageView_editar_foto.setImageBitmap(criarMiniatura(foto, TAMANHO_MINIATURA));
+        imageView_editar_foto.setImageBitmap(foto);
+        //imageView_editar_foto.setImageBitmap(criarMiniatura(foto, TAMANHO_MINIATURA));
     }
 
     private Bitmap criarMiniatura(Bitmap foto, int size){

@@ -11,10 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
@@ -38,7 +42,7 @@ public class MinhaContaFragment extends Fragment {
     private RecyclerView recyclerView;
     private ExibirDronesAdapter adapter;
 
-    private EditarContaDialogFragment editarContaDialog;
+    private EditarContaFragment editarContaDialog;
 
     private TextView textView_usuario_nome;
     private TextView textView_usuario_email;
@@ -89,9 +93,7 @@ public class MinhaContaFragment extends Fragment {
         });
 
         viewButton_minhaconta_editar.setOnClickListener(v -> {
-            editarContaDialog = new EditarContaDialogFragment();
-            editarContaDialog.setTargetFragment(this, 1);
-            editarContaDialog.show(getFragmentManager(), "");
+            abrirEditarContaFragment();
         });
     }
 
@@ -130,6 +132,19 @@ public class MinhaContaFragment extends Fragment {
     private void carregarFoto() {
         GlideApp.with(getContext())
                 .load(UsuarioRepositorio.getInstance().getStorageReference().child(usuario.getId()+ Configs.EXTENSAO_IMAGEM))
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(imageView_usuario_foto);
+    }
+
+    private void abrirEditarContaFragment(){
+        openFragment(new EditarContaFragment());
+    }
+
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = this.getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

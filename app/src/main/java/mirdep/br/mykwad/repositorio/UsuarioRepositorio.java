@@ -46,7 +46,9 @@ public class UsuarioRepositorio {
         }
         getDatabaseReference().child(usuario.getId()).setValue(usuario);
         UsuarioAuthentication.getInstance().atualizarAuth(usuario);
-        ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId()+ Configs.EXTENSAO_IMAGEM);
+        if(usuario.retrieveFoto() != null) {
+            ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM);
+        }
     }
 
     public LiveData<Usuario> getUsuario() {

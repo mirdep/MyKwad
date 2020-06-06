@@ -4,19 +4,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import mirdep.br.mykwad.repositorio.PecaRepositorio;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import mirdep.br.mykwad.main_tabs.tabComunidade.ComunidadeFragment;
 import mirdep.br.mykwad.main_tabs.tabCriarDrone.CriarDroneFragment;
-import mirdep.br.mykwad.main_tabs.tabMinhaConta.MinhaContaFragment;
-import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.LoginFragment;
+import mirdep.br.mykwad.main_tabs.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.RegistrarFragment;
+import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -29,8 +29,8 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_app);
         configurarNavView();
-        abrirTabComunidade();
-        PecaRepositorio.getInstance().povoarBD();
+        selecionarTab(2);
+        //PecaRepositorio.getInstance().povoarBD();
     }
 
     private void configurarNavView(){
