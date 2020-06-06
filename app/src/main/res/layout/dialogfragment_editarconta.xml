@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/retangulo_azul"
-        app:layout_constraintBottom_toTopOf="@+id/editText_registrar_email"
+        app:layout_constraintBottom_toTopOf="@+id/editText_editar_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,19 +19,18 @@
     <View
         android:id="@+id/cinza"
         android:layout_width="0dp"
-        android:layout_height="450dp"
+        android:layout_height="380dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="100dp"
         android:background="@drawable/retangulo_cardbackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/button_editar_salvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/azul" />
 
     <View
-        android:id="@+id/button_registrar_sair"
+        android:id="@+id/button_editar_sair"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="10dp"
@@ -40,46 +39,47 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/azul" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/catamaran"
-        android:text="Complete os seus dados"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/cinza"
-        app:layout_constraintStart_toStartOf="@+id/cinza"
-        app:layout_constraintTop_toTopOf="@+id/cinza" />
+    <ImageView
+        android:id="@+id/imageView_editar_foto"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/profile"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="@+id/editText_editar_email"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText_registrar_email"
+        android:id="@+id/editText_editar_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="@+id/cinza"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cinza"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_editar_foto"
         app:startIconDrawable="@drawable/ic_email_black_24dp"
         app:startIconTint="@color/softWhite">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:maxLength="254" />
+            android:maxLength="254"
+            android:textStyle="italic" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText_registrar_nome"
+        android:id="@+id/editText_editar_nome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_email"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_email"
+        app:layout_constraintEnd_toEndOf="@+id/editText_editar_email"
+        app:layout_constraintStart_toStartOf="@+id/editText_editar_email"
         app:layout_constraintTop_toBottomOf="@+id/azul"
         app:startIconDrawable="@drawable/ic_text_format_black_24dp"
         app:startIconTint="@color/softWhite">
@@ -88,62 +88,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nome completo"
+            android:inputType="textCapWords"
             android:maxLength="64"
-            android:inputType="textCapWords" />
+            android:selectAllOnFocus="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText_registrar_nickname"
+        android:id="@+id/editText_editar_nickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nome"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_nome"
-        app:layout_constraintTop_toTopOf="@+id/editText_registrar_nome"
+        app:layout_constraintEnd_toEndOf="@+id/editText_editar_nome"
+        app:layout_constraintStart_toStartOf="@+id/editText_editar_nome"
+        app:layout_constraintTop_toTopOf="@+id/editText_editar_nome"
         app:startIconDrawable="@drawable/ic_person_white_24dp"
         app:startIconTint="@color/softWhite">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-"
             android:hint="Usuário"
             android:inputType="textPersonName"
             android:maxLength="18"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText_registrar_senha"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_nickname"
-        app:layout_constraintStart_toStartOf="@+id/editText_registrar_nickname"
-        app:layout_constraintTop_toTopOf="@+id/editText_registrar_nickname"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/softWhite"
-        app:startIconDrawable="@drawable/ic_lock_black_24dp"
-        app:startIconTint="@color/softWhite">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Senha"
-            android:maxLength="18"
-            android:inputType="textPassword"/>
+            android:selectAllOnFocus="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_registrar_criarconta"
-        android:layout_width="120dp"
+        android:id="@+id/button_editar_salvar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="75dp"
         android:background="@drawable/button_borda_redonda"
-        android:text="Criar conta"
+        android:text="Salvar"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/editText_registrar_senha"
-        app:layout_constraintTop_toTopOf="@+id/editText_registrar_senha" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_editar_nickname"
+        app:layout_constraintTop_toTopOf="@+id/editText_editar_nickname" />
+
+    <View
+        android:id="@+id/view_editar_foto"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_add_a_photo_white_24dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_editar_foto"
+        app:layout_constraintTop_toTopOf="@+id/imageView_editar_foto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.objetos.Usuario;
 
 public class UsuarioRepositorio {
@@ -20,34 +23,37 @@ public class UsuarioRepositorio {
     private static final String LOG_TAG = "[UsuarioRepositorio]";
     private static MutableLiveData<Usuario> usuario;
 
+    private static final StorageReference REFERENCIA_STORAGE = FirebaseStorage.getInstance().getReference("midia/imagens/usuarios");
+    private static final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("usuarios");
+
     public static UsuarioRepositorio getInstance() {
         if (INSTANCE == null)
             INSTANCE = new UsuarioRepositorio();
         return INSTANCE;
     }
-    
-    public DatabaseReference getUsuariosReference(){
-        return FirebaseDatabase.getInstance().getReference("usuarios");
+
+    public DatabaseReference getDatabaseReference() {
+        return REFERENCIA_DATABASE;
+    }
+
+    public StorageReference getStorageReference() {
+        return REFERENCIA_STORAGE;
     }
 
     public void salvar(Usuario usuario) {
         if(usuario.getId() == null){
-            usuario.setId(getUsuariosReference().push().getKey());
+            usuario.setId(getDatabaseReference().push().getKey());
         }
-        getUsuariosReference().child(usuario.getId()).setValue(usuario);
+        getDatabaseReference().child(usuario.getId()).setValue(usuario);
         UsuarioAuthentication.getInstance().atualizarAuth(usuario);
+        ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId()+ Configs.EXTENSAO_IMAGEM);
     }
 
     public LiveData<Usuario> getUsuario() {
         usuario = new MutableLiveData<>();
-        carregarDoBanco();
-        return usuario;
-    }
-
-    private void carregarDoBanco() {
         String usuarioId = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
         if(usuarioId != null){
-            DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getUsuariosReference().child(usuarioId);
+            DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(usuarioId);
             usuarioReference.addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
@@ -65,13 +71,14 @@ public class UsuarioRepositorio {
                     });
         } else{
             Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
-            carregarDoBanco();
+            getUsuario();
         }
+        return usuario;
     }
 
     public LiveData<String> getNicknameById(String id){
         MutableLiveData<String> nickname = new MutableLiveData<>();
-        getUsuariosReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
+        getDatabaseReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nickname.postValue(((String) dataSnapshot.getValue()));

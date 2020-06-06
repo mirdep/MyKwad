@@ -14,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import mirdep.br.mykwad.objetos.Peca;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.ui.escolherPeca_dialogFragment.View_EscolherPeca;
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.main_tabs.tabCriarDrone.EscolherPecaDialogFragment;
+import mirdep.br.mykwad.objetos.Peca;
 import mirdep.br.mykwad.repositorio.GlideApp;
 
 public class CarrosselPecaFragment extends Fragment {
@@ -74,7 +74,7 @@ public class CarrosselPecaFragment extends Fragment {
 
     //Abre o DialogFragment que irá exibir as peças do BancoDeDados pro usuário escolher
     private void abrirDialogEscolherPecas(){
-        View_EscolherPeca dialog = new View_EscolherPeca(tipoPeca, this);
+        EscolherPecaDialogFragment dialog = new EscolherPecaDialogFragment(tipoPeca, this);
         dialog.setTargetFragment(this, REQUEST_CODE_DIALOG);
         dialog.show(getFragmentManager(), "");
     }

@@ -3,6 +3,6 @@
     android:shape="rectangle"
     android:padding="10dp">
     <!-- you can use any bnv_tab_item_foreground you want I used here gray bnv_tab_item_foreground-->
-    <solid android:color="#528BD1"/>
+    <solid android:color="@color/azul"/>
     <corners android:radius="5dp"/>
 </shape>

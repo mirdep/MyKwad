@@ -1,7 +1,6 @@
 package mirdep.br.mykwad.main_tabs.tabMinhaConta;
 
 import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +16,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
+import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 import mirdep.br.mykwad.ui.ExibirDronesAdapter;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 
@@ -40,11 +38,14 @@ public class MinhaContaFragment extends Fragment {
     private RecyclerView recyclerView;
     private ExibirDronesAdapter adapter;
 
+    private EditarContaDialogFragment editarContaDialog;
+
     private TextView textView_usuario_nome;
     private TextView textView_usuario_email;
     private TextView textView_usuario_nickname;
 
-    private View viewButton_minhaconta_menu;
+    private View viewButton_minhaconta_logout;
+    private View viewButton_minhaconta_editar;
 
     private ImageView imageView_usuario_foto;
 
@@ -63,8 +64,8 @@ public class MinhaContaFragment extends Fragment {
         loadingDialog.show();
         inicializarInterface();
         adicionarListeners();
-        carregarUsuario();
         inicializarRecyclerView();
+        atualizarTela();
     }
 
     private void inicializarInterface() {
@@ -77,22 +78,21 @@ public class MinhaContaFragment extends Fragment {
 
         imageView_usuario_foto = root.findViewById(R.id.imageView_usuario_foto);
 
-        viewButton_minhaconta_menu = root.findViewById(R.id.viewButton_minhaconta_menu);
+        viewButton_minhaconta_logout = root.findViewById(R.id.viewButton_minhaconta_logout);
+        viewButton_minhaconta_editar = root.findViewById(R.id.viewButton_minhaconta_editar);
     }
 
     private void adicionarListeners() {
-        viewButton_minhaconta_menu.setOnClickListener(v -> {
+        viewButton_minhaconta_logout.setOnClickListener(v -> {
             UsuarioAuthentication.getInstance().logoutConta();
             ((BaseApp) getActivity()).abrirTabMinhaConta();
         });
-    }
 
-    private void atualizarTela() {
-        textView_usuario_nickname.setText(usuario.getNickname());
-        textView_usuario_nome.setText(usuario.getNome());
-        textView_usuario_email.setText(usuario.getEmail());
-        carregarFoto();
-        loadingDialog.dismiss();
+        viewButton_minhaconta_editar.setOnClickListener(v -> {
+            editarContaDialog = new EditarContaDialogFragment();
+            editarContaDialog.setTargetFragment(this, 1);
+            editarContaDialog.show(getFragmentManager(), "");
+        });
     }
 
     //Iniciailiza o recyclerView
@@ -109,30 +109,27 @@ public class MinhaContaFragment extends Fragment {
 
     //Coloca a lista de peças no adapter do recyclewView
     private void povoarAdapter() {
-        mViewModel.getDronesDoUsuario().observe(this.getViewLifecycleOwner(), drones -> {
+        mViewModel.getDronesDoUsuario().observe(getViewLifecycleOwner(), drones -> {
             adapter.definirDrones(drones);
             root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
 
-    private void carregarUsuario() {
+    private void atualizarTela() {
         final LiveData<Usuario> usuarioInfo = mViewModel.getUsuario();
-        usuarioInfo.observe(this.getViewLifecycleOwner(), exec -> {
+        usuarioInfo.observe(getViewLifecycleOwner(), exec -> {
             usuario = usuarioInfo.getValue();
-            atualizarTela();
+            textView_usuario_nickname.setText(usuario.getNickname());
+            textView_usuario_nome.setText(usuario.getNome());
+            textView_usuario_email.setText(usuario.getEmail());
+            carregarFoto();
+            loadingDialog.dismiss();
         });
     }
 
     private void carregarFoto() {
-        Uri uri;
-        if ((uri = UsuarioAuthentication.getInstance().getUsuarioAuth().getPhotoUrl()) != null) {
-            // Reference to an image file in Cloud Storage
-            StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString());
-            // Download directly from StorageReference using Glide
-            // (See GlideRepositorio for Loader registration)
-            GlideApp.with(this /* context */)
-                    .load(storageReference)
-                    .into(imageView_usuario_foto);
-        }
+        GlideApp.with(getContext())
+                .load(UsuarioRepositorio.getInstance().getStorageReference().child(usuario.getId()+ Configs.EXTENSAO_IMAGEM))
+                .into(imageView_usuario_foto);
     }
 }

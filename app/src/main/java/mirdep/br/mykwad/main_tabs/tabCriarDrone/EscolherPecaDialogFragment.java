@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.ui.escolherPeca_dialogFragment;
+package mirdep.br.mykwad.main_tabs.tabCriarDrone;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.objetos.Peca;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 import mirdep.br.mykwad.ui.carrosselFragment.CarrosselPecaFragment;
-import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.ui.escolherPeca_dialogFragment.Controller_EscolherPeca;
+import mirdep.br.mykwad.ui.escolherPeca_dialogFragment.ExibirPecasAdapter;
 
-public class View_EscolherPeca extends DialogFragment {
+public class EscolherPecaDialogFragment extends DialogFragment {
     private static final String NOME_LOG = "[EscolherPeca]";
 
     private View root;
@@ -34,7 +36,7 @@ public class View_EscolherPeca extends DialogFragment {
     private Controller_EscolherPeca controller;
     private CarrosselPecaFragment parent;
 
-    public View_EscolherPeca(String tipoPeca, CarrosselPecaFragment parent) {
+    public EscolherPecaDialogFragment(String tipoPeca, CarrosselPecaFragment parent) {
         Log.d(NOME_LOG, "View criado!");
         this.parent = parent;
         this.tipoPeca = tipoPeca;

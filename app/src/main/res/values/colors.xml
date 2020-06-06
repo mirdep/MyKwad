@@ -5,10 +5,14 @@
     <color name="softDark">#434343</color>
     <color name="colorBackground">#303030</color>
     <color name="colorCardBackground">#424242</color>
-    <color name="colorSoftWhite">#EDEDED</color>
+    <color name="softWhite">#EDEDED</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorTitulo">#EEEEEE</color>
     <color name="bottomTabColor">#5A5A5A</color>
     <color name="bottomTabColorSelected">#474747</color>
     <color name="bottomTabIconColor">#FFFFFF</color>
+    <color name="cinza">#B6B6B6</color>
+    <color name="azul">#2A4B7C</color>
+    <color name="azulClaro">#6E86A8</color>
+    <color name="azulEscuro">#1F395F</color>
 </resources>

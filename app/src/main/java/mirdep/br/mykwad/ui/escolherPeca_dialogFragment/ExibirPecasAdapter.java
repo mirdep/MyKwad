@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.main_tabs.tabCriarDrone.EscolherPecaDialogFragment;
 import mirdep.br.mykwad.objetos.Peca;
 
 public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.PecaViewHolder> {
 
     private List<Peca> pecas;
-    private View_EscolherPeca parent;
+    private EscolherPecaDialogFragment parent;
 
-    public ExibirPecasAdapter(View_EscolherPeca parent){
+    public ExibirPecasAdapter(EscolherPecaDialogFragment parent){
         this.parent = parent;
         pecas = new ArrayList<>();
     }

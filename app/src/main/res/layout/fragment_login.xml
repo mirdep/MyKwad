@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,9 +21,10 @@
         android:layout_width="0dp"
         android:layout_height="290dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/retangulo_cardbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
         app:layout_constraintStart_toStartOf="@+id/editText_login_email"
         app:layout_constraintTop_toBottomOf="@+id/azul"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/colorSoftWhite">
+        app:passwordToggleTint="@color/softWhite">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:text="Criar conta"
-        android:textColor="#528BD1"
+        android:textColor="@color/azulClaro"
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/button_login_entrar"

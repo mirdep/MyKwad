@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,6 @@ import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Usuario;
-import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class RegistrarFragment extends Fragment {
@@ -66,7 +64,7 @@ public class RegistrarFragment extends Fragment {
 
     private void criarConta() {
         if (verificarCamposVazios() && campoNicknameOk()) {
-            UsuarioRepositorio.getInstance().getUsuariosReference().child(editText_registrar_nickname.getEditText().getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            UsuarioRepositorio.getInstance().getDatabaseReference().child(editText_registrar_nickname.getEditText().getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {

@@ -17,10 +17,10 @@
     </style>
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorSoftWhite</item>
-        <item name="android:textColorPrimary">@color/colorSoftWhite</item>
+        <item name="colorAccent">@color/softWhite</item>
+        <item name="android:textColorPrimary">@color/softWhite</item>
         <item name="android:background">@color/softDark</item>
-        <item name="android:textColor">@color/colorSoftWhite</item>
+        <item name="android:textColor">@color/softWhite</item>
     </style>
 
 </resources>

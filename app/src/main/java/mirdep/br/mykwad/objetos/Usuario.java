@@ -20,6 +20,10 @@ public class Usuario {
 
 
     //============== GETTERS =============
+    public Bitmap retrieveFoto(){
+        return foto;
+    }
+
     public String getId() {
         return id;
     }
