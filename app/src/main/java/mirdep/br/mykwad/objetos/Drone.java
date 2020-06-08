@@ -16,29 +16,29 @@ public class Drone {
     private String usuarioDonoId;
 
     //========= PECAS ============
-    private Peca antena;
-    private Peca bateria;
-    private Peca camera;
-    private Peca esc;
-    private Peca controladora;
-    private Peca frame;
-    private Peca motor;
-    private Peca helice;
-    private Peca videoTransmissor;
+    private String antenaId;
+    private String bateriaId;
+    private String cameraId;
+    private String escId;
+    private String controladoraId;
+    private String frameId;
+    private String motorId;
+    private String heliceId;
+    private String videoTransmissorId;
 
     public Drone() {
         this.usuarioDonoId = null;
         this.titulo = "";
         this.descricao = "";
-        this.antena = null;
-        this.bateria = null;
-        this.camera = null;
-        this.esc = null;
-        this.controladora = null;
-        this.frame = null;
-        this.motor = null;
-        this.helice = null;
-        this.videoTransmissor = null;
+        this.antenaId = null;
+        this.bateriaId = null;
+        this.cameraId = null;
+        this.escId = null;
+        this.controladoraId = null;
+        this.frameId = null;
+        this.motorId = null;
+        this.heliceId = null;
+        this.videoTransmissorId = null;
     }
 
     //==============================================
@@ -65,75 +65,37 @@ public class Drone {
     }
 
 
-
-    public String getAntenaId(){
-        return antena != null ? antena.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getBateriaId(){
-        return bateria != null ? bateria.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getCameraId(){
-        return camera != null ? camera.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getControladoraId(){
-        return controladora != null ? controladora.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getEscId(){
-        return esc != null ? esc.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getFrameId(){
-        return frame != null ? frame.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getHeliceId(){
-        return helice != null ? helice.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getMotorId(){
-        return motor != null ? motor.getId() : PECA_NAO_SELECIONADA;
-    }
-
-    public String getVideoTransmissorId(){
-        return videoTransmissor != null ? videoTransmissor.getId() : PECA_NAO_SELECIONADA;
-    }
-
-
     //==================== SETTERS ===============
 
     public void setPecas(List<Peca> pecas){
         for(int i = 0; i < pecas.size(); i++){
             switch (i){
                 case 0:
-                    setAntena(pecas.get(0));
+                    setAntenaId(pecas.get(0).getId());
                     break;
                 case 1:
-                    setBateria(pecas.get(1));
+                    setBateriaId(pecas.get(1).getId());
                     break;
                 case 2:
-                    setCamera(pecas.get(2));
+                    setCameraId(pecas.get(2).getId());
                     break;
                 case 3:
-                    setEsc(pecas.get(3));
+                    setEscId(pecas.get(3).getId());
                     break;
                 case 4:
-                    setControladora(pecas.get(4));
+                    setControladoraId(pecas.get(4).getId());
                     break;
                 case 5:
-                    setFrame(pecas.get(5));
+                    setFrameId(pecas.get(5).getId());
                     break;
                 case 6:
-                    setMotor(pecas.get(6));
+                    setMotorId(pecas.get(6).getId());
                     break;
                 case 7:
-                    setHelice(pecas.get(7));
+                    setHeliceId(pecas.get(7).getId());
                     break;
                 case 8:
-                    setVideoTransmissor(pecas.get(8));
+                    setVideoTransmissorId(pecas.get(8).getId());
                     break;
             }
         }
@@ -162,39 +124,80 @@ public class Drone {
         this.usuarioDonoId = usuarioDonoId;
     }
 
-    public void setAntena(Peca antena) {
-        this.antena = antena;
+
+
+    //===================== PEÇAS =======================
+
+
+    public String getAntenaId() {
+        return antenaId;
     }
 
-    public void setBateria(Peca bateria) {
-        this.bateria = bateria;
+    public void setAntenaId(String antenaId) {
+        this.antenaId = antenaId;
     }
 
-    public void setCamera(Peca camera) {
-        this.camera = camera;
+    public String getBateriaId() {
+        return bateriaId;
     }
 
-    public void setEsc(Peca esc) {
-        this.esc = esc;
+    public void setBateriaId(String bateriaId) {
+        this.bateriaId = bateriaId;
     }
 
-    public void setControladora(Peca controladora) {
-        this.controladora = controladora;
+    public String getCameraId() {
+        return cameraId;
     }
 
-    public void setFrame(Peca frame) {
-        this.frame = frame;
+    public void setCameraId(String cameraId) {
+        this.cameraId = cameraId;
     }
 
-    public void setMotor(Peca motor) {
-        this.motor = motor;
+    public String getEscId() {
+        return escId;
     }
 
-    public void setHelice(Peca helice) {
-        this.helice = helice;
+    public void setEscId(String escId) {
+        this.escId = escId;
     }
 
-    public void setVideoTransmissor(Peca videoTransmissor) {
-        this.videoTransmissor = videoTransmissor;
+    public String getControladoraId() {
+        return controladoraId;
+    }
+
+    public void setControladoraId(String controladoraId) {
+        this.controladoraId = controladoraId;
+    }
+
+    public String getFrameId() {
+        return frameId;
+    }
+
+    public void setFrameId(String frameId) {
+        this.frameId = frameId;
+    }
+
+    public String getMotorId() {
+        return motorId;
+    }
+
+    public void setMotorId(String motorId) {
+        this.motorId = motorId;
+    }
+
+    public String getHeliceId() {
+        return heliceId;
+    }
+
+    public void setHeliceId(String heliceId) {
+        this.heliceId = heliceId;
+    }
+
+    public String getVideoTransmissorId() {
+        return videoTransmissorId;
+    }
+
+    public void setVideoTransmissorId(String videoTransmissorId) {
+        this.videoTransmissorId = videoTransmissorId;
     }
 }

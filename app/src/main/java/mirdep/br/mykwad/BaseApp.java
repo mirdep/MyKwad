@@ -2,6 +2,8 @@ package mirdep.br.mykwad;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import mirdep.br.mykwad.main_tabs.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.LoginFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.RegistrarFragment;
+import mirdep.br.mykwad.repositorio.PecaRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -30,7 +33,14 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         setContentView(R.layout.base_app);
         configurarNavView();
         selecionarTab(2);
-        //PecaRepositorio.getInstance().povoarBD();
+        PecaRepositorio.getInstance().povoarBD();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void configurarNavView(){

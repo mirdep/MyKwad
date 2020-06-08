@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
@@ -55,6 +57,17 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);
+
+        holder.itemView.setOnClickListener(v -> {
+            openFragment(new ViewDroneFragment(drone));
+        });
+    }
+
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = parent.getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

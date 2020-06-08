@@ -78,6 +78,31 @@ public class UsuarioRepositorio {
         return usuario;
     }
 
+    public LiveData<Usuario> getUsuarioById(String usuarioId) {
+        MutableLiveData<Usuario> usuarioTemp = new MutableLiveData<>();
+        if(usuarioId != null){
+            DatabaseReference usuarioReference = getDatabaseReference().child(usuarioId);
+            usuarioReference.addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario "+usuarioId);
+                            usuarioTemp.postValue(dataSnapshot.getValue(Usuario.class));
+                        }
+
+                        //Se der problema na leitura no BD
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.d(LOG_TAG, "ERRO! Ao carregar usuario "+usuarioId);
+
+                        }
+                    });
+        } else{
+            Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
+        }
+        return usuarioTemp;
+    }
+
     public LiveData<String> getNicknameById(String id){
         MutableLiveData<String> nickname = new MutableLiveData<>();
         getDatabaseReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {

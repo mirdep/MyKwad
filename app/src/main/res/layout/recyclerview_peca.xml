@@ -18,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="monospace"
             android:text="Esc 4em1 Racerstar 30A"
             android:textSize="18sp"
