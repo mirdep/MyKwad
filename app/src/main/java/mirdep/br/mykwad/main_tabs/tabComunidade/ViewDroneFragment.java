@@ -171,7 +171,7 @@ public class ViewDroneFragment extends Fragment {
 
 
     public void fecharDialog(){
-        getFragmentManager().popBackStackImmediate();
+        getParentFragmentManager().popBackStackImmediate();
         Log.d(NOME_LOG,"MyDialog fechado!");
     }
 }

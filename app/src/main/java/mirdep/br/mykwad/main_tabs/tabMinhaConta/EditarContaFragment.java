@@ -61,7 +61,7 @@ public class EditarContaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        imageView_editar_foto = root.findViewById(R.id.imageView_editar_foto);
+        imageView_editar_foto = root.findViewById(R.id.imageView_viewholder_drone_fotoDono);
         button_editar_salvar = root.findViewById(R.id.button_editar_salvar);
         button_editar_sair = root.findViewById(R.id.button_editar_sair);
         view_editar_foto = root.findViewById(R.id.view_editar_foto);
@@ -144,8 +144,7 @@ public class EditarContaFragment extends Fragment {
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
     private void adicionarFotoUsuario(Bitmap foto){
         this.foto = foto;
-        imageView_editar_foto.setImageBitmap(foto);
-        //imageView_editar_foto.setImageBitmap(criarMiniatura(foto, TAMANHO_MINIATURA));
+        imageView_editar_foto.setImageBitmap(criarMiniatura(foto, TAMANHO_MINIATURA));
     }
 
     private Bitmap criarMiniatura(Bitmap foto, int size){

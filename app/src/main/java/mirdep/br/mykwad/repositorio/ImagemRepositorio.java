@@ -8,6 +8,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
+import mirdep.br.mykwad.comum.Configs;
+
 public final class ImagemRepositorio{
 
     private static ImagemRepositorio INSTANCE;
@@ -43,5 +45,9 @@ public final class ImagemRepositorio{
             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
             // ...
         });
+    }
+
+    public StorageReference getFotoUsuarioReference(String id){
+        return UsuarioRepositorio.getInstance().getStorageReference().child(id+ Configs.EXTENSAO_IMAGEM);
     }
 }

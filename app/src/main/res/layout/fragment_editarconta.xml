@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="@+id/cinza"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cinza"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_editar_foto"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
         app:startIconDrawable="@drawable/ic_email_black_24dp"
         app:startIconTint="@color/softWhite">
 
@@ -118,7 +118,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/imageView_editar_foto"
+        android:id="@+id/imageView_viewholder_drone_fotoDono"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="20dp"
@@ -133,6 +133,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/ic_add_a_photo_white_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView_editar_foto"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_editar_foto" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_viewholder_drone_fotoDono" />
 </androidx.constraintlayout.widget.ConstraintLayout>

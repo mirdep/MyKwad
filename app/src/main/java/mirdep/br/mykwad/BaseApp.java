@@ -26,6 +26,8 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     private BottomNavigationView navView;
 
     private final String TAG_TAB = "[BASE_APP]";
+    private final int SLIDE_LEFT = 0;
+    private final int SLIDE_RIGHT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +95,19 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     }
 
     private void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        if(true){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+            transaction.replace(R.id.container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+            transaction.replace(R.id.container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
 

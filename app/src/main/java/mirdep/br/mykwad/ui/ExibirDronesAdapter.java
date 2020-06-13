@@ -23,6 +23,7 @@ import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
+import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapter.DroneViewHolder> {
@@ -58,6 +59,12 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);
 
+        GlideApp.with(parent.getContext())
+                .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(drone.getUsuarioDonoId()))
+                .apply(RequestOptions.skipMemoryCacheOf(true))
+                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .into(holder.imageView_viewholder_drone_fotoDono);
+
         holder.itemView.setOnClickListener(v -> {
             openFragment(new ViewDroneFragment(drone));
         });
@@ -65,7 +72,8 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
 
     private void openFragment(Fragment fragment) {
         FragmentTransaction transaction = parent.getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        transaction.add(R.id.container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -97,12 +105,14 @@ public class ExibirDronesAdapter extends RecyclerView.Adapter<ExibirDronesAdapte
         private ImageView imageView_viewholder_drone_foto;
         private TextView textView_viewholder_drone_titulo;
         private TextView textView_viewholder_drone_nicknameDono;
+        private ImageView imageView_viewholder_drone_fotoDono;
 
         private DroneViewHolder(View itemView){
             super(itemView);
             imageView_viewholder_drone_foto = itemView.findViewById(R.id.imageView_viewholder_drone_foto);
             textView_viewholder_drone_titulo = itemView.findViewById(R.id.textView_viewholder_drone_titulo);
             textView_viewholder_drone_nicknameDono = itemView.findViewById(R.id.textView_viewholder_drone_nicknameDono);
+            imageView_viewholder_drone_fotoDono = itemView.findViewById(R.id.imageView_viewholder_drone_fotoDono);
         }
     }
 }

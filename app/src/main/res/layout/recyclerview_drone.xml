@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:clickable="true">
+    android:layout_height="500dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
@@ -13,34 +12,45 @@
         android:background="@color/softDark"
         android:foreground="?android:selectableItemBackground">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView_viewholder_drone_fotoDono"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/profile"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView_viewholder_drone_titulo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_mono"
             android:maxLines="2"
             android:singleLine="false"
             android:text="Nome do drone"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView_viewholder_drone_foto"
-            app:layout_constraintTop_toTopOf="@+id/imageView_viewholder_drone_foto" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_foto" />
 
         <TextView
             android:id="@+id/textView_viewholder_drone_nicknameDono"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
             android:fontFamily="@font/roboto_mono_italic"
             android:text="nickname_criador"
             android:textSize="14sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
@@ -49,25 +59,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
             android:fontFamily="monospace"
             android:text="@"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView_viewholder_drone_foto"
-            app:layout_constraintTop_toBottomOf="@+id/textView_viewholder_drone_titulo" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
+            app:layout_constraintStart_toEndOf="@+id/imageView_viewholder_drone_fotoDono"
+            app:layout_constraintTop_toTopOf="@+id/imageView_viewholder_drone_fotoDono" />
 
         <ImageView
             android:id="@+id/imageView_viewholder_drone_foto"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
             app:srcCompat="@drawable/drone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

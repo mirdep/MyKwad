@@ -19,12 +19,14 @@ import mirdep.br.mykwad.objetos.Usuario;
 
 public class UsuarioRepositorio {
 
-    private static UsuarioRepositorio INSTANCE;
     private static final String LOG_TAG = "[UsuarioRepositorio]";
-    private static MutableLiveData<Usuario> usuario;
 
-    private static final StorageReference REFERENCIA_STORAGE = FirebaseStorage.getInstance().getReference("midia/imagens/usuarios");
-    private static final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("usuarios");
+    private static UsuarioRepositorio INSTANCE;
+    private MutableLiveData<Usuario> usuario;
+    private Usuario usuarioObjAtual;
+
+    private final StorageReference REFERENCIA_STORAGE = FirebaseStorage.getInstance().getReference("midia/imagens/usuarios");
+    private final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("usuarios");
 
     public static UsuarioRepositorio getInstance() {
         if (INSTANCE == null)
@@ -41,6 +43,7 @@ public class UsuarioRepositorio {
     }
 
     public void salvar(Usuario usuario) {
+        usuarioObjAtual = usuario;
         if(usuario.getId() == null){
             usuario.setId(getDatabaseReference().push().getKey());
         }
@@ -53,27 +56,31 @@ public class UsuarioRepositorio {
 
     public LiveData<Usuario> getUsuario() {
         usuario = new MutableLiveData<>();
-        String usuarioId = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
-        if(usuarioId != null){
-            DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(usuarioId);
-            usuarioReference.addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario "+usuarioId);
-                            usuario.postValue(dataSnapshot.getValue(Usuario.class));
-                        }
+        if(usuarioObjAtual == null){
+            String usuarioId = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+            if(usuarioId != null){
+                DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(usuarioId);
+                usuarioReference.addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario "+usuarioId);
+                                usuarioObjAtual = dataSnapshot.getValue(Usuario.class);
+                                usuario.postValue(usuarioObjAtual);
+                            }
 
-                        //Se der problema na leitura no BD
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.d(LOG_TAG, "ERRO! Ao carregar usuario "+usuarioId);
-
-                        }
-                    });
-        } else{
-            Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
-            getUsuario();
+                            //Se der problema na leitura no BD
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d(LOG_TAG, "ERRO! Ao carregar usuario "+usuarioId);
+                            }
+                        });
+            } else{
+                Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
+                getUsuario();
+            }
+        } else {
+            usuario.postValue(usuarioObjAtual);
         }
         return usuario;
     }

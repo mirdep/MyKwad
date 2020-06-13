@@ -63,6 +63,7 @@ public class MinhaContaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         mViewModel = ViewModelProviders.of(this).get(MinhaContaViewModel.class);
         loadingDialog = MyDialog.criarProgressDialog(root.getContext(),"Carregando dados...");
         loadingDialog.show();
@@ -113,7 +114,7 @@ public class MinhaContaFragment extends Fragment {
     private void povoarAdapter() {
         mViewModel.getDronesDoUsuario().observe(getViewLifecycleOwner(), drones -> {
             adapter.definirDrones(drones);
-            root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
+            //root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
 
