@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="500dp">
+    android:layout_height="600dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/softDark"
-        android:foreground="?android:selectableItemBackground">
+        android:background="@color/colorBackground">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView_viewholder_drone_fotoDono"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
             android:src="@drawable/profile"
             app:civ_border_color="#FF000000"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_viewholder_drone_foto"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,42 +26,73 @@
             android:id="@+id/textView_viewholder_drone_titulo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
-            android:fontFamily="@font/roboto_mono"
-            android:maxLines="2"
-            android:singleLine="false"
-            android:text="Nome do drone"
+            android:fontFamily="@font/droid_sans"
+            android:singleLine="true"
+            android:text="Título..."
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_foto" />
+            app:layout_constraintStart_toStartOf="@+id/view_viewholder_drone_like"
+            app:layout_constraintTop_toBottomOf="@+id/view_viewholder_drone_like" />
+
+        <TextView
+            android:id="@+id/textView_viewholder_drone_descricao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/droid_sans"
+            android:singleLine="true"
+            android:text="Descrição..."
+            android:textColor="#D8D8D8"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView_viewholder_drone_titulo"
+            app:layout_constraintStart_toStartOf="@+id/textView_viewholder_drone_titulo"
+            app:layout_constraintTop_toBottomOf="@+id/textView_viewholder_drone_titulo" />
+
+        <TextView
+            android:id="@+id/textView_viewholder_drone_qtdlikes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/droid_sans"
+            android:singleLine="true"
+            android:text="Seja o primeiro a curtir!"
+            android:textColor="#D8D8D8"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view_viewholder_drone_like"
+            app:layout_constraintEnd_toStartOf="@+id/textView_viewholder_drone_horaCriacao"
+            app:layout_constraintStart_toEndOf="@+id/view_viewholder_drone_like"
+            app:layout_constraintTop_toTopOf="@+id/view_viewholder_drone_like" />
+
+        <TextView
+            android:id="@+id/textView_viewholder_drone_horaCriacao"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/droid_sans"
+            android:text="Criado em..."
+            android:textAlignment="viewEnd"
+            android:textColor="#979797"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_viewholder_drone_qtdlikes"
+            app:layout_constraintEnd_toEndOf="@+id/textView_viewholder_drone_titulo"
+            app:layout_constraintTop_toTopOf="@+id/textView_viewholder_drone_qtdlikes" />
 
         <TextView
             android:id="@+id/textView_viewholder_drone_nicknameDono"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/roboto_mono_italic"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/droid_sans_bold"
             android:text="nickname_criador"
             android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:fontFamily="monospace"
-            android:text="@"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView_viewholder_drone_fotoDono"
             app:layout_constraintTop_toTopOf="@+id/imageView_viewholder_drone_fotoDono" />
 
@@ -70,14 +100,25 @@
             android:id="@+id/imageView_viewholder_drone_foto"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
+            android:elevation="4dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_fotoDono"
-            app:srcCompat="@drawable/drone" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dronefoto" />
+
+        <View
+            android:id="@+id/view_viewholder_drone_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/coracao_branco"
+            app:layout_constraintStart_toStartOf="@+id/imageView_viewholder_drone_foto"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_foto" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

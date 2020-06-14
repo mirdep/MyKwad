@@ -95,19 +95,10 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     }
 
     private void openFragment(Fragment fragment) {
-        if(true){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
             transaction.replace(R.id.container, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
-        } else {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-            transaction.replace(R.id.container, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
     }
 
 

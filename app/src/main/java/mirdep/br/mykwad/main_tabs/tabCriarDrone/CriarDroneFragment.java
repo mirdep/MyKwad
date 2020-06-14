@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -30,13 +31,13 @@ import java.util.List;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.ui.carrosselFragment.CarrosselFragmentAdapter;
-import mirdep.br.mykwad.ui.carrosselFragment.CarrosselViewPager;
-import mirdep.br.mykwad.ui.carrosselFragment.CarrosselPecaFragment;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
+import mirdep.br.mykwad.ui.carrosselFragment.CarrosselFragmentAdapter;
+import mirdep.br.mykwad.ui.carrosselFragment.CarrosselPecaFragment;
+import mirdep.br.mykwad.ui.carrosselFragment.CarrosselViewPager;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -92,7 +93,7 @@ public class CriarDroneFragment extends Fragment {
     private void addListeners() {
         //Abre a galeria para escolher as fotos do Drone, e pede permissão caso não tenha
         imageView_abrir_camera.setOnClickListener(view -> {
-            if(fotos.size() >= Drone.QTD_MAX_FOTOS){
+            if (fotos.size() >= Drone.QTD_MAX_FOTOS) {
                 Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_SHORT).show();
             } else {
                 abrirCamera();
@@ -100,7 +101,7 @@ public class CriarDroneFragment extends Fragment {
         });
 
         imageView_abrir_galeria.setOnClickListener(view -> {
-            if(fotos.size() >= Drone.QTD_MAX_FOTOS){
+            if (fotos.size() >= Drone.QTD_MAX_FOTOS) {
                 Toast.makeText(root.getContext(), "Você atingiu o número máximo de fotos permitidas!", Toast.LENGTH_SHORT).show();
             } else {
                 abrirGaleria();
@@ -115,41 +116,56 @@ public class CriarDroneFragment extends Fragment {
     private void abrirGaleria() {
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2000);
         } else {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, SELECIONAR_FOTO_GALERIA);
         }
     }
 
-    private void abrirCamera(){
+    private void abrirCamera() {
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},2000);
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 2000);
         } else {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, SELECIONAR_FOTO_CAMERA);
         }
     }
 
-    private void criarDrone(){
-        ProgressDialog progressDialog = MyDialog.criarProgressDialog(root.getContext(),"Cadastrando o drone...");
-        progressDialog.show();
+    private void criarDrone() {
+        if (checarCampos()){
+            ProgressDialog progressDialog = MyDialog.criarProgressDialog(root.getContext(), "Cadastrando o drone...");
+            progressDialog.show();
 
-        DroneRepositorio.getInstance().inserir(getDronePrevia());
+            DroneRepositorio.getInstance().inserir(getDronePrevia());
 
-        progressDialog.dismiss();
+            progressDialog.dismiss();
 
-        ((BaseApp) getActivity()).abrirTabComunidade();
+            ((BaseApp) getActivity()).selecionarTab(2);
+        }
     }
 
-    private Drone getDronePrevia(){
+    private boolean checarCampos() {
+        boolean camposOk = true;
+        if (editText_titulo.getEditText().getText() == null || editText_titulo.getEditText().getText().toString().trim().length() < 1) {
+            Toast.makeText(root.getContext(), "Adicione um título para seu drone!", Toast.LENGTH_LONG).show();
+            camposOk = false;
+        } else if (fotos.size() < 1) {
+            Toast.makeText(root.getContext(), "Adicione uma foto do seu drone!", Toast.LENGTH_LONG).show();
+            camposOk = false;
+        }
+        return camposOk;
+    }
+
+    private Drone getDronePrevia() {
         Drone drone = new Drone();
         drone.setDescricao(editText_descricao.getEditText().getText().toString());
         drone.setTitulo(editText_titulo.getEditText().getText().toString());
         drone.setPecas(adapter.getPecas());
         drone.setFotos(fotos);
         drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
+        drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         return drone;
     }
 
@@ -164,24 +180,24 @@ public class CriarDroneFragment extends Fragment {
         if (resultCode == RESULT_OK && requestCode == SELECIONAR_FOTO_GALERIA) {
             Uri fotoSelecionadaUri = data.getData();
             Bitmap bitmapImage;
-            try{
+            try {
                 bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fotoSelecionadaUri);
                 adicionarFotoDrone(bitmapImage);
-            } catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
     }
 
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
-    private void adicionarFotoDrone(Bitmap foto){
+    private void adicionarFotoDrone(Bitmap foto) {
         final Bitmap miniatura = criarMiniatura(foto, TAMANHO_MINIATURA);
         fotos.add(foto);
         ImageView iv = new ImageView(root.getContext());
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setImageBitmap(miniatura);
         int dimensao = linearLayout_drone_galeria.getHeight();
-        iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao,dimensao));
+        iv.setLayoutParams(new ViewGroup.LayoutParams(dimensao, dimensao));
         iv.setOnClickListener(v -> {
             Toast.makeText(root.getContext(), "Mantenha a foto pressionada para deletar!", Toast.LENGTH_SHORT).show();
         });
@@ -194,18 +210,18 @@ public class CriarDroneFragment extends Fragment {
         scrollView_drone_galeria.postDelayed(() -> scrollView_drone_galeria.fullScroll(HorizontalScrollView.FOCUS_RIGHT), 100L);
     }
 
-    private Bitmap criarMiniatura(Bitmap foto, int size){
+    private Bitmap criarMiniatura(Bitmap foto, int size) {
         double height = foto.getHeight();
         double width = foto.getWidth();
-        double aspectRatio = width/height;
-        if(aspectRatio > 1){
+        double aspectRatio = width / height;
+        if (aspectRatio > 1) {
             height = size;
-            width = height*aspectRatio;
+            width = height * aspectRatio;
         } else {
             width = size;
-            height = width/aspectRatio;
+            height = width / aspectRatio;
         }
-        return Bitmap.createScaledBitmap(foto, (int)width, (int)height, true);
+        return Bitmap.createScaledBitmap(foto, (int) width, (int) height, true);
     }
 
     //====================== CARROSSEL DE PEÇAS =============================

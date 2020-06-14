@@ -11,18 +11,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.ui.ExibirDronesAdapter;
-import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
+import mirdep.br.mykwad.ui.DronesComunidadeAdapter;
 
 public class ComunidadeFragment extends Fragment {
+
+    private static final String LOG_TAG = "[ComunidadeFragment]";
 
     private View root;
 
     private RecyclerView recyclerView;
-    private ExibirDronesAdapter adapter;
-
+    private DronesComunidadeAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
     public ComunidadeViewModel mViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,19 +36,25 @@ public class ComunidadeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ComunidadeViewModel.class);
+        inicialiazarInterface();
+    }
+
+    private void inicialiazarInterface(){
         inicializarRecyclerView();
+        refreshLayout = root.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(() -> {
+            povoarAdapter();
+        });
     }
 
     //Iniciailiza o recyclerView
     private void inicializarRecyclerView() {
-        adapter = new ExibirDronesAdapter(this);
+        adapter = new DronesComunidadeAdapter(this);
         povoarAdapter();
         recyclerView = root.findViewById(R.id.recyclerViewDrones);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(10));
         recyclerView.setAdapter(adapter);
-
     }
 
     //Coloca a lista de peças no adapter do recyclewView
@@ -54,6 +62,7 @@ public class ComunidadeFragment extends Fragment {
         mViewModel.getTodosDrones().observe(this.getViewLifecycleOwner(), drones -> {
             adapter.definirDrones(drones);
             root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
+            refreshLayout.setRefreshing(false);
         });
     }
 }

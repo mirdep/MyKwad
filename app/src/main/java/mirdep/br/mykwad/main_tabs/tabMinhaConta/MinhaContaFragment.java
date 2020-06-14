@@ -28,7 +28,7 @@ import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
-import mirdep.br.mykwad.ui.ExibirDronesAdapter;
+import mirdep.br.mykwad.ui.MeusDronesAdapter;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 
 public class MinhaContaFragment extends Fragment {
@@ -40,9 +40,7 @@ public class MinhaContaFragment extends Fragment {
     public MinhaContaViewModel mViewModel;
 
     private RecyclerView recyclerView;
-    private ExibirDronesAdapter adapter;
-
-    private EditarContaFragment editarContaDialog;
+    private MeusDronesAdapter adapter;
 
     private TextView textView_usuario_nome;
     private TextView textView_usuario_email;
@@ -100,7 +98,7 @@ public class MinhaContaFragment extends Fragment {
 
     //Iniciailiza o recyclerView
     private void inicializarRecyclerView() {
-        adapter = new ExibirDronesAdapter(this);
+        adapter = new MeusDronesAdapter(this);
         povoarAdapter();
         recyclerView = root.findViewById(R.id.recyclerViewDrones);
         recyclerView.setHasFixedSize(true);

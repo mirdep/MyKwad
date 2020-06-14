@@ -2,6 +2,8 @@ package mirdep.br.mykwad.objetos;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.Timestamp;
+
 import java.util.List;
 
 public class Drone {
@@ -14,6 +16,7 @@ public class Drone {
     private String descricao;
     private Bitmap[] fotos;
     private String usuarioDonoId;
+    private String tempoCriacao;
 
     //========= PECAS ============
     private String antenaId;
@@ -27,18 +30,6 @@ public class Drone {
     private String videoTransmissorId;
 
     public Drone() {
-        this.usuarioDonoId = null;
-        this.titulo = "";
-        this.descricao = "";
-        this.antenaId = null;
-        this.bateriaId = null;
-        this.cameraId = null;
-        this.escId = null;
-        this.controladoraId = null;
-        this.frameId = null;
-        this.motorId = null;
-        this.heliceId = null;
-        this.videoTransmissorId = null;
     }
 
     //==============================================
@@ -64,39 +55,76 @@ public class Drone {
         return id;
     }
 
+    public String getTempoCriacao() {
+        return tempoCriacao;
+    }
+
+    public String criadoEm(){
+        String criadoEm;
+        long segundos = Timestamp.now().getSeconds()-Long.parseLong(getTempoCriacao());
+        long minutos = segundos/60;
+        long horas = minutos/60;
+        long dias = horas/24;
+        if(segundos == 1){
+            criadoEm = "criado há "+1+" segundo";
+        } else if(segundos <= 60){
+            criadoEm = "criado há "+segundos+" segundos";
+        } else if(minutos == 1){
+            criadoEm = "criado há "+1+" minuto";
+        } else if (minutos < 60){
+            criadoEm = "criado há "+minutos+" minutos";
+        } else if (horas == 1){
+            criadoEm = "criado há "+1+" hora";
+        } else if (horas <= 23){
+            criadoEm = "criado há "+horas+" horas";
+        } else if(dias == 1){
+            criadoEm = "criado há "+1+" dia";
+        } else {
+            criadoEm = "criado há "+dias+" dias";
+        }
+        return criadoEm;
+    }
 
     //==================== SETTERS ===============
 
+
+    public void setTempoCriacao(String tempoCriacao) {
+        this.tempoCriacao = tempoCriacao;
+    }
+
     public void setPecas(List<Peca> pecas){
         for(int i = 0; i < pecas.size(); i++){
-            switch (i){
-                case 0:
-                    setAntenaId(pecas.get(0).getId());
-                    break;
-                case 1:
-                    setBateriaId(pecas.get(1).getId());
-                    break;
-                case 2:
-                    setCameraId(pecas.get(2).getId());
-                    break;
-                case 3:
-                    setEscId(pecas.get(3).getId());
-                    break;
-                case 4:
-                    setControladoraId(pecas.get(4).getId());
-                    break;
-                case 5:
-                    setFrameId(pecas.get(5).getId());
-                    break;
-                case 6:
-                    setMotorId(pecas.get(6).getId());
-                    break;
-                case 7:
-                    setHeliceId(pecas.get(7).getId());
-                    break;
-                case 8:
-                    setVideoTransmissorId(pecas.get(8).getId());
-                    break;
+            Peca peca = pecas.get(i);
+            if(peca != null){
+                switch (i){
+                    case 0:
+                        setAntenaId(pecas.get(0).getId());
+                        break;
+                    case 1:
+                        setBateriaId(pecas.get(1).getId());
+                        break;
+                    case 2:
+                        setCameraId(pecas.get(2).getId());
+                        break;
+                    case 3:
+                        setEscId(pecas.get(3).getId());
+                        break;
+                    case 4:
+                        setControladoraId(pecas.get(4).getId());
+                        break;
+                    case 5:
+                        setFrameId(pecas.get(5).getId());
+                        break;
+                    case 6:
+                        setMotorId(pecas.get(6).getId());
+                        break;
+                    case 7:
+                        setHeliceId(pecas.get(7).getId());
+                        break;
+                    case 8:
+                        setVideoTransmissorId(pecas.get(8).getId());
+                        break;
+                }
             }
         }
     }

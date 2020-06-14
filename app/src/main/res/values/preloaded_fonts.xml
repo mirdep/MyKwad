@@ -3,6 +3,8 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/alegreya_sans_thin</item>
         <item>@font/catamaran</item>
+        <item>@font/droid_sans</item>
+        <item>@font/droid_sans_bold</item>
         <item>@font/roboto</item>
         <item>@font/roboto_mono</item>
         <item>@font/roboto_mono_italic</item>
