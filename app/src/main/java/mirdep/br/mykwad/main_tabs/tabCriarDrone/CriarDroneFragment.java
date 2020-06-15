@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.Timestamp;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneRepositorio;
-import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 import mirdep.br.mykwad.ui.carrosselFragment.CarrosselFragmentAdapter;
 import mirdep.br.mykwad.ui.carrosselFragment.CarrosselPecaFragment;
 import mirdep.br.mykwad.ui.carrosselFragment.CarrosselViewPager;
@@ -138,7 +136,7 @@ public class CriarDroneFragment extends Fragment {
             ProgressDialog progressDialog = MyDialog.criarProgressDialog(root.getContext(), "Cadastrando o drone...");
             progressDialog.show();
 
-            DroneRepositorio.getInstance().inserir(getDronePrevia());
+            DroneRepositorio.getInstance().salvar(getDronePrevia());
 
             progressDialog.dismiss();
 
@@ -164,8 +162,6 @@ public class CriarDroneFragment extends Fragment {
         drone.setTitulo(editText_titulo.getEditText().getText().toString());
         drone.setPecas(adapter.getPecas());
         drone.setFotos(fotos);
-        drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
-        drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         return drone;
     }
 

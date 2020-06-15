@@ -9,6 +9,7 @@ public class Usuario {
     private String email;
     private String nickname;
     private String nome;
+    private String tempoCriacao;
 
     public Usuario() {
         foto = null;
@@ -40,7 +41,15 @@ public class Usuario {
         return nome;
     }
 
+    public String getTempoCriacao() {
+        return tempoCriacao;
+    }
+
     //============== SETTERS =============
+    public void setTempoCriacao(String tempoCriacao) {
+        this.tempoCriacao = tempoCriacao;
+    }
+
     public void setFoto(Bitmap foto){
         this.foto = foto;
     }

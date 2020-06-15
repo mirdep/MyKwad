@@ -1,12 +1,12 @@
 package mirdep.br.mykwad.repositorio;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,8 +32,6 @@ public class DroneRepositorio {
 
     private MutableLiveData<List<Drone>> todosDrones;
 
-    private Context context;
-
     public static DroneRepositorio getInstance() {
         if (INSTANCE == null)
             INSTANCE = new DroneRepositorio();
@@ -49,7 +47,9 @@ public class DroneRepositorio {
     }
 
     //Adiciona uma nova peça no BancoDeDados
-    public void inserir(final Drone drone) {
+    public void salvar(final Drone drone) {
+        drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
+        drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -68,13 +68,6 @@ public class DroneRepositorio {
 
             }
         });
-    }
-
-    public interface OnGetDataListener {
-        //this is for callbacks
-        void onSuccess(DataSnapshot dataSnapshot);
-        void onStart();
-        void onFailure();
     }
 
     //Carrega as peças do BancoDeDados e retorna em um ArrayList
@@ -99,7 +92,7 @@ public class DroneRepositorio {
                     //Se der problema na leitura no BD
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d(LOG_TAG, "ERRO! Ao carregar todosDrones.");
+                        Log.d(LOG_TAG, "ERRO! Ao carregar todos Drones.");
 
                     }
                 });

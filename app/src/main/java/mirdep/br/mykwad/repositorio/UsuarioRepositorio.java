@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,9 @@ public class UsuarioRepositorio {
     }
 
     public void salvar(Usuario usuario) {
+        if(usuario.getTempoCriacao() == null || usuario.getTempoCriacao().length() < 5){
+            usuario.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
+        }
         usuarioObjAtual = usuario;
         if(usuario.getId() == null){
             usuario.setId(getDatabaseReference().push().getKey());

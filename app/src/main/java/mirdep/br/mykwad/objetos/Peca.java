@@ -10,6 +10,7 @@ public class Peca {
     private String tipo;
     private String marca;
     private String modelo;
+    private String tempoCriacao;
 
     private Uri storage_imagem_uri;
 
@@ -85,5 +86,13 @@ public class Peca {
 
     public void setStorage_imagem_uri(Uri storage_imagem_uri) {
         this.storage_imagem_uri = storage_imagem_uri;
+    }
+
+    public String getTempoCriacao() {
+        return tempoCriacao;
+    }
+
+    public void setTempoCriacao(String tempoCriacao) {
+        this.tempoCriacao = tempoCriacao;
     }
 }

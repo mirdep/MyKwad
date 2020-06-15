@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
@@ -81,25 +83,40 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
     }
 
     private void addLikeCoracao(DroneViewHolder holder, Drone drone){
-        LiveData<Boolean> usuarioCurtiu = DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
-        usuarioCurtiu.observe(parent.getViewLifecycleOwner(), exec -> {
-            if(usuarioCurtiu.getValue()){
-                holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_vermelho);
-                holder.view_viewholder_drone_like.setOnClickListener(v -> {
-                    DroneLikesRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
-                    addQtdLikes(holder, drone);
-                    addLikeCoracao(holder, drone);
-                });
-            } else {
-                holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_branco);
-                holder.view_viewholder_drone_like.setOnClickListener(v -> {
-                    animacaoCoracaoLike(holder.view_viewholder_drone_like);
-                    DroneLikesRepositorio.getInstance().inserir(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
-                    addQtdLikes(holder, drone);
-                    addLikeCoracao(holder, drone);
-                });
-            }
-        });
+        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
+            LiveData<Boolean> usuarioCurtiu = DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
+            usuarioCurtiu.observe(parent.getViewLifecycleOwner(), exec -> {
+                if(usuarioCurtiu.getValue()){
+                    holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_vermelho);
+                    holder.view_viewholder_drone_like.setOnClickListener(v -> {
+                        DroneLikesRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
+                        addQtdLikes(holder, drone);
+                        addLikeCoracao(holder, drone);
+                    });
+                } else {
+                    holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_branco);
+                    holder.view_viewholder_drone_like.setOnClickListener(v -> {
+                        animacaoCoracaoLike(holder.view_viewholder_drone_like);
+                        DroneLikesRepositorio.getInstance().inserir(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
+                        addQtdLikes(holder, drone);
+                        addLikeCoracao(holder, drone);
+                    });
+                }
+            });
+        } else {
+            //exibirDialogLogin();
+        }
+    }
+
+    private void exibirDialogLogin(){
+        new AlertDialog.Builder(parent.getContext())
+                .setTitle("Quer interagir com a comunidade?")
+                .setMessage("Faça login ou crie uma nova conta!")
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    ((BaseApp) parent.getActivity()).selecionarTab(3);
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     private void addQtdLikes(DroneViewHolder holder, Drone drone){
