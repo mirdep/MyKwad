@@ -3,7 +3,6 @@ package mirdep.br.mykwad.repositorio;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.Timestamp;
@@ -15,6 +14,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.objetos.Usuario;
 
@@ -23,8 +25,8 @@ public class UsuarioRepositorio {
     private static final String LOG_TAG = "[UsuarioRepositorio]";
 
     private static UsuarioRepositorio INSTANCE;
-    private MutableLiveData<Usuario> usuario;
-    private Usuario usuarioObjAtual;
+
+    private Usuario usuario;
 
     private final StorageReference REFERENCIA_STORAGE = FirebaseStorage.getInstance().getReference("midia/imagens/usuarios");
     private final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("usuarios");
@@ -43,83 +45,67 @@ public class UsuarioRepositorio {
         return REFERENCIA_STORAGE;
     }
 
-    public void salvar(Usuario usuario) {
-        if(usuario.getTempoCriacao() == null || usuario.getTempoCriacao().length() < 5){
+    public void inserir(Usuario usuario) {
+        if (usuario.getTempoCriacao() == null || usuario.getTempoCriacao().length() < 5) {
             usuario.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         }
-        usuarioObjAtual = usuario;
-        if(usuario.getId() == null){
+        if (usuario.getId() == null || usuario.getId().length() < 2) {
             usuario.setId(getDatabaseReference().push().getKey());
         }
+        Log.d(LOG_TAG, "Inserindo usuário \""+usuario.getId());
         getDatabaseReference().child(usuario.getId()).setValue(usuario);
         UsuarioAuthentication.getInstance().atualizarAuth(usuario);
-        if(usuario.retrieveFoto() != null) {
+        NicknameRepositorio.getInstance().inserir(usuario.getNickname(), usuario.getId());
+        if (usuario.retrieveFoto() != null) {
             ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM);
         }
     }
 
-    public LiveData<Usuario> getUsuario() {
-        usuario = new MutableLiveData<>();
-        if(usuarioObjAtual == null){
-            String usuarioId = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
-            if(usuarioId != null){
-                DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(usuarioId);
-                usuarioReference.addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario "+usuarioId);
-                                usuarioObjAtual = dataSnapshot.getValue(Usuario.class);
-                                usuario.postValue(usuarioObjAtual);
-                            }
-
-                            //Se der problema na leitura no BD
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.d(LOG_TAG, "ERRO! Ao carregar usuario "+usuarioId);
-                            }
-                        });
-            } else{
-                Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
-                getUsuario();
-            }
-        } else {
-            usuario.postValue(usuarioObjAtual);
-        }
-        return usuario;
+    public void registrarNovo(Usuario usuario){
+        this.usuario = usuario;
+        inserir(usuario);
     }
 
-    public LiveData<Usuario> getUsuarioById(String usuarioId) {
-        MutableLiveData<Usuario> usuarioTemp = new MutableLiveData<>();
-        if(usuarioId != null){
-            DatabaseReference usuarioReference = getDatabaseReference().child(usuarioId);
-            usuarioReference.addListenerForSingleValueEvent(
+    public MutableLiveData<Usuario> getUsuarioLogado() {
+        String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+        return getUsuario(idUsuario);
+    }
+
+    public MutableLiveData<Usuario> getUsuario(String idUsuario) {
+        Log.d(LOG_TAG,"getUsuario :"+idUsuario);
+        MutableLiveData<Usuario> usuario = new MutableLiveData<>();
+        if (idUsuario != null) {
+            DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(idUsuario);
+            usuarioReference.addValueEventListener(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario "+usuarioId);
-                            usuarioTemp.postValue(dataSnapshot.getValue(Usuario.class));
+                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario " + idUsuario);
+                            usuario.postValue(dataSnapshot.getValue(Usuario.class));
                         }
 
                         //Se der problema na leitura no BD
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Log.d(LOG_TAG, "ERRO! Ao carregar usuario "+usuarioId);
-
+                            Log.d(LOG_TAG, "ERRO! Ao carregar usuario " + idUsuario);
                         }
                     });
-        } else{
+        } else {
             Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
         }
-        return usuarioTemp;
+        return usuario;
     }
 
-    public LiveData<String> getNicknameById(String id){
-        MutableLiveData<String> nickname = new MutableLiveData<>();
-        getDatabaseReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
+    public MutableLiveData<List<Usuario>> getTodosUsuarios() {
+        MutableLiveData<List<Usuario>> todosUsuarios = new MutableLiveData<>();
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nickname.postValue(((String) dataSnapshot.getValue()));
+                List<Usuario> usuarios = new ArrayList<>();
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    usuarios.add(dsp.getValue(Usuario.class));
+                    todosUsuarios.postValue(usuarios);
+                }
             }
 
             @Override
@@ -127,7 +113,7 @@ public class UsuarioRepositorio {
 
             }
         });
-        return nickname;
+        return todosUsuarios;
     }
 
 }

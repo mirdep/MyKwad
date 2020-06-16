@@ -9,6 +9,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.objetos.Drone;
 
 public final class ImagemRepositorio{
 
@@ -49,5 +50,9 @@ public final class ImagemRepositorio{
 
     public StorageReference getFotoUsuarioReference(String id){
         return UsuarioRepositorio.getInstance().getStorageReference().child(id+ Configs.EXTENSAO_IMAGEM);
+    }
+
+    public StorageReference getFotoDroneReference(Drone drone){
+        return DroneRepositorio.getInstance().getStorageReference().child(drone.getId()).child(0+Configs.EXTENSAO_IMAGEM);
     }
 }

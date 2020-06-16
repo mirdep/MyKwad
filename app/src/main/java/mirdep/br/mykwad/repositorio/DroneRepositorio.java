@@ -2,7 +2,6 @@ package mirdep.br.mykwad.repositorio;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -50,24 +49,14 @@ public class DroneRepositorio {
     public void salvar(final Drone drone) {
         drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
         drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
-        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(drone.getId() == null){
-                    drone.setId(getDatabaseReference().push().getKey());
-                }
-                getDatabaseReference().child(drone.getId()).setValue(drone);
+        if(drone.getId() == null){
+            drone.setId(getDatabaseReference().push().getKey());
+        }
+        getDatabaseReference().child(drone.getId()).setValue(drone);
 
-                for(int i = 0; i < drone.retrieveImagens().length; i++){
-                    ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i+Configs.EXTENSAO_IMAGEM);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        for(int i = 0; i < drone.retrieveImagens().length; i++){
+            ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i+Configs.EXTENSAO_IMAGEM);
+        }
     }
 
     //Carrega as peças do BancoDeDados e retorna em um ArrayList
@@ -122,15 +111,11 @@ public class DroneRepositorio {
                     //Se der problema na leitura no BD
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d(LOG_TAG, "ERRO! Ao carregar todosDrones.");
+                        Log.d(LOG_TAG, "ERRO! Ao carregar todos drones.");
 
                     }
                 });
         return todosDrones;
-    }
-
-    public StorageReference getFotoDroneReference(Drone drone){
-        return DroneRepositorio.getInstance().getStorageReference().child(drone.getId()).child(0+Configs.EXTENSAO_IMAGEM);
     }
 
 }

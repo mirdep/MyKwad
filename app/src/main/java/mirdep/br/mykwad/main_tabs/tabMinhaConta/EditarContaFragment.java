@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,9 +25,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
+import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 import static android.app.Activity.RESULT_OK;
@@ -85,13 +86,13 @@ public class EditarContaFragment extends Fragment {
     }
 
     private void atualizarUI(){
-        UsuarioRepositorio.getInstance().getUsuario().observe(getViewLifecycleOwner(), usuario -> {
+        UsuarioRepositorio.getInstance().getUsuarioLogado().observe(getViewLifecycleOwner(), usuario -> {
             this.usuario = usuario;
             editText_editar_email.getEditText().setText(usuario.getEmail());
             editText_editar_nickname.getEditText().setText(usuario.getNickname());
             editText_editar_nome.getEditText().setText(usuario.getNome());
-            GlideApp.with(getContext())
-                    .load(UsuarioRepositorio.getInstance().getStorageReference().child(usuario.getId()+ Configs.EXTENSAO_IMAGEM))
+            GlideApp.with(root.getContext())
+                    .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(usuario.getId()))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                     .into(imageView_editar_foto);
@@ -104,8 +105,12 @@ public class EditarContaFragment extends Fragment {
             String novoNome = editText_editar_nome.getEditText().getText().toString();
             usuario.setNickname(novoNickname);
             usuario.setNome(novoNome);
-            usuario.setFoto(this.foto);
-            UsuarioRepositorio.getInstance().salvar(this.usuario);
+            if(foto != null){
+                usuario.setFoto(this.foto);
+            } else {
+                usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
+            }
+            UsuarioRepositorio.getInstance().inserir(usuario);
             fecharDialog();
         }
     }

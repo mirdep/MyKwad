@@ -14,18 +14,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class DroneLikesRepositorio {
-    private static DroneLikesRepositorio INSTANCE;
-
     private static final String LOG_TAG = "[DroneLikesRepositorio]";
-    private static final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("droneslikes");
-
+    private static DroneLikesRepositorio INSTANCE;
     public static DroneLikesRepositorio getInstance() {
         if (INSTANCE == null)
             INSTANCE = new DroneLikesRepositorio();
         return INSTANCE;
     }
 
-    public DatabaseReference getDatabaseReference() {
+
+    private final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("droneslikes");
+
+    private DatabaseReference getDatabaseReference() {
         return REFERENCIA_DATABASE;
     }
 

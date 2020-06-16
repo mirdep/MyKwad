@@ -20,8 +20,8 @@ import java.util.List;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
-import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
+import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 
 public class MeusDronesAdapter extends RecyclerView.Adapter<MeusDronesAdapter.MeuDroneViewHolder> {
 
@@ -50,7 +50,7 @@ public class MeusDronesAdapter extends RecyclerView.Adapter<MeusDronesAdapter.Me
             holder.textView_viewholder_drone_horaCriacao.setText(drone.criadoEm());
 
         GlideApp.with(parent.getContext())
-                .load(DroneRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
+                .load(ImagemRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);

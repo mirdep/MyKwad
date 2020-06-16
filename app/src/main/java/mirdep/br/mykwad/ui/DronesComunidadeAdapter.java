@@ -26,11 +26,10 @@ import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneLikesRepositorio;
-import mirdep.br.mykwad.repositorio.DroneRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.ImagemRepositorio;
+import mirdep.br.mykwad.repositorio.NicknameRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
-import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunidadeAdapter.DroneViewHolder> {
 
@@ -60,13 +59,13 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         if(drone.getTempoCriacao() != null)
             holder.textView_viewholder_drone_horaCriacao.setText(drone.criadoEm());
 
-        LiveData<String> nickname = UsuarioRepositorio.getInstance().getNicknameById(drone.getUsuarioDonoId());
+        LiveData<String> nickname = NicknameRepositorio.getInstance().getNicknameById(drone.getUsuarioDonoId());
         nickname.observe(parent.getViewLifecycleOwner(), exec -> {
             holder.textView_viewholder_drone_nicknameDono.setText(nickname.getValue());
         });
 
         GlideApp.with(parent.getContext())
-                .load(DroneRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
+                .load(ImagemRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);
@@ -86,7 +85,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
             LiveData<Boolean> usuarioCurtiu = DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
             usuarioCurtiu.observe(parent.getViewLifecycleOwner(), exec -> {
-                if(usuarioCurtiu.getValue()){
+                if(usuarioCurtiu.getValue() != null && usuarioCurtiu.getValue()){
                     holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_vermelho);
                     holder.view_viewholder_drone_like.setOnClickListener(v -> {
                         DroneLikesRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
@@ -109,7 +108,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
     }
 
     private void exibirDialogLogin(){
-        new AlertDialog.Builder(parent.getContext())
+        new AlertDialog.Builder(parent.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
                 .setTitle("Quer interagir com a comunidade?")
                 .setMessage("Faça login ou crie uma nova conta!")
                 .setPositiveButton("Sim", (dialog, which) -> {

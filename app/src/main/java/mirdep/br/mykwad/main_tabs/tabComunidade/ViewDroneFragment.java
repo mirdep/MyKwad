@@ -68,7 +68,7 @@ public class ViewDroneFragment extends Fragment {
 
     private void atualizarUI(){
         textView_viewdrone_titulo.setText(drone.getTitulo());
-        UsuarioRepositorio.getInstance().getUsuarioById(drone.getUsuarioDonoId()).observe(getViewLifecycleOwner(), usuario ->{
+        UsuarioRepositorio.getInstance().getUsuario(drone.getUsuarioDonoId()).observe(getViewLifecycleOwner(), usuario ->{
             textView_viewdrone_nickname.setText(usuario.getNickname());
         });
         textView_viewdrone_descricao.setText(drone.getDescricao());

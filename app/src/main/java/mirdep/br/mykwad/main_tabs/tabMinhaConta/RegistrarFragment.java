@@ -1,6 +1,7 @@
 package mirdep.br.mykwad.main_tabs.tabMinhaConta;
 
 import android.app.ProgressDialog;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,10 +90,11 @@ public class RegistrarFragment extends Fragment {
         usuario.setEmail(editText_registrar_email.getEditText().getText().toString());
         usuario.setNome(editText_registrar_nome.getEditText().getText().toString());
         usuario.setNickname(editText_registrar_nickname.getEditText().getText().toString());
+        usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
         String senha = editText_registrar_senha.getEditText().getText().toString();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                UsuarioRepositorio.getInstance().salvar(usuario);
+                UsuarioRepositorio.getInstance().registrarNovo(usuario);
                 dialog.dismiss();
                 ((BaseApp) getActivity()).abrirTabMinhaConta();
             } else {

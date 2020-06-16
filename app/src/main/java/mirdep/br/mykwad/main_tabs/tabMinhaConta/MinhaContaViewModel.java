@@ -14,7 +14,7 @@ import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 public class MinhaContaViewModel extends ViewModel {
 
     public LiveData<Usuario> getUsuario() {
-        return UsuarioRepositorio.getInstance().getUsuario();
+        return UsuarioRepositorio.getInstance().getUsuarioLogado();
     }
 
     public LiveData<List<Drone>> getDronesDoUsuario() {

@@ -12,11 +12,6 @@ public class Usuario {
     private String tempoCriacao;
 
     public Usuario() {
-        foto = null;
-        id = null;
-        email = "";
-        nickname = "";
-        nome = "";
     }
 
 

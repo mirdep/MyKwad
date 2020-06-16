@@ -18,7 +18,6 @@ import mirdep.br.mykwad.main_tabs.tabCriarDrone.CriarDroneFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.LoginFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.MinhaContaFragment;
 import mirdep.br.mykwad.main_tabs.tabMinhaConta.RegistrarFragment;
-import mirdep.br.mykwad.repositorio.PecaRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -26,8 +25,6 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
     private BottomNavigationView navView;
 
     private final String TAG_TAB = "[BASE_APP]";
-    private final int SLIDE_LEFT = 0;
-    private final int SLIDE_RIGHT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,11 @@ public class BaseApp extends AppCompatActivity implements BottomNavigationView.O
         setContentView(R.layout.base_app);
         configurarNavView();
         selecionarTab(2);
-        PecaRepositorio.getInstance().povoarBD();
+
+        //=========TEMP TESTES
+        //UsuarioAuthentication.getInstance().logoutConta();
+        //PecaRepositorio.getInstance().povoarBD();
+        //NicknameRepositorio.getInstance().atualizarLista(this);
     }
 
     @Override
