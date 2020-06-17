@@ -27,6 +27,7 @@ import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 import mirdep.br.mykwad.ui.MeusDronesAdapter;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
+import mirdep.br.mykwad.viewmodels.MinhaContaViewModel;
 
 public class MinhaContaFragment extends Fragment {
 

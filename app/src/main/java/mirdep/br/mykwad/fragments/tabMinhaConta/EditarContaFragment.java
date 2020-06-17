@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -127,8 +126,6 @@ public class EditarContaFragment extends Fragment {
             usuario.setNome(novoNome);
             if (foto != null) {
                 usuario.setFoto(this.foto);
-            } else {
-                usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
             }
             UsuarioRepositorio.getInstance().inserir(usuario);
             fecharDialog();

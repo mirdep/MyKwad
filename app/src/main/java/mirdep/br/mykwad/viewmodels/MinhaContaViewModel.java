@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.fragments.tabMinhaConta;
+package mirdep.br.mykwad.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
