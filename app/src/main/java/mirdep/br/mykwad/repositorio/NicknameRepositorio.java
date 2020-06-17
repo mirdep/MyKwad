@@ -46,6 +46,7 @@ public class NicknameRepositorio {
                         break;
                     }
                 }
+                getDatabaseReference().child(nickname).setValue(idUsuario);
             }
 
             @Override
@@ -53,7 +54,6 @@ public class NicknameRepositorio {
 
             }
         });
-        getDatabaseReference().child(nickname).setValue(idUsuario);
     }
 
     public void remover(String nickname){
@@ -76,6 +76,8 @@ public class NicknameRepositorio {
         });
         return nickname;
     }
+
+
 
     public void atualizarLista(LifecycleOwner owner){
         UsuarioRepositorio.getInstance().getTodosUsuarios().observe(owner, usuarios -> {

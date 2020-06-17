@@ -55,7 +55,7 @@ public class MeusDronesAdapter extends RecyclerView.Adapter<MeusDronesAdapter.Me
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(holder.imageView_viewholder_drone_foto);
 
-        holder.imageView_viewholder_drone_foto.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             openFragment(new ViewDroneFragment(drone));
         });
     }

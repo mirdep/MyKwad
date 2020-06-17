@@ -10,6 +10,7 @@
     <color name="colorTitulo">#EEEEEE</color>
     <color name="bottomTabColor">#5A5A5A</color>
     <color name="bottomTabColorSelected">#474747</color>
+    <color name="cinzaEscuro">#313131</color>
     <color name="bottomTabIconColor">#FFFFFF</color>
     <color name="cinza">#B6B6B6</color>
     <color name="azul">#2A4B7C</color>
