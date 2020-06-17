@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabComunidade;
+package mirdep.br.mykwad.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

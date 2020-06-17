@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabCriarDrone;
+package mirdep.br.mykwad.fragments.tabCriarDrone;
 
 import android.Manifest;
 import android.app.ProgressDialog;

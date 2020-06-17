@@ -1,8 +1,10 @@
-package mirdep.br.mykwad.main_tabs.tabMinhaConta;
+package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.app.ProgressDialog;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +19,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Usuario;
+import mirdep.br.mykwad.repositorio.NicknameRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 public class RegistrarFragment extends Fragment {
@@ -61,29 +61,42 @@ public class RegistrarFragment extends Fragment {
 
         button_registrar_sair.setOnClickListener(v -> ((BaseApp) getActivity()).abrirTabMinhaConta());
 
+        editText_registrar_nickname.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editText_registrar_nickname.setError(null);
+            }
+        });
     }
 
     private void criarConta() {
+        String novoNickname = editText_registrar_nickname.getEditText().getText().toString();
+        NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname).observe(getViewLifecycleOwner(), disponivel -> {
+            if (disponivel) {
+                salvarUsuario();
+            } else {
+                editText_registrar_nickname.setError("Usuário indisponível!");
+            }
+        });
+    }
+
+    private void salvarUsuario(){
         if (verificarCamposVazios() && campoNicknameOk()) {
-            UsuarioRepositorio.getInstance().getDatabaseReference().child(editText_registrar_nickname.getEditText().getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        editText_registrar_nickname.setError("Nome de usuário não disponível");
-                    } else {
-                        registrarContaFirebase();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            registrarConta();
         }
     }
 
-    private void registrarContaFirebase() {
+    private void registrarConta() {
         final ProgressDialog dialog = MyDialog.criarProgressDialog(root.getContext(), "Criando nova conta...");
         dialog.show();
         final Usuario usuario = new Usuario();

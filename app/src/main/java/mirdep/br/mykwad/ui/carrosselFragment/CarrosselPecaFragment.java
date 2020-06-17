@@ -16,9 +16,9 @@ import com.google.firebase.storage.StorageReference;
 
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.comum.Configs;
-import mirdep.br.mykwad.main_tabs.tabCriarDrone.EscolherPecaDialogFragment;
 import mirdep.br.mykwad.objetos.Peca;
 import mirdep.br.mykwad.repositorio.GlideApp;
+import mirdep.br.mykwad.ui.EscolherPecaDialogFragment;
 
 public class CarrosselPecaFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabComunidade;
+package mirdep.br.mykwad.fragments.tabComunidade;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.ui.DronesComunidadeAdapter;
+import mirdep.br.mykwad.viewmodels.ComunidadeViewModel;
 
 public class ComunidadeFragment extends Fragment {
 

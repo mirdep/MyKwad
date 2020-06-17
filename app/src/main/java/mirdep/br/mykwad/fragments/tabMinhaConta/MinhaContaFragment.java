@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabMinhaConta;
+package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,18 +21,14 @@ import com.bumptech.glide.request.RequestOptions;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.comum.Configs;
 import mirdep.br.mykwad.comum.MyDialog;
-import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
+import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
-import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 import mirdep.br.mykwad.ui.MeusDronesAdapter;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 
 public class MinhaContaFragment extends Fragment {
-
-    private Usuario usuario;
 
     private View root;
 
@@ -112,25 +107,23 @@ public class MinhaContaFragment extends Fragment {
     private void povoarAdapter() {
         mViewModel.getDronesDoUsuario().observe(getViewLifecycleOwner(), drones -> {
             adapter.definirDrones(drones);
-            //root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
+            if(drones.size() == 0) root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
 
     private void atualizarTela() {
-        final LiveData<Usuario> usuarioInfo = mViewModel.getUsuario();
-        usuarioInfo.observe(getViewLifecycleOwner(), exec -> {
-            usuario = usuarioInfo.getValue();
+        mViewModel.getUsuarioAtual(usuario -> {
             textView_usuario_nickname.setText(usuario.getNickname());
             textView_usuario_nome.setText(usuario.getNome());
             textView_usuario_email.setText(usuario.getEmail());
-            carregarFoto();
+            carregarFoto(usuario.getId());
             loadingDialog.dismiss();
         });
     }
 
-    private void carregarFoto() {
-        GlideApp.with(getContext())
-                .load(UsuarioRepositorio.getInstance().getStorageReference().child(usuario.getId()+ Configs.EXTENSAO_IMAGEM))
+    private void carregarFoto(String idUsuario) {
+        GlideApp.with(root.getContext())
+                .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(idUsuario))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(imageView_usuario_foto);

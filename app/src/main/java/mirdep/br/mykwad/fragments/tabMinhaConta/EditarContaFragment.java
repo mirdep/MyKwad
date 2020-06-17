@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabMinhaConta;
+package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.ImagemRepositorio;
+import mirdep.br.mykwad.repositorio.NicknameRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioRepositorio;
 
 import static android.app.Activity.RESULT_OK;
@@ -72,12 +75,29 @@ public class EditarContaFragment extends Fragment {
 
         atualizarUI();
 
+        editText_editar_nickname.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editText_editar_nickname.setError(null);
+            }
+        });
+
         button_editar_sair.setOnClickListener(v -> {
             fecharDialog();
         });
 
         button_editar_salvar.setOnClickListener(v -> {
-            salvarUsuario();
+            verificarCampos();
         });
 
         view_editar_foto.setOnClickListener(v -> {
@@ -85,8 +105,8 @@ public class EditarContaFragment extends Fragment {
         });
     }
 
-    private void atualizarUI(){
-        UsuarioRepositorio.getInstance().getUsuarioLogado().observe(getViewLifecycleOwner(), usuario -> {
+    private void atualizarUI() {
+        UsuarioRepositorio.getInstance().getUsuarioLogado(usuario -> {
             this.usuario = usuario;
             editText_editar_email.getEditText().setText(usuario.getEmail());
             editText_editar_nickname.getEditText().setText(usuario.getNickname());
@@ -99,13 +119,13 @@ public class EditarContaFragment extends Fragment {
         });
     }
 
-    private void salvarUsuario(){
-        if(this.usuario != null){
+    private void salvarUsuario() {
+        if (this.usuario != null) {
             String novoNickname = editText_editar_nickname.getEditText().getText().toString();
             String novoNome = editText_editar_nome.getEditText().getText().toString();
             usuario.setNickname(novoNickname);
             usuario.setNome(novoNome);
-            if(foto != null){
+            if (foto != null) {
                 usuario.setFoto(this.foto);
             } else {
                 usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
@@ -115,15 +135,30 @@ public class EditarContaFragment extends Fragment {
         }
     }
 
-    public void fecharDialog(){
+    private void verificarCampos() {
+        String novoNickname = editText_editar_nickname.getEditText().getText().toString();
+        if (novoNickname.equals(usuario.getNickname())) {
+            salvarUsuario();
+        } else {
+            NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname).observe(getViewLifecycleOwner(), disponivel -> {
+                if (disponivel) {
+                    salvarUsuario();
+                } else {
+                    editText_editar_nickname.setError("Usuário indisponível!");
+                }
+            });
+        }
+    }
+
+    public void fecharDialog() {
         getFragmentManager().popBackStackImmediate();
-        Log.d(NOME_LOG,"MyDialog fechado!");
+        Log.d(NOME_LOG, "MyDialog fechado!");
     }
 
     private void abrirGaleria() {
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},2000);
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2000);
         } else {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, SELECIONAR_FOTO_GALERIA);
@@ -137,32 +172,32 @@ public class EditarContaFragment extends Fragment {
         if (resultCode == RESULT_OK && requestCode == SELECIONAR_FOTO_GALERIA) {
             Uri fotoSelecionadaUri = data.getData();
             Bitmap bitmapImage;
-            try{
+            try {
                 bitmapImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), fotoSelecionadaUri);
                 adicionarFotoUsuario(bitmapImage);
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
     //Adiciona a foto escolhida na galeria no LinearLayout de fotos
-    private void adicionarFotoUsuario(Bitmap foto){
+    private void adicionarFotoUsuario(Bitmap foto) {
         this.foto = foto;
         imageView_editar_foto.setImageBitmap(criarMiniatura(foto, TAMANHO_MINIATURA));
     }
 
-    private Bitmap criarMiniatura(Bitmap foto, int size){
+    private Bitmap criarMiniatura(Bitmap foto, int size) {
         double height = foto.getHeight();
         double width = foto.getWidth();
-        double aspectRatio = width/height;
-        if(aspectRatio > 1){
+        double aspectRatio = width / height;
+        if (aspectRatio > 1) {
             height = size;
-            width = height*aspectRatio;
+            width = height * aspectRatio;
         } else {
             width = size;
-            height = width/aspectRatio;
+            height = width / aspectRatio;
         }
-        return Bitmap.createScaledBitmap(foto, (int)width, (int)height, true);
+        return Bitmap.createScaledBitmap(foto, (int) width, (int) height, true);
     }
 }

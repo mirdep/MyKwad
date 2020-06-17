@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabComunidade;
+package mirdep.br.mykwad.fragments.tabComunidade;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -68,9 +68,7 @@ public class ViewDroneFragment extends Fragment {
 
     private void atualizarUI(){
         textView_viewdrone_titulo.setText(drone.getTitulo());
-        UsuarioRepositorio.getInstance().getUsuario(drone.getUsuarioDonoId()).observe(getViewLifecycleOwner(), usuario ->{
-            textView_viewdrone_nickname.setText(usuario.getNickname());
-        });
+        UsuarioRepositorio.getInstance().getUsuario(drone.getUsuarioDonoId(), usuario -> textView_viewdrone_nickname.setText(usuario.getNickname()));
         textView_viewdrone_descricao.setText(drone.getDescricao());
         carregarFoto();
         carregarPecas();

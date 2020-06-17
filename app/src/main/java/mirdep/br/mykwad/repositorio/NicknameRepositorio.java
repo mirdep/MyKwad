@@ -77,10 +77,31 @@ public class NicknameRepositorio {
         return nickname;
     }
 
+    public LiveData<Boolean> nicknameDisponivel(String nickname){
+        MutableLiveData<Boolean> nicknameExiste = new MutableLiveData<>();
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean disponivel = true;
+                for(DataSnapshot dsp : dataSnapshot.getChildren()){
+                    if(dsp.getKey().equals(nickname)){
+                        disponivel = false;
+                        break;
+                    }
+                }
+                nicknameExiste.postValue(disponivel);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                nicknameExiste.postValue(true);
+            }
+        });
+        return nicknameExiste;
+    }
 
     public void atualizarLista(LifecycleOwner owner){
-        UsuarioRepositorio.getInstance().getTodosUsuarios().observe(owner, usuarios -> {
+        UsuarioRepositorio.getInstance().getTodosUsuarios(usuarios -> {
             for(Usuario usuario : usuarios){
                 getDatabaseReference().child(usuario.getNickname()).setValue(usuario.getId());
             }

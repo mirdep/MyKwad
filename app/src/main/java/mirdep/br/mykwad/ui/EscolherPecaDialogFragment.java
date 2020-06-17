@@ -1,4 +1,4 @@
-package mirdep.br.mykwad.main_tabs.tabCriarDrone;
+package mirdep.br.mykwad.ui;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +18,6 @@ import java.util.List;
 
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.objetos.Peca;
-import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 import mirdep.br.mykwad.ui.carrosselFragment.CarrosselPecaFragment;
 import mirdep.br.mykwad.ui.escolherPeca_dialogFragment.Controller_EscolherPeca;
 import mirdep.br.mykwad.ui.escolherPeca_dialogFragment.ExibirPecasAdapter;

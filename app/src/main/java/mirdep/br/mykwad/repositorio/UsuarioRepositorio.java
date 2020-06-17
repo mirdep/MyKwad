@@ -3,7 +3,6 @@ package mirdep.br.mykwad.repositorio;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.interfaces.LoadUsuarioListener;
+import mirdep.br.mykwad.interfaces.LoadUsuariosListener;
 import mirdep.br.mykwad.objetos.Usuario;
 
 public class UsuarioRepositorio {
@@ -52,7 +53,7 @@ public class UsuarioRepositorio {
         if (usuario.getId() == null || usuario.getId().length() < 2) {
             usuario.setId(getDatabaseReference().push().getKey());
         }
-        Log.d(LOG_TAG, "Inserindo usuário \""+usuario.getId());
+        Log.d(LOG_TAG, "Inserindo usuário \"" + usuario.getId());
         getDatabaseReference().child(usuario.getId()).setValue(usuario);
         UsuarioAuthentication.getInstance().atualizarAuth(usuario);
         NicknameRepositorio.getInstance().inserir(usuario.getNickname(), usuario.getId());
@@ -61,19 +62,13 @@ public class UsuarioRepositorio {
         }
     }
 
-    public void registrarNovo(Usuario usuario){
+    public void registrarNovo(Usuario usuario) {
         this.usuario = usuario;
         inserir(usuario);
     }
 
-    public MutableLiveData<Usuario> getUsuarioLogado() {
-        String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
-        return getUsuario(idUsuario);
-    }
-
-    public MutableLiveData<Usuario> getUsuario(String idUsuario) {
-        Log.d(LOG_TAG,"getUsuario :"+idUsuario);
-        MutableLiveData<Usuario> usuario = new MutableLiveData<>();
+    public void getUsuario(String idUsuario, LoadUsuarioListener listener) {
+        Log.d(LOG_TAG, "getUsuarioAtual :" + idUsuario);
         if (idUsuario != null) {
             DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(idUsuario);
             usuarioReference.addValueEventListener(
@@ -81,7 +76,8 @@ public class UsuarioRepositorio {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario " + idUsuario);
-                            usuario.postValue(dataSnapshot.getValue(Usuario.class));
+                            listener.finalizado(dataSnapshot.getValue(Usuario.class));
+
                         }
 
                         //Se der problema na leitura no BD
@@ -93,19 +89,22 @@ public class UsuarioRepositorio {
         } else {
             Log.d(LOG_TAG, "ERRO! UsuarioID não encontrado.");
         }
-        return usuario;
     }
 
-    public MutableLiveData<List<Usuario>> getTodosUsuarios() {
-        MutableLiveData<List<Usuario>> todosUsuarios = new MutableLiveData<>();
+    public void getUsuarioLogado(LoadUsuarioListener listener) {
+        String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+        getUsuario(idUsuario, usuario -> listener.finalizado(usuario));
+    }
+
+    public void getTodosUsuarios(LoadUsuariosListener listener) {
         getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Usuario> usuarios = new ArrayList<>();
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                     usuarios.add(dsp.getValue(Usuario.class));
-                    todosUsuarios.postValue(usuarios);
                 }
+                listener.finalizado(usuarios);
             }
 
             @Override
@@ -113,7 +112,6 @@ public class UsuarioRepositorio {
 
             }
         });
-        return todosUsuarios;
     }
 
 }

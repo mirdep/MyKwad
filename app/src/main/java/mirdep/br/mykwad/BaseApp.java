@@ -13,11 +13,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import mirdep.br.mykwad.main_tabs.tabComunidade.ComunidadeFragment;
-import mirdep.br.mykwad.main_tabs.tabCriarDrone.CriarDroneFragment;
-import mirdep.br.mykwad.main_tabs.tabMinhaConta.LoginFragment;
-import mirdep.br.mykwad.main_tabs.tabMinhaConta.MinhaContaFragment;
-import mirdep.br.mykwad.main_tabs.tabMinhaConta.RegistrarFragment;
+import mirdep.br.mykwad.fragments.tabComunidade.ComunidadeFragment;
+import mirdep.br.mykwad.fragments.tabCriarDrone.CriarDroneFragment;
+import mirdep.br.mykwad.fragments.tabMinhaConta.LoginFragment;
+import mirdep.br.mykwad.fragments.tabMinhaConta.MinhaContaFragment;
+import mirdep.br.mykwad.fragments.tabMinhaConta.RegistrarFragment;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
 
 public class BaseApp extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{

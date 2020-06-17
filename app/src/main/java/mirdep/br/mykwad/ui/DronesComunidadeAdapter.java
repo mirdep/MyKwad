@@ -23,7 +23,7 @@ import java.util.List;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.main_tabs.tabComunidade.ViewDroneFragment;
+import mirdep.br.mykwad.fragments.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
 import mirdep.br.mykwad.repositorio.DroneLikesRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;

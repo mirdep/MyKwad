@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.R;
-import mirdep.br.mykwad.main_tabs.tabCriarDrone.EscolherPecaDialogFragment;
 import mirdep.br.mykwad.objetos.Peca;
+import mirdep.br.mykwad.ui.EscolherPecaDialogFragment;
 
 public class ExibirPecasAdapter extends RecyclerView.Adapter<ExibirPecasAdapter.PecaViewHolder> {
 
