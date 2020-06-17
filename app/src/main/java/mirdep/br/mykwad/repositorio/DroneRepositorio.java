@@ -47,17 +47,18 @@ public class DroneRepositorio {
     }
 
     //Adiciona uma nova peça no BancoDeDados
-    public void inserir(final Drone drone) {
+    public void inserir(final Drone drone, FirebaseCallback<Boolean> listener) {
         drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
         drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         if(drone.getId() == null){
             drone.setId(getDatabaseReference().push().getKey());
         }
-        getDatabaseReference().child(drone.getId()).setValue(drone);
-
-        for(int i = 0; i < drone.retrieveImagens().length; i++){
-            ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i+Configs.EXTENSAO_IMAGEM);
-        }
+        getDatabaseReference().child(drone.getId()).setValue(drone).addOnSuccessListener(aVoid -> {
+            for(int i = 0; i < drone.retrieveImagens().length; i++){
+                ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i+Configs.EXTENSAO_IMAGEM);
+            }
+            listener.finalizado(true);
+        });
     }
 
     public void getById(String idDrone, FirebaseCallback<Drone> listener){
