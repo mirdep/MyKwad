@@ -136,7 +136,7 @@ public class CriarDroneFragment extends Fragment {
             ProgressDialog progressDialog = MyDialog.criarProgressDialog(root.getContext(), "Cadastrando o drone...");
             progressDialog.show();
 
-            DroneRepositorio.getInstance().salvar(getDronePrevia());
+            DroneRepositorio.getInstance().inserir(getDronePrevia());
 
             progressDialog.dismiss();
 

@@ -2,7 +2,6 @@ package mirdep.br.mykwad.repositorio;
 
 import android.graphics.Bitmap;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -23,14 +22,6 @@ public final class ImagemRepositorio{
         if (INSTANCE == null)
             INSTANCE = new ImagemRepositorio();
         return INSTANCE;
-    }
-
-    public StorageReference getImagemReference() {
-        return FirebaseStorage.getInstance().getReference().child(BD_REFERENCE);
-    }
-
-    public StorageReference getChildImagemReference(String child) {
-        return FirebaseStorage.getInstance().getReference().child(BD_REFERENCE).child(child);
     }
 
     public void uploadImagem(StorageReference reference, Bitmap imagem, String nomeArquivo){

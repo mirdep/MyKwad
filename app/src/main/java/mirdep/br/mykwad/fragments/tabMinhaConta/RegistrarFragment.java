@@ -81,7 +81,7 @@ public class RegistrarFragment extends Fragment {
 
     private void criarConta() {
         String novoNickname = editText_registrar_nickname.getEditText().getText().toString();
-        NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname).observe(getViewLifecycleOwner(), disponivel -> {
+        NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname, disponivel -> {
             if (disponivel) {
                 salvarUsuario();
             } else {
@@ -107,9 +107,10 @@ public class RegistrarFragment extends Fragment {
         String senha = editText_registrar_senha.getEditText().getText().toString();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                UsuarioRepositorio.getInstance().registrarNovo(usuario);
-                dialog.dismiss();
-                ((BaseApp) getActivity()).abrirTabMinhaConta();
+                UsuarioRepositorio.getInstance().inserir(usuario, objeto -> {
+                    dialog.dismiss();
+                    ((BaseApp) getActivity()).abrirTabMinhaConta();
+                });
             } else {
                 dialog.dismiss();
                 mostrarErrosTela(task);

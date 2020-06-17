@@ -3,8 +3,6 @@ package mirdep.br.mykwad.repositorio;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
@@ -12,6 +10,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 
 public class DroneLikesRepositorio {
     private static final String LOG_TAG = "[DroneLikesRepositorio]";
@@ -40,13 +40,12 @@ public class DroneLikesRepositorio {
         getDatabaseReference().child(idDrone).child(idUsuario).removeValue();
     }
 
-    public LiveData<Long> getQtdLikes(String idDrone){
+    public void getQtdLikes(String idDrone, FirebaseCallback<Long> listener){
         Log.d(LOG_TAG, "Carregando quantidade de likes do drone: "+idDrone);
-        final MutableLiveData<Long> qtdLikes = new MutableLiveData<>();
         getDatabaseReference().child(idDrone).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                qtdLikes.postValue(dataSnapshot.getChildrenCount());
+                listener.finalizado(dataSnapshot.getChildrenCount());
             }
 
             @Override
@@ -54,16 +53,14 @@ public class DroneLikesRepositorio {
 
             }
         });
-        return qtdLikes;
     }
 
-    public LiveData<Boolean> usuarioCurtiu(String idDrone, String idUsuario){
+    public void usuarioCurtiu(String idDrone, String idUsuario, FirebaseCallback<Boolean> listener){
         Log.d(LOG_TAG, "Verificando se o usuário "+idUsuario+" já curtiu o drone: "+idDrone);
-        final MutableLiveData<Boolean> usuarioCurtiu = new MutableLiveData<>();
         getDatabaseReference().child(idDrone).child(idUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usuarioCurtiu.postValue(dataSnapshot.exists());
+                listener.finalizado(dataSnapshot.exists());
             }
 
             @Override
@@ -71,6 +68,5 @@ public class DroneLikesRepositorio {
 
             }
         });
-        return usuarioCurtiu;
     }
 }

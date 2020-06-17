@@ -3,9 +3,6 @@ package mirdep.br.mykwad.repositorio;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 import mirdep.br.mykwad.objetos.Usuario;
 
 public class NicknameRepositorio {
@@ -61,12 +59,11 @@ public class NicknameRepositorio {
         getDatabaseReference().child(nickname).removeValue();
     }
 
-    public LiveData<String> getNicknameById(String id){
-        MutableLiveData<String> nickname = new MutableLiveData<>();
+    public void getNicknameById(String id, FirebaseCallback<String> listener){
         UsuarioRepositorio.getInstance().getDatabaseReference().child(id).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nickname.postValue(((String) dataSnapshot.getValue()));
+                listener.finalizado(dataSnapshot.getValue(String.class));
             }
 
             @Override
@@ -74,11 +71,9 @@ public class NicknameRepositorio {
 
             }
         });
-        return nickname;
     }
 
-    public LiveData<Boolean> nicknameDisponivel(String nickname){
-        MutableLiveData<Boolean> nicknameExiste = new MutableLiveData<>();
+    public void nicknameDisponivel(String nickname, FirebaseCallback<Boolean> listener){
         getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,18 +84,17 @@ public class NicknameRepositorio {
                         break;
                     }
                 }
-                nicknameExiste.postValue(disponivel);
+                listener.finalizado(disponivel);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                nicknameExiste.postValue(true);
+                listener.finalizado(true);
             }
         });
-        return nicknameExiste;
     }
 
-    public void atualizarLista(LifecycleOwner owner){
+    public void atualizarLista(){
         UsuarioRepositorio.getInstance().getTodosUsuarios(usuarios -> {
             for(Usuario usuario : usuarios){
                 getDatabaseReference().child(usuario.getNickname()).setValue(usuario.getId());

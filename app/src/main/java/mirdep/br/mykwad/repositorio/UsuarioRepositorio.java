@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.comum.Configs;
-import mirdep.br.mykwad.interfaces.LoadUsuarioListener;
-import mirdep.br.mykwad.interfaces.LoadUsuariosListener;
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 import mirdep.br.mykwad.objetos.Usuario;
 
 public class UsuarioRepositorio {
@@ -47,28 +46,30 @@ public class UsuarioRepositorio {
     }
 
     public void inserir(Usuario usuario) {
+        inserir(usuario, objeto -> {
+        });
+    }
+
+    public void inserir(Usuario usuario, FirebaseCallback<Boolean> listener) {
         if (usuario.getTempoCriacao() == null || usuario.getTempoCriacao().length() < 5) {
             usuario.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         }
-        if (usuario.getId() == null || usuario.getId().length() < 2) {
+        if (usuario.getId() == null || usuario.getId().trim().length() == 0) {
             usuario.setId(getDatabaseReference().push().getKey());
         }
         Log.d(LOG_TAG, "Inserindo usuário \"" + usuario.getId());
-        getDatabaseReference().child(usuario.getId()).setValue(usuario);
-        UsuarioAuthentication.getInstance().atualizarAuth(usuario);
-        NicknameRepositorio.getInstance().inserir(usuario.getNickname(), usuario.getId());
-        if (usuario.retrieveFoto() != null) {
-            ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM);
-        }
+        UsuarioAuthentication.getInstance().atualizarAuth(usuario, objeto ->
+                getDatabaseReference().child(usuario.getId()).setValue(usuario).addOnSuccessListener(aVoid -> {
+                    NicknameRepositorio.getInstance().inserir(usuario.getNickname(), usuario.getId());
+                    if (usuario.retrieveFoto() != null) {
+                        ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM);
+                    }
+                    listener.finalizado(true);
+                }));
     }
 
-    public void registrarNovo(Usuario usuario) {
-        this.usuario = usuario;
-        inserir(usuario);
-    }
-
-    public void getUsuario(String idUsuario, LoadUsuarioListener listener) {
-        Log.d(LOG_TAG, "getUsuarioAtual :" + idUsuario);
+    public void getUsuario(String idUsuario, FirebaseCallback<Usuario> listener) {
+        Log.d(LOG_TAG, "Carregando usuario \"" + idUsuario + "\"");
         if (idUsuario != null) {
             DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(idUsuario);
             usuarioReference.addValueEventListener(
@@ -91,12 +92,19 @@ public class UsuarioRepositorio {
         }
     }
 
-    public void getUsuarioLogado(LoadUsuarioListener listener) {
-        String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
-        getUsuario(idUsuario, usuario -> listener.finalizado(usuario));
+    public void getUsuarioLogado(FirebaseCallback<Usuario> listener) {
+        if (this.usuario != null) {
+            listener.finalizado(this.usuario);
+        } else {
+            String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+            getUsuario(idUsuario, usuario -> {
+                this.usuario = usuario;
+                listener.finalizado(usuario);
+            });
+        }
     }
 
-    public void getTodosUsuarios(LoadUsuariosListener listener) {
+    public void getTodosUsuarios(FirebaseCallback<List<Usuario>> listener) {
         getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

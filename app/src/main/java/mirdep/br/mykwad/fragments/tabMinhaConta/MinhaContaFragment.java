@@ -105,7 +105,7 @@ public class MinhaContaFragment extends Fragment {
 
     //Coloca a lista de peças no adapter do recyclewView
     private void povoarAdapter() {
-        mViewModel.getDronesDoUsuario().observe(getViewLifecycleOwner(), drones -> {
+        mViewModel.getDronesDoUsuario(drones -> {
             adapter.definirDrones(drones);
             if(drones.size() == 0) root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });

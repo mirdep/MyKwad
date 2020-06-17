@@ -2,7 +2,7 @@ package mirdep.br.mykwad.repositorio;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.Timestamp;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 import mirdep.br.mykwad.objetos.Drone;
 
 
@@ -46,7 +47,7 @@ public class DroneRepositorio {
     }
 
     //Adiciona uma nova peça no BancoDeDados
-    public void salvar(final Drone drone) {
+    public void inserir(final Drone drone) {
         drone.setUsuarioDonoId(UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName());
         drone.setTempoCriacao(String.valueOf(Timestamp.now().getSeconds()));
         if(drone.getId() == null){
@@ -59,23 +60,38 @@ public class DroneRepositorio {
         }
     }
 
+    public void getById(String idDrone, FirebaseCallback<Drone> listener){
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot dsp : dataSnapshot.getChildren()){
+                    if(dsp.getKey().equals(idDrone)){
+                        listener.finalizado(dsp.getValue(Drone.class));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     //Carrega as peças do BancoDeDados e retorna em um ArrayList
-    public LiveData<List<Drone>> getTodosDrones() {
-        todosDrones = new MutableLiveData<>();
-        getDatabaseReference().addListenerForSingleValueEvent(
-                new ValueEventListener() {
+    public void getTodosDrones(FirebaseCallback<List<Drone>> listener) {
+        Log.d(LOG_TAG, "Carregando lista de Drones...");
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(LOG_TAG, "Carregando lista de Drones...");
-                        final List<Drone> listaDrones = new ArrayList<>();
-
+                        final List<Drone> drones = new ArrayList<>();
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             Drone drone = dsp.getValue(Drone.class);
-                            listaDrones.add(0,drone);
-
+                            drones.add(0,drone);
                             Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
-                            todosDrones.postValue(listaDrones);
                         }
+                        listener.finalizado(drones);
                     }
 
                     //Se der problema na leitura no BD
@@ -85,37 +101,31 @@ public class DroneRepositorio {
 
                     }
                 });
-        return todosDrones;
     }
 
-    public LiveData<List<Drone>> getDronesPorUsuario(final String idUsuario) {
-        todosDrones = new MutableLiveData<>();
-        getDatabaseReference().addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(LOG_TAG, "Carregando lista de Drones...");
-                        final List<Drone> listaDrones = new ArrayList<>();
-
-                        for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                            Drone drone = dsp.getValue(Drone.class);
-                            if(drone.getUsuarioDonoId().equals(idUsuario)){
-                                listaDrones.add(0,drone);
-
-                                Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
-                                todosDrones.postValue(listaDrones);
-                            }
-                        }
+    public void getDronesPorUsuario(final String idUsuario, FirebaseCallback<List<Drone>> listener) {
+        Log.d(LOG_TAG, "Carregando lista de Drones...");
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<Drone> drones = new ArrayList<>();
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    Drone drone = dsp.getValue(Drone.class);
+                    if(drone.getUsuarioDonoId().equals(idUsuario)){
+                        drones.add(0,drone);
+                        Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
                     }
+                }
+                listener.finalizado(drones);
+            }
 
-                    //Se der problema na leitura no BD
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d(LOG_TAG, "ERRO! Ao carregar todos drones.");
+            //Se der problema na leitura no BD
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(LOG_TAG, "ERRO! Ao carregar todos Drones.");
 
-                    }
-                });
-        return todosDrones;
+            }
+        });
     }
 
 }

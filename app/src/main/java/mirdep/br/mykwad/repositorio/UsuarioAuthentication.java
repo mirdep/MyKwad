@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 import mirdep.br.mykwad.objetos.Usuario;
 
 public class UsuarioAuthentication {
@@ -22,12 +23,13 @@ public class UsuarioAuthentication {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    public void atualizarAuth(Usuario usuario){
+    public void atualizarAuth(Usuario usuario, FirebaseCallback<String> listener){
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(usuario.getId()).build();
         UsuarioAuthentication.getInstance().getUsuarioAuth().updateProfile(profileUpdates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(LOG_TAG, "Atualizado no FirebaseAuth.");
+                        listener.finalizado(usuario.getId());
                     } else {
                         Log.d(LOG_TAG, "Erro ao atualizar no FirebaseAuth.");
                     }

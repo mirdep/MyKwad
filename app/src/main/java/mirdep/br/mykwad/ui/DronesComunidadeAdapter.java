@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,7 +35,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
     private List<Drone> drones;
     private Fragment parent;
 
-    public DronesComunidadeAdapter(Fragment parent){
+    public DronesComunidadeAdapter(Fragment parent) {
         this.parent = parent;
         drones = new ArrayList<>();
     }
@@ -56,12 +55,11 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         addLikeCoracao(holder, drone);
         holder.textView_viewholder_drone_titulo.setText(drone.getTitulo());
         holder.textView_viewholder_drone_descricao.setText(drone.getDescricao());
-        if(drone.getTempoCriacao() != null)
+        if (drone.getTempoCriacao() != null)
             holder.textView_viewholder_drone_horaCriacao.setText(drone.criadoEm());
 
-        LiveData<String> nickname = NicknameRepositorio.getInstance().getNicknameById(drone.getUsuarioDonoId());
-        nickname.observe(parent.getViewLifecycleOwner(), exec -> {
-            holder.textView_viewholder_drone_nicknameDono.setText(nickname.getValue());
+        NicknameRepositorio.getInstance().getNicknameById(drone.getUsuarioDonoId(), nickname -> {
+            holder.textView_viewholder_drone_nicknameDono.setText(nickname);
         });
 
         GlideApp.with(parent.getContext())
@@ -81,11 +79,10 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         });
     }
 
-    private void addLikeCoracao(DroneViewHolder holder, Drone drone){
-        if(UsuarioAuthentication.getInstance().usuarioEstaLogado()){
-            LiveData<Boolean> usuarioCurtiu = DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
-            usuarioCurtiu.observe(parent.getViewLifecycleOwner(), exec -> {
-                if(usuarioCurtiu.getValue() != null && usuarioCurtiu.getValue()){
+    private void addLikeCoracao(DroneViewHolder holder, Drone drone) {
+        if (UsuarioAuthentication.getInstance().usuarioEstaLogado()) {
+            DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId(), usuarioCurtiu -> {
+                if (usuarioCurtiu) {
                     holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_vermelho);
                     holder.view_viewholder_drone_like.setOnClickListener(v -> {
                         DroneLikesRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
@@ -107,7 +104,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         }
     }
 
-    private void exibirDialogLogin(){
+    private void exibirDialogLogin() {
         new AlertDialog.Builder(parent.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
                 .setTitle("Quer interagir com a comunidade?")
                 .setMessage("Faça login ou crie uma nova conta!")
@@ -118,21 +115,19 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
                 .show();
     }
 
-    private void addQtdLikes(DroneViewHolder holder, Drone drone){
-        LiveData<Long> qtdLikes = DroneLikesRepositorio.getInstance().getQtdLikes(drone.getId());
-        qtdLikes.observe(parent.getViewLifecycleOwner(), exec -> {
-            Long qtd = qtdLikes.getValue();
-            if(qtd == 0){
+    private void addQtdLikes(DroneViewHolder holder, Drone drone) {
+        DroneLikesRepositorio.getInstance().getQtdLikes(drone.getId(), qtdLikes -> {
+            if (qtdLikes == 0) {
                 holder.textView_viewholder_drone_qtdlikes.setText("Seja o primeiro a curtir");
-            } else if (qtd == 1){
+            } else if (qtdLikes == 1) {
                 holder.textView_viewholder_drone_qtdlikes.setText("1 curtida");
             } else {
-                holder.textView_viewholder_drone_qtdlikes.setText(qtd+" curtidas");
+                holder.textView_viewholder_drone_qtdlikes.setText(qtdLikes + " curtidas");
             }
         });
     }
 
-    private void animacaoCoracaoLike(View view){
+    private void animacaoCoracaoLike(View view) {
         ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(view,
                 PropertyValuesHolder.ofFloat("scaleX", 1.2f),
                 PropertyValuesHolder.ofFloat("scaleY", 1.2f));
@@ -161,39 +156,39 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         return drones != null ? drones.size() : 0;
     }
 
-    public void definirDrones(List<Drone> drones){
+    public void definirDrones(List<Drone> drones) {
         this.drones = drones;
         notifyDataSetChanged();
     }
 
-    private void removerDrone(int position){
+    private void removerDrone(int position) {
         drones.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, drones.size());
     }
 
-    //======================================== VIEW HOLDER ===================================================
-    class DroneViewHolder extends RecyclerView.ViewHolder{
+//======================================== VIEW HOLDER ===================================================
+class DroneViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView_viewholder_drone_foto;
-        private TextView textView_viewholder_drone_titulo;
-        private TextView textView_viewholder_drone_nicknameDono;
-        private TextView textView_viewholder_drone_descricao;
-        private TextView textView_viewholder_drone_horaCriacao;
-        private TextView textView_viewholder_drone_qtdlikes;
-        private ImageView imageView_viewholder_drone_fotoDono;
-        private View view_viewholder_drone_like;
+    private ImageView imageView_viewholder_drone_foto;
+    private TextView textView_viewholder_drone_titulo;
+    private TextView textView_viewholder_drone_nicknameDono;
+    private TextView textView_viewholder_drone_descricao;
+    private TextView textView_viewholder_drone_horaCriacao;
+    private TextView textView_viewholder_drone_qtdlikes;
+    private ImageView imageView_viewholder_drone_fotoDono;
+    private View view_viewholder_drone_like;
 
-        private DroneViewHolder(View itemView){
-            super(itemView);
-            imageView_viewholder_drone_foto = itemView.findViewById(R.id.imageView_viewholder_drone_foto);
-            textView_viewholder_drone_titulo = itemView.findViewById(R.id.textView_viewholder_drone_titulo);
-            textView_viewholder_drone_nicknameDono = itemView.findViewById(R.id.textView_viewholder_drone_nicknameDono);
-            textView_viewholder_drone_descricao = itemView.findViewById(R.id.textView_viewholder_drone_descricao);
-            textView_viewholder_drone_horaCriacao = itemView.findViewById(R.id.textView_viewholder_drone_horaCriacao);
-            textView_viewholder_drone_qtdlikes = itemView.findViewById(R.id.textView_viewholder_drone_qtdlikes);
-            imageView_viewholder_drone_fotoDono = itemView.findViewById(R.id.imageView_viewholder_drone_fotoDono);
-            view_viewholder_drone_like = itemView.findViewById(R.id.view_viewholder_drone_like);
-        }
+    private DroneViewHolder(View itemView) {
+        super(itemView);
+        imageView_viewholder_drone_foto = itemView.findViewById(R.id.imageView_viewholder_drone_foto);
+        textView_viewholder_drone_titulo = itemView.findViewById(R.id.textView_viewholder_drone_titulo);
+        textView_viewholder_drone_nicknameDono = itemView.findViewById(R.id.textView_viewholder_drone_nicknameDono);
+        textView_viewholder_drone_descricao = itemView.findViewById(R.id.textView_viewholder_drone_descricao);
+        textView_viewholder_drone_horaCriacao = itemView.findViewById(R.id.textView_viewholder_drone_horaCriacao);
+        textView_viewholder_drone_qtdlikes = itemView.findViewById(R.id.textView_viewholder_drone_qtdlikes);
+        imageView_viewholder_drone_fotoDono = itemView.findViewById(R.id.imageView_viewholder_drone_fotoDono);
+        view_viewholder_drone_like = itemView.findViewById(R.id.view_viewholder_drone_like);
     }
+}
 }

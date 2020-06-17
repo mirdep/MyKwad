@@ -140,7 +140,7 @@ public class EditarContaFragment extends Fragment {
         if (novoNickname.equals(usuario.getNickname())) {
             salvarUsuario();
         } else {
-            NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname).observe(getViewLifecycleOwner(), disponivel -> {
+            NicknameRepositorio.getInstance().nicknameDisponivel(novoNickname, disponivel -> {
                 if (disponivel) {
                     salvarUsuario();
                 } else {

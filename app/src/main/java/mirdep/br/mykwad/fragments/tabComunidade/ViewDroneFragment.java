@@ -84,7 +84,7 @@ public class ViewDroneFragment extends Fragment {
 
     private void carregarPecas(){
         if(drone.getAntenaId() != null && !drone.getAntenaId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Antena", drone.getAntenaId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Antena", drone.getAntenaId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("ANTENA: "+peca.toString());
@@ -93,7 +93,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getBateriaId() != null && !drone.getBateriaId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Bateria", drone.getBateriaId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Bateria", drone.getBateriaId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("BATERIA: "+peca.toString());
@@ -102,7 +102,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getControladoraId() != null && !drone.getControladoraId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Controladora FC", drone.getControladoraId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Controladora FC", drone.getControladoraId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("CONTROLADORA FC: "+peca.toString());
@@ -111,7 +111,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getCameraId() != null && !drone.getCameraId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Câmera", drone.getCameraId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Câmera", drone.getCameraId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("CÂMERA: "+peca.toString());
@@ -119,7 +119,7 @@ public class ViewDroneFragment extends Fragment {
                 }
             });
         }if(drone.getEscId() != null && !drone.getEscId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Esc", drone.getEscId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Esc", drone.getEscId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("ESC: "+peca.toString());
@@ -128,7 +128,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getFrameId() != null && !drone.getFrameId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Frame", drone.getFrameId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Frame", drone.getFrameId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("FRAME: "+peca.toString());
@@ -136,7 +136,7 @@ public class ViewDroneFragment extends Fragment {
                 }
             });
         }if(drone.getHeliceId() != null && !drone.getHeliceId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Hélice", drone.getHeliceId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Hélice", drone.getHeliceId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("HÉLICE: "+peca.toString());
@@ -145,7 +145,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getMotorId() != null && !drone.getMotorId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Motor", drone.getMotorId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Motor", drone.getMotorId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("MOTOR: "+peca.toString());
@@ -154,7 +154,7 @@ public class ViewDroneFragment extends Fragment {
             });
         }
         if(drone.getVideoTransmissorId() != null && !drone.getVideoTransmissorId().equals("0")){
-            PecaRepositorio.getInstance().getPecaById("Vídeo Transmissor VTX", drone.getVideoTransmissorId()).observe(getViewLifecycleOwner(), peca -> {
+            PecaRepositorio.getInstance().getPecaById("Vídeo Transmissor VTX", drone.getVideoTransmissorId(), peca -> {
                 if(peca != null){
                     TextView tv = new TextView(getContext());
                     tv.setText("VTX: "+peca.toString());

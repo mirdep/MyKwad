@@ -60,7 +60,7 @@ public class ComunidadeFragment extends Fragment {
 
     //Coloca a lista de peças no adapter do recyclewView
     private void povoarAdapter() {
-        mViewModel.getTodosDrones().observe(this.getViewLifecycleOwner(), drones -> {
+        mViewModel.getTodosDrones(drones -> {
             adapter.definirDrones(drones);
             root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
             refreshLayout.setRefreshing(false);
