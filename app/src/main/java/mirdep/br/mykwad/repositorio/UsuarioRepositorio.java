@@ -26,7 +26,7 @@ public class UsuarioRepositorio {
 
     private static UsuarioRepositorio INSTANCE;
 
-    private Usuario usuario;
+    private Usuario usuarioAtual;
 
     private final StorageReference REFERENCIA_STORAGE = FirebaseStorage.getInstance().getReference("midia/imagens/usuarios");
     private final DatabaseReference REFERENCIA_DATABASE = FirebaseDatabase.getInstance().getReference("usuarios");
@@ -69,14 +69,14 @@ public class UsuarioRepositorio {
     }
 
     public void getUsuario(String idUsuario, FirebaseCallback<Usuario> listener) {
-        Log.d(LOG_TAG, "Carregando usuario \"" + idUsuario + "\"");
+        Log.d(LOG_TAG, "Carregando usuarioAtual \"" + idUsuario + "\"");
         if (idUsuario != null) {
             DatabaseReference usuarioReference = UsuarioRepositorio.getInstance().getDatabaseReference().child(idUsuario);
             usuarioReference.addValueEventListener(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuario " + idUsuario);
+                            Log.d(LOG_TAG, "SUCESSO! Ao carregar usuarioAtual " + idUsuario);
                             listener.finalizado(dataSnapshot.getValue(Usuario.class));
 
                         }
@@ -84,7 +84,7 @@ public class UsuarioRepositorio {
                         //Se der problema na leitura no BD
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Log.d(LOG_TAG, "ERRO! Ao carregar usuario " + idUsuario);
+                            Log.d(LOG_TAG, "ERRO! Ao carregar usuarioAtual " + idUsuario);
                         }
                     });
         } else {
@@ -93,14 +93,17 @@ public class UsuarioRepositorio {
     }
 
     public void getUsuarioLogado(FirebaseCallback<Usuario> listener) {
-        if (this.usuario != null) {
-            listener.finalizado(this.usuario);
-        } else {
+        if (UsuarioAuthentication.getInstance().usuarioEstaLogado()) {
             String idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
-            getUsuario(idUsuario, usuario -> {
-                this.usuario = usuario;
-                listener.finalizado(usuario);
-            });
+            if (this.usuarioAtual != null && idUsuario.equals(usuarioAtual.getId())) {
+                listener.finalizado(this.usuarioAtual);
+            } else {
+                idUsuario = UsuarioAuthentication.getInstance().getUsuarioAuth().getDisplayName();
+                getUsuario(idUsuario, usuario -> {
+                    this.usuarioAtual = usuario;
+                    listener.finalizado(usuario);
+                });
+            }
         }
     }
 

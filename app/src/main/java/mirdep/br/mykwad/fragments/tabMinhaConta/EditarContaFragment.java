@@ -1,6 +1,7 @@
 package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputLayout;
 
 import mirdep.br.mykwad.R;
+import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.objetos.Usuario;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.ImagemRepositorio;
@@ -54,6 +56,7 @@ public class EditarContaFragment extends Fragment {
 
     private Bitmap foto;
 
+    private ProgressDialog loadingDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,6 +123,8 @@ public class EditarContaFragment extends Fragment {
 
     private void salvarUsuario() {
         if (this.usuario != null) {
+            loadingDialog = MyDialog.criarProgressDialog(root.getContext(),"Salvando alterações...");
+            loadingDialog.show();
             String novoNickname = editText_editar_nickname.getEditText().getText().toString();
             String novoNome = editText_editar_nome.getEditText().getText().toString();
             usuario.setNickname(novoNickname);
@@ -127,8 +132,7 @@ public class EditarContaFragment extends Fragment {
             if (foto != null) {
                 usuario.setFoto(this.foto);
             }
-            UsuarioRepositorio.getInstance().inserir(usuario);
-            fecharDialog();
+            UsuarioRepositorio.getInstance().inserir(usuario, objeto -> fecharDialog());
         }
     }
 
@@ -148,6 +152,7 @@ public class EditarContaFragment extends Fragment {
     }
 
     public void fecharDialog() {
+        loadingDialog.dismiss();
         getFragmentManager().popBackStackImmediate();
         Log.d(NOME_LOG, "MyDialog fechado!");
     }

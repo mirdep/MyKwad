@@ -99,11 +99,7 @@ public class RegistrarFragment extends Fragment {
     private void registrarConta() {
         final ProgressDialog dialog = MyDialog.criarProgressDialog(root.getContext(), "Criando nova conta...");
         dialog.show();
-        final Usuario usuario = new Usuario();
-        usuario.setEmail(editText_registrar_email.getEditText().getText().toString());
-        usuario.setNome(editText_registrar_nome.getEditText().getText().toString());
-        usuario.setNickname(editText_registrar_nickname.getEditText().getText().toString());
-        usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
+        final Usuario usuario = gerarUsuario();
         String senha = editText_registrar_senha.getEditText().getText().toString();
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(usuario.getEmail(), senha).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -116,7 +112,15 @@ public class RegistrarFragment extends Fragment {
                 mostrarErrosTela(task);
             }
         });
+    }
 
+    private Usuario gerarUsuario(){
+        final Usuario usuario = new Usuario();
+        usuario.setEmail(editText_registrar_email.getEditText().getText().toString());
+        usuario.setNome(editText_registrar_nome.getEditText().getText().toString());
+        usuario.setNickname(editText_registrar_nickname.getEditText().getText().toString());
+        usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
+        return usuario;
     }
 
     private boolean campoNicknameOk() {
