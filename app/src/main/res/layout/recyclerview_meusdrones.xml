@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -21,7 +22,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/droid_sans"
             android:singleLine="true"
-            android:text="Título..."
+            tools:text="Título..."
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView_viewholder_drone_foto"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/droid_sans"
             android:singleLine="true"
-            android:text="Descrição..."
+            tools:text="Descrição..."
             android:textColor="#D8D8D8"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textView_viewholder_drone_titulo"
@@ -51,7 +52,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/droid_sans"
             android:singleLine="true"
-            android:text="Criado em..."
+            tools:text="Criado em..."
             android:textColor="#979797"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView_viewholder_drone_foto"
@@ -63,10 +64,11 @@
             android:layout_height="0dp"
             android:elevation="4dp"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dronefoto" />
+            tools:srcCompat="@drawable/dronefoto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

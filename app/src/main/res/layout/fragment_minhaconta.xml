@@ -43,7 +43,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/catamaran"
-        android:text="Nome do usuario"
+        tools:text="Teste teste"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="#FFFFFF"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/catamaran"
-        android:text="E-mail do usuario"
+        tools:text="teste@teste.com"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="#FFFFFF"
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:fontFamily="@font/catamaran"
-        android:text="nickname"
+        tools:text="teste"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView"
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/catamaran"
-        android:text="@"
+        tools:text="@"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/imageView_usuario_foto"
@@ -141,7 +141,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabs"
-        tools:listitem="@layout/recyclerview_drone" />
+        tools:listitem="@layout/recyclerview_meusdrones" />
 
     <View
         android:id="@+id/viewButton_minhaconta_editar"
