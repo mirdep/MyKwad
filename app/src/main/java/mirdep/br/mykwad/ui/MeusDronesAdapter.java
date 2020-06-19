@@ -53,6 +53,7 @@ public class MeusDronesAdapter extends RecyclerView.Adapter<MeusDronesAdapter.Me
                 .load(ImagemRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .error(parent.getResources().getDrawable(R.drawable.dronefoto))
                 .into(holder.imageView_viewholder_drone_foto);
 
         holder.itemView.setOnClickListener(v -> {

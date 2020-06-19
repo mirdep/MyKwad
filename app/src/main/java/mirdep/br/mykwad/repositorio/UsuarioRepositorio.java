@@ -62,9 +62,11 @@ public class UsuarioRepositorio {
                 getDatabaseReference().child(usuario.getId()).setValue(usuario).addOnSuccessListener(aVoid -> {
                     NicknameRepositorio.getInstance().inserir(usuario.getNickname(), usuario.getId());
                     if (usuario.retrieveFoto() != null) {
-                        ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM);
+                        ImagemRepositorio.getInstance().uploadImagem(getStorageReference(), usuario.retrieveFoto(), usuario.getId() + Configs.EXTENSAO_IMAGEM, objeto1 ->
+                                listener.finalizado(true));
+                    } else {
+                        listener.finalizado(true);
                     }
-                    listener.finalizado(true);
                 }));
     }
 

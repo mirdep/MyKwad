@@ -79,6 +79,7 @@ public class ViewDroneFragment extends Fragment {
                 .load(DroneRepositorio.getInstance().getStorageReference().child(drone.getId()).child(0+Configs.EXTENSAO_IMAGEM))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .error(getResources().getDrawable(R.drawable.dronefoto))
                 .into(imageView_viewdrone_foto);
     }
 

@@ -66,12 +66,14 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
                 .load(ImagemRepositorio.getInstance().getFotoDroneReference(drones.get(position)))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .error(parent.getResources().getDrawable(R.drawable.dronefoto))
                 .into(holder.imageView_viewholder_drone_foto);
 
         GlideApp.with(parent.getContext())
                 .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(drone.getUsuarioDonoId()))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .error(parent.getResources().getDrawable(R.drawable.profile))
                 .into(holder.imageView_viewholder_drone_fotoDono);
 
         holder.imageView_viewholder_drone_foto.setOnClickListener(v -> {

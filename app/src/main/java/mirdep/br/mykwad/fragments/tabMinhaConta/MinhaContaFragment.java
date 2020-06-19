@@ -1,6 +1,7 @@
 package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,10 +124,12 @@ public class MinhaContaFragment extends Fragment {
     }
 
     private void carregarFoto(String idUsuario) {
+        Drawable defaultFoto = getResources().getDrawable(R.drawable.profile);
         GlideApp.with(root.getContext())
                 .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(idUsuario))
                 .apply(RequestOptions.skipMemoryCacheOf(true))
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .error(defaultFoto)
                 .into(imageView_usuario_foto);
     }
 

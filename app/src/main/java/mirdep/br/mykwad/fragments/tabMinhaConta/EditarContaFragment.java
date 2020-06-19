@@ -117,6 +117,7 @@ public class EditarContaFragment extends Fragment {
                     .load(ImagemRepositorio.getInstance().getFotoUsuarioReference(usuario.getId()))
                     .apply(RequestOptions.skipMemoryCacheOf(true))
                     .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .error(getResources().getDrawable(R.drawable.profile))
                     .into(imageView_editar_foto);
         });
     }

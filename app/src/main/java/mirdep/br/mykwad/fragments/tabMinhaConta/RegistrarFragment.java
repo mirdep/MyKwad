@@ -1,7 +1,6 @@
 package mirdep.br.mykwad.fragments.tabMinhaConta;
 
 import android.app.ProgressDialog;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -119,7 +118,6 @@ public class RegistrarFragment extends Fragment {
         usuario.setEmail(editText_registrar_email.getEditText().getText().toString());
         usuario.setNome(editText_registrar_nome.getEditText().getText().toString());
         usuario.setNickname(editText_registrar_nickname.getEditText().getText().toString());
-        usuario.setFoto(BitmapFactory.decodeResource(getResources(), R.drawable.profile));
         return usuario;
     }
 

@@ -3,11 +3,11 @@ package mirdep.br.mykwad.repositorio;
 import android.graphics.Bitmap;
 
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 
 import mirdep.br.mykwad.comum.Configs;
+import mirdep.br.mykwad.interfaces.FirebaseCallback;
 import mirdep.br.mykwad.objetos.Drone;
 
 public final class ImagemRepositorio{
@@ -25,17 +25,16 @@ public final class ImagemRepositorio{
     }
 
     public void uploadImagem(StorageReference reference, Bitmap imagem, String nomeArquivo){
+        uploadImagem(reference, imagem, nomeArquivo, objeto -> {});
+    }
+
+    public void uploadImagem(StorageReference reference, Bitmap imagem, String nomeArquivo, FirebaseCallback<Boolean> listener){
         reference = reference.child(nomeArquivo);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         imagem.compress(Bitmap.CompressFormat.JPEG, QUALIDADE_FOTO_BAIXA, baos);
         byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = reference.putBytes(data);
-        uploadTask.addOnFailureListener(exception -> {
-            // Handle unsuccessful uploads
-        }).addOnSuccessListener(taskSnapshot -> {
-            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-            // ...
+        reference.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+            listener.finalizado(true);
         });
     }
 

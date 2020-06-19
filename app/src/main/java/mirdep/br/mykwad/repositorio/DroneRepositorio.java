@@ -54,10 +54,10 @@ public class DroneRepositorio {
             drone.setId(getDatabaseReference().push().getKey());
         }
         getDatabaseReference().child(drone.getId()).setValue(drone).addOnSuccessListener(aVoid -> {
-            for(int i = 0; i < drone.retrieveImagens().length; i++){
-                ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i+Configs.EXTENSAO_IMAGEM);
+            ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[0], 0 + Configs.EXTENSAO_IMAGEM, objeto -> listener.finalizado(true));
+            for(int i = 1; i < drone.retrieveImagens().length; i++){
+                ImagemRepositorio.getInstance().uploadImagem(getStorageReference().child(drone.getId()), drone.retrieveImagens()[i], i + Configs.EXTENSAO_IMAGEM);
             }
-            listener.finalizado(true);
         });
     }
 
