@@ -129,4 +129,33 @@ public class DroneRepositorio {
         });
     }
 
+    public void getDronesFavoritos(final String idUsuario, FirebaseCallback<List<Drone>> listener) {
+        Log.d(LOG_TAG, "Carregando lista de Drones favoritos...");
+        getDatabaseReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<Drone> drones = new ArrayList<>();
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                    Drone drone = dsp.getValue(Drone.class);
+                    DroneFavoritosRepositorio.getInstance().usuarioFavoritou(drone.getId(), idUsuario, new FirebaseCallback<Boolean>() {
+                        @Override
+                        public void finalizado(Boolean favorito) {
+                            if(favorito){
+                                drones.add(0,drone);
+                                Log.d(LOG_TAG, "Drone carregado: " + drone.getTitulo());
+                                listener.finalizado(drones);
+                            }
+                        }
+                    });
+                }
+            }
+
+            //Se der problema na leitura no BD
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(LOG_TAG, "ERRO! Ao carregar todos Drones.");
+
+            }
+        });
+    }
 }

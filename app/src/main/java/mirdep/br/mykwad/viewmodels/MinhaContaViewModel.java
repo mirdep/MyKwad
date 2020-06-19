@@ -24,4 +24,10 @@ public class MinhaContaViewModel extends ViewModel {
             listener.finalizado(dronesDoUsuario);
         });
     }
+
+    public void getDronesFavoritos(FirebaseCallback<List<Drone>> listener) {
+        DroneRepositorio.getInstance().getDronesFavoritos(UsuarioAuthentication.getInstance().getUsuarioId(), dronesDoUsuario -> {
+            listener.finalizado(dronesDoUsuario);
+        });
+    }
 }

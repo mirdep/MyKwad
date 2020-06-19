@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
 
 import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
@@ -26,6 +27,7 @@ import mirdep.br.mykwad.comum.MyDialog;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.ImagemRepositorio;
 import mirdep.br.mykwad.repositorio.UsuarioAuthentication;
+import mirdep.br.mykwad.ui.DronesFavoritosAdapter;
 import mirdep.br.mykwad.ui.MeusDronesAdapter;
 import mirdep.br.mykwad.ui.VerticalSpaceItemDecoration;
 import mirdep.br.mykwad.viewmodels.MinhaContaViewModel;
@@ -37,7 +39,8 @@ public class MinhaContaFragment extends Fragment {
     public MinhaContaViewModel mViewModel;
 
     private RecyclerView recyclerView;
-    private MeusDronesAdapter adapter;
+    private MeusDronesAdapter meusDronesAdapter;
+    private DronesFavoritosAdapter dronesFavoritosAdapter;
 
     private TextView textView_usuario_nome;
     private TextView textView_usuario_email;
@@ -49,6 +52,8 @@ public class MinhaContaFragment extends Fragment {
     private ImageView imageView_usuario_foto;
 
     private ProgressDialog loadingDialog;
+
+    private TabLayout tabs;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_minhaconta, container, false);
@@ -64,11 +69,13 @@ public class MinhaContaFragment extends Fragment {
         loadingDialog.show();
         inicializarInterface();
         adicionarListeners();
-        inicializarRecyclerView();
         atualizarTela();
+        tabs.getTabAt(0).select();
     }
 
     private void inicializarInterface() {
+        tabs = root.findViewById(R.id.tabs);
+        inicializarMeusDronesRecyclerView();
         textView_usuario_email = root.findViewById(R.id.textView_usuario_email);
         textView_usuario_email.setText("");
         textView_usuario_nome = root.findViewById(R.id.textView_usuario_nome);
@@ -83,6 +90,27 @@ public class MinhaContaFragment extends Fragment {
     }
 
     private void adicionarListeners() {
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 0){
+                    inicializarMeusDronesRecyclerView();
+                } else {
+                    inicializarDronesFavoritosRecyclerView();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         viewButton_minhaconta_logout.setOnClickListener(v -> {
             UsuarioAuthentication.getInstance().logoutConta();
             ((BaseApp) getActivity()).abrirTabMinhaConta();
@@ -94,21 +122,41 @@ public class MinhaContaFragment extends Fragment {
     }
 
     //Iniciailiza o recyclerView
-    private void inicializarRecyclerView() {
-        adapter = new MeusDronesAdapter(this);
-        povoarAdapter();
+    private void inicializarMeusDronesRecyclerView() {
+        meusDronesAdapter = new MeusDronesAdapter(this);
+        povoarMeusDronesAdapter();
         recyclerView = root.findViewById(R.id.recyclerViewDrones);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(10));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(meusDronesAdapter);
 
     }
 
-    //Coloca a lista de peças no adapter do recyclewView
-    private void povoarAdapter() {
+    //Iniciailiza o recyclerView
+    private void inicializarDronesFavoritosRecyclerView() {
+        dronesFavoritosAdapter = new DronesFavoritosAdapter(this);
+        povoarDronesFavoritosAdapter();
+        recyclerView = root.findViewById(R.id.recyclerViewDrones);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(10));
+        recyclerView.setAdapter(dronesFavoritosAdapter);
+
+    }
+
+    //Coloca a lista de peças no meusDronesAdapter do recyclewView
+    private void povoarMeusDronesAdapter() {
         mViewModel.getDronesDoUsuario(drones -> {
-            adapter.definirDrones(drones);
+            meusDronesAdapter.definirDrones(drones);
+            if(drones.size() == 0) root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
+        });
+    }
+
+    //Coloca a lista de peças no dronesFavoritosAdapter do recyclewView
+    private void povoarDronesFavoritosAdapter() {
+        mViewModel.getDronesFavoritos(drones -> {
+            dronesFavoritosAdapter.definirDrones(drones);
             if(drones.size() == 0) root.findViewById(R.id.loadingIcone).setVisibility(View.GONE);
         });
     }
