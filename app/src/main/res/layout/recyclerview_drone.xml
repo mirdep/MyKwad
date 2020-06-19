@@ -76,14 +76,15 @@
             android:id="@+id/textView_viewholder_drone_horaCriacao"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/droid_sans"
-            tools:text="Criado em..."
             android:textAlignment="viewEnd"
             android:textColor="#979797"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView_viewholder_drone_qtdlikes"
-            app:layout_constraintEnd_toEndOf="@+id/textView_viewholder_drone_titulo"
-            app:layout_constraintTop_toTopOf="@+id/textView_viewholder_drone_qtdlikes" />
+            app:layout_constraintEnd_toStartOf="@+id/view_viewholder_drone_favorito"
+            app:layout_constraintTop_toTopOf="@+id/textView_viewholder_drone_qtdlikes"
+            tools:text="Criado em..." />
 
         <TextView
             android:id="@+id/textView_viewholder_drone_nicknameDono"
@@ -121,6 +122,16 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/coracao_branco"
             app:layout_constraintStart_toStartOf="@+id/imageView_viewholder_drone_foto"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_foto" />
+
+        <View
+            android:id="@+id/view_viewholder_drone_favorito"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/icone_naofavorito"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView_viewholder_drone_foto" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

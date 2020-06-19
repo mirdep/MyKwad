@@ -24,6 +24,7 @@ import mirdep.br.mykwad.BaseApp;
 import mirdep.br.mykwad.R;
 import mirdep.br.mykwad.fragments.tabComunidade.ViewDroneFragment;
 import mirdep.br.mykwad.objetos.Drone;
+import mirdep.br.mykwad.repositorio.DroneFavoritosRepositorio;
 import mirdep.br.mykwad.repositorio.DroneLikesRepositorio;
 import mirdep.br.mykwad.repositorio.GlideApp;
 import mirdep.br.mykwad.repositorio.ImagemRepositorio;
@@ -52,7 +53,8 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
     public void onBindViewHolder(@NonNull DroneViewHolder holder, int position) {
         Drone drone = drones.get(position);
         addQtdLikes(holder, drone);
-        addLikeCoracao(holder, drone);
+        addFuncaoCurtir(holder, drone);
+        addFuncaoFavoritar(holder, drone);
         holder.textView_viewholder_drone_titulo.setText(drone.getTitulo());
         holder.textView_viewholder_drone_descricao.setText(drone.getDescricao());
         if (drone.getTempoCriacao() != null)
@@ -81,7 +83,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
         });
     }
 
-    private void addLikeCoracao(DroneViewHolder holder, Drone drone) {
+    private void addFuncaoCurtir(DroneViewHolder holder, Drone drone) {
         if (UsuarioAuthentication.getInstance().usuarioEstaLogado()) {
             DroneLikesRepositorio.getInstance().usuarioCurtiu(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId(), usuarioCurtiu -> {
                 if (usuarioCurtiu) {
@@ -89,7 +91,7 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
                     holder.view_viewholder_drone_like.setOnClickListener(v -> {
                         DroneLikesRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
                         addQtdLikes(holder, drone);
-                        addLikeCoracao(holder, drone);
+                        addFuncaoCurtir(holder, drone);
                     });
                 } else {
                     holder.view_viewholder_drone_like.setBackgroundResource(R.drawable.coracao_branco);
@@ -97,7 +99,29 @@ public class DronesComunidadeAdapter extends RecyclerView.Adapter<DronesComunida
                         animacaoCoracaoLike(holder.view_viewholder_drone_like);
                         DroneLikesRepositorio.getInstance().inserir(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
                         addQtdLikes(holder, drone);
-                        addLikeCoracao(holder, drone);
+                        addFuncaoCurtir(holder, drone);
+                    });
+                }
+            });
+        } else {
+            //exibirDialogLogin();
+        }
+    }
+
+    private void addFuncaoFavoritar(DroneViewHolder holder, Drone drone) {
+        if (UsuarioAuthentication.getInstance().usuarioEstaLogado()) {
+            DroneFavoritosRepositorio.getInstance().usuarioFavoritou(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId(), usuarioCurtiu -> {
+                if (usuarioCurtiu) {
+                    holder.view_viewholder_drone_favorito.setBackgroundResource(R.drawable.icone_favorito);
+                    holder.view_viewholder_drone_favorito.setOnClickListener(v -> {
+                        DroneFavoritosRepositorio.getInstance().remover(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
+                        addFuncaoFavoritar(holder, drone);
+                    });
+                } else {
+                    holder.view_viewholder_drone_favorito.setBackgroundResource(R.drawable.icone_naofavorito);
+                    holder.view_viewholder_drone_favorito.setOnClickListener(v -> {
+                        DroneFavoritosRepositorio.getInstance().inserir(drone.getId(), UsuarioAuthentication.getInstance().getUsuarioId());
+                        addFuncaoFavoritar(holder, drone);
                     });
                 }
             });
@@ -180,6 +204,7 @@ class DroneViewHolder extends RecyclerView.ViewHolder {
     private TextView textView_viewholder_drone_qtdlikes;
     private ImageView imageView_viewholder_drone_fotoDono;
     private View view_viewholder_drone_like;
+    private View view_viewholder_drone_favorito;
 
     private DroneViewHolder(View itemView) {
         super(itemView);
@@ -191,6 +216,7 @@ class DroneViewHolder extends RecyclerView.ViewHolder {
         textView_viewholder_drone_qtdlikes = itemView.findViewById(R.id.textView_viewholder_drone_qtdlikes);
         imageView_viewholder_drone_fotoDono = itemView.findViewById(R.id.imageView_viewholder_drone_fotoDono);
         view_viewholder_drone_like = itemView.findViewById(R.id.view_viewholder_drone_like);
+        view_viewholder_drone_favorito = itemView.findViewById(R.id.view_viewholder_drone_favorito);
     }
 }
 }
